@@ -1,0 +1,31 @@
+{
+  "categories": [
+    "Apéritif",
+    "Entrées",
+    "Soupes et Veloutés",
+    "Plats",
+    "Desserts",
+    "Sauces"
+  ],
+  "durations": [
+    "Moins de 15 minutes",
+    "De 15 à 30 minutes",
+    "De 30 à 45 minutes",
+    "De 45 à 60 minutes",
+    "Plus de 60 minutes"
+  ],
+  "vegetarian": [
+    "Oui", 
+    "Non"
+  ],
+  "dosage" : [
+    "cl",
+    "L",
+    "g",
+    "Kg",
+    "cuil. à soupe",
+    "cuil. à café",
+    "cuil. à dessert",
+    "pincée"
+  ]
+}

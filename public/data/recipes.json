@@ -1,0 +1,689 @@
+[
+  {
+    "id": "houmous-maison",
+    "title": "Houmous maison",
+    "img": "/assets/img/recipes/Houmous-maison.webp",
+    "vegetarian": "Oui",
+    "categorie": { "id": 0, "text": "Apéritif" },
+    "duration": "Moins de 15 minutes",
+    "ingredients": [
+      { "name": "pois chiches", "quantity": 200, "dosage": "g" },
+      { "name": "huile d'olive", "quantity": 3, "dosage": "cuil. à soupe" },
+      { "name": "tahini", "quantity": 2, "dosage": "cuil. à soupe" },
+      { "name": "jus de citron", "quantity": 1, "dosage": "cuil. à soupe" }
+    ],
+    "ustensils": ["mixeur", "bol", "cuillère"],
+    "steps": [
+      "Égouttez et rincez les pois chiches.",
+      "Dans un mixeur, mélangez les pois chiches, l'huile d'olive, le tahini et le jus de citron.",
+      "Mixez jusqu'à obtenir une texture lisse.",
+      "Servez avec du pain pita ou des légumes frais."
+    ]
+  },
+  {
+    "id": "mini-quiches-au-poulet",
+    "title": "Mini quiches au poulet",
+    "img": "/assets/img/recipes/Mini-quiches-au-poulet.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 0, "text": "Apéritif" },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "poulet cuit", "quantity": 200, "dosage": "g" },
+      { "name": "pâte brisée", "quantity": 1, "dosage": "rouleau" },
+      { "name": "œufs", "quantity": 3, "dosage": "" },
+      { "name": "crème fraîche", "quantity": 15, "dosage": "cL" }
+    ],
+    "ustensils": ["moule à muffins", "fouet", "couteau"],
+    "steps": [
+      "Préchauffez le four à 180°C.",
+      "Découpez la pâte brisée en petits cercles pour les disposer dans un moule à muffins.",
+      "Coupez le poulet cuit en morceaux et répartissez-les dans chaque moule.",
+      "Battez les œufs et la crème fraîche, puis versez sur le poulet.",
+      "Enfournez pendant 30 à 35 minutes jusqu'à ce que la pâte soit dorée."
+    ]
+  },
+  {
+    "id": "cromesquis-de-volaille",
+    "title": "Cromesquis de volaille",
+    "img": "/assets/img/recipes/Cromesquis-de-volaille.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 0, "text": "Apéritif" },
+    "duration": "De 45 à 60 minutes",
+    "ingredients": [
+      { "name": "blancs de poulet", "quantity": 300, "dosage": "g" },
+      { "name": "chapelure", "quantity": 100, "dosage": "g" },
+      { "name": "œufs", "quantity": 2, "dosage": "" },
+      { "name": "farine", "quantity": 50, "dosage": "g" }
+    ],
+    "ustensils": ["poêle", "assiette", "pince"],
+    "steps": [
+      "Coupez le poulet en petits morceaux.",
+      "Trempez les morceaux de poulet dans la farine, puis dans les œufs battus, et enfin dans la chapelure.",
+      "Faites chauffer l'huile dans une poêle et faites frire les morceaux de poulet jusqu'à ce qu'ils soient dorés.",
+      "Égouttez sur du papier absorbant et servez."
+    ]
+  },
+  {
+    "id": "oeufs-mimosa",
+    "title": "Œufs mimosa",
+    "img": "/assets/img/recipes/Oeufs-mimosa.webp",
+    "vegetarian": "Oui",
+    "categorie": { "id": 1, "text": "Entrées" },
+    "duration": "Moins de 15 minutes",
+    "ingredients": [
+      { "name": "œufs", "quantity": 6, "dosage": "" },
+      { "name": "mayonnaise", "quantity": 4, "dosage": "cuil. à soupe" },
+      { "name": "moutarde", "quantity": 1, "dosage": "cuil. à soupe" }
+    ],
+    "ustensils": ["casserole", "cuillère", "assiette"],
+    "steps": [
+      "Faites cuire les œufs dans de l'eau bouillante pendant 10 minutes.",
+      "Refroidissez-les sous l'eau froide et écalez-les.",
+      "Coupez-les en deux et retirez les jaunes.",
+      "Mélangez les jaunes avec la mayonnaise et la moutarde.",
+      "Replantez la préparation dans les blancs d'œufs et servez."
+    ]
+  },
+  {
+    "id": "salade-de-chevre-chaud",
+    "title": "Salade de chèvre chaud",
+    "img": "/assets/img/recipes/Salade-de-chèvre-chaud.webp",
+    "vegetarian": "Oui",
+    "categorie": { "id": 1, "text": "Entrées" },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "fromage de chèvre", "quantity": 4, "dosage": "tranches" },
+      { "name": "pain", "quantity": 4, "dosage": "tranches" },
+      { "name": "salade verte", "quantity": 100, "dosage": "g" },
+      { "name": "miel", "quantity": 2, "dosage": "cuil. à soupe" }
+    ],
+    "ustensils": ["poêle", "plaque de cuisson", "assiette"],
+    "steps": [
+      "Faites dorer les tranches de pain dans une poêle.",
+      "Faites chauffer les tranches de fromage de chèvre sur une plaque de cuisson.",
+      "Disposez les tranches de pain, la salade verte et le fromage sur les assiettes.",
+      "Ajoutez un filet de miel et servez."
+    ]
+  },
+  {
+    "id": "rouleaux-de-printemps-au-poulet",
+    "title": "Rouleaux de printemps au poulet",
+    "img": "/assets/img/recipes/Rouleaux-de-printemps-au-poulet.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 1, "text": "Entrées" },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "blancs de poulet", "quantity": 200, "dosage": "g" },
+      { "name": "feuilles de riz", "quantity": 8, "dosage": "" },
+      { "name": "vermicelles de riz", "quantity": 100, "dosage": "g" },
+      { "name": "carottes", "quantity": 2, "dosage": "unités" }
+    ],
+    "ustensils": ["bol", "couteau", "planche à découper"],
+    "steps": [
+      "Faites cuire les vermicelles et laissez-les refroidir.",
+      "Coupez les carottes en julienne.",
+      "Faites cuire le poulet et coupez-le en lanières.",
+      "Trempez les feuilles de riz dans de l'eau chaude, puis garnissez-les des vermicelles, du poulet et des légumes.",
+      "Roulez et servez avec une sauce au choix."
+    ]
+  },
+  {
+    "id": "terrine-de-volaille-legere",
+    "title": "Terrine de volaille légère",
+    "img": "/assets/img/recipes/Terrine-de-volaille-legere.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 1, "text": "Entrées" },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "poulet", "quantity": 400, "dosage": "g" },
+      { "name": "crème fraîche", "quantity": 10, "dosage": "cL" },
+      { "name": "œufs", "quantity": 3, "dosage": "" }
+    ],
+    "ustensils": ["moule à terrine", "fouet", "casserole"],
+    "steps": [
+      "Préchauffez le four à 180°C.",
+      "Hachez le poulet et mélangez-le avec les œufs et la crème.",
+      "Versez le mélange dans un moule à terrine.",
+      "Cuire au four pendant 30 à 35 minutes."
+    ]
+  },
+  {
+    "id": "ballotine-de-dinde-aux-legumes",
+    "title": "Ballotine de dinde aux légumes",
+    "img": "/assets/img/recipes/Ballotine-de-dinde-aux-legumes.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 1, "text": "Entrées" },
+    "duration": "De 45 à 60 minutes",
+    "ingredients": [
+      { "name": "escalopes de dinde", "quantity": 4, "dosage": "" },
+      { "name": "carottes", "quantity": 2, "dosage": "" },
+      { "name": "courgette", "quantity": 1, "dosage": "" },
+      { "name": "crème fraîche", "quantity": 10, "dosage": "cL" },
+      { "name": "huile d’olive", "quantity": 1, "dosage": "c. à soupe" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["film alimentaire", "couteau", "casserole", "poêle"],
+    "steps": [
+      "Épluchez et coupez les carottes et la courgette en fines lanières.",
+      "Faites revenir les légumes dans un peu d’huile d’olive pendant 5 minutes.",
+      "Étalez les escalopes de dinde, garnissez-les de légumes et roulez-les dans du film alimentaire pour former des ballotines.",
+      "Faites-les cuire 20 minutes dans une eau frémissante.",
+      "Retirez le film et faites dorer les ballotines dans une poêle.",
+      "Servez nappé d’un peu de crème chaude, salée et poivrée."
+    ]
+  },
+  {
+    "id": "foie-de-volaille-en-salade-tiède",
+    "title": "Foie de volaille en salade tiède",
+    "img": "/assets/img/recipes/Foie-de-volaille-en-salade-tiede.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 1, "text": "Entrées" },
+    "duration": "Plus de 60 minutes",
+    "ingredients": [
+      { "name": "foies de volaille", "quantity": 300, "dosage": "g" },
+      { "name": "salade verte", "quantity": 1, "dosage": "sachet" },
+      { "name": "vinaigre balsamique", "quantity": 2, "dosage": "c. à soupe" },
+      { "name": "huile d’olive", "quantity": 2, "dosage": "c. à soupe" },
+      { "name": "échalote", "quantity": 1, "dosage": "" }
+    ],
+    "ustensils": ["poêle", "saladier", "couteau"],
+    "steps": [
+      "Nettoyez et coupez les foies de volaille.",
+      "Faites-les revenir dans une poêle avec un peu d’huile d’olive et l’échalote émincée.",
+      "Préparez la salade dans un saladier.",
+      "Ajoutez les foies encore tièdes.",
+      "Arrosez de vinaigre et d’huile avant de servir."
+    ]
+  },
+  {
+    "id": "soupe-de-boeuf-a-l-ancienne",
+    "title": "Soupe de bœuf à l'ancienne",
+    "img": "/assets/img/recipes/Soupe-de-boeuf-a-l-ancienne.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 2, "text": "Soupes et Veloutés" },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "viande de bœuf", "quantity": 400, "dosage": "g" },
+      { "name": "carottes", "quantity": 2, "dosage": "" },
+      { "name": "poireaux", "quantity": 1, "dosage": "" },
+      { "name": "bouillon de bœuf", "quantity": 1, "dosage": "L" },
+      { "name": "pomme de terre", "quantity": 2, "dosage": "" }
+    ],
+    "ustensils": ["casserole", "écumoire", "louche"],
+    "steps": [
+      "Épluchez les légumes et coupez-les en morceaux.",
+      "Faites bouillir le bouillon dans une grande casserole.",
+      "Ajoutez les légumes et la viande.",
+      "Laissez mijoter à feu doux pendant au moins 1 heure.",
+      "Servez bien chaud."
+    ]
+  },
+  {
+    "id": "soupe-de-potimarron",
+    "title": "Soupe de potimarron",
+    "img": "/assets/img/recipes/Soupe-de-potimarron.webp",
+    "vegetarian": "Oui",
+    "categorie": { "id": 2, "text": "Soupes et Veloutés" },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "potimarron", "quantity": 1, "dosage": "" },
+      { "name": "oignon", "quantity": 1, "dosage": "" },
+      { "name": "crème fraîche", "quantity": 10, "dosage": "cL" },
+      { "name": "bouillon de légumes", "quantity": 50, "dosage": "cL" }
+    ],
+    "ustensils": ["mixeur", "casserole", "épluche-légumes"],
+    "steps": [
+      "Épluchez et coupez le potimarron en cubes.",
+      "Faites revenir l’oignon émincé dans un peu de beurre.",
+      "Ajoutez le potimarron, puis versez le bouillon.",
+      "Laissez cuire jusqu’à ce que le potimarron soit tendre.",
+      "Mixez, ajoutez la crème et servez chaud."
+    ]
+  },
+  {
+    "id": "bisque-de-boeuf-et-epices",
+    "title": "Bisque de bœuf et épices",
+    "img": "/assets/img/recipes/Bisque-de-boeuf-et-epices.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 2, "text": "Soupes et Veloutés" },
+    "duration": "Plus de 60 minutes",
+    "ingredients": [
+      { "name": "viande de bœuf", "quantity": 300, "dosage": "g" },
+      { "name": "tomates", "quantity": 3, "dosage": "" },
+      { "name": "oignon", "quantity": 1, "dosage": "" },
+      { "name": "bouillon de bœuf", "quantity": 50, "dosage": "cL" },
+      { "name": "épices", "quantity": 1, "dosage": "c. à soupe" }
+    ],
+    "ustensils": ["mixeur", "casserole", "cuillère en bois"],
+    "steps": [
+      "Faites revenir l’oignon émincé avec les épices.",
+      "Ajoutez la viande et les tomates, laissez mijoter.",
+      "Versez le bouillon et poursuivez la cuisson 45 min.",
+      "Mixez pour obtenir une bisque lisse.",
+      "Servez chaud avec un filet de crème si souhaité."
+    ]
+  },
+  {
+    "id": "poulet-au-lait-de-coco",
+    "title": "Poulet au lait de coco",
+    "img": "/assets/img/recipes/Poulet-au-lait-de-coco.webp",
+    "vegetarian": "Non",
+    "categorie": { "id": 3, "text": "Plats" },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "blancs de poulet", "quantity": 400, "dosage": "g" },
+      { "name": "lait de coco", "quantity": 40, "dosage": "cL" },
+      { "name": "oignon", "quantity": 1, "dosage": "" },
+      { "name": "pâte de curry", "quantity": 1, "dosage": "c. à soupe" }
+    ],
+    "ustensils": ["poêle", "casserole", "cuillère"],
+    "steps": [
+      "Faites revenir l’oignon émincé dans une poêle.",
+      "Ajoutez le poulet et la pâte de curry.",
+      "Versez le lait de coco et laissez mijoter 15 minutes.",
+      "Servez chaud avec du riz."
+    ]
+  },
+  {
+    "id": "poulet-au-curry",
+    "title": "Poulet au curry",
+    "img": "/assets/img/recipes/Poulet-au-curry.webp",
+    "vegetarian": "Non",
+    "categorie": {
+      "id": 3,
+      "text": "Plats"
+    },
+    "duration": "De 45 à 60 minutes",
+    "ingredients": [
+      { "name": "blancs de poulet", "quantity": 400, "dosage": "g" },
+      { "name": "lait de coco", "quantity": 40, "dosage": "cL" },
+      { "name": "oignon", "quantity": 1, "dosage": "" },
+      { "name": "pâte de curry", "quantity": 1, "dosage": "c. à soupe" }
+    ],
+    "ustensils": ["poêle", "casserole", "cuillère"],
+    "steps": [
+      "Faites revenir l’oignon émincé dans une poêle.",
+      "Ajoutez le poulet et la pâte de curry.",
+      "Versez le lait de coco et laissez mijoter 15 minutes.",
+      "Servez chaud avec du riz."
+    ]
+  },
+  {
+    "id": "quiche-lorraine",
+    "title": "Quiche lorraine",
+    "img": "/assets/img/recipes/Quiche-lorraine.webp",
+    "vegetarian": "Non",
+    "categorie": {
+      "id": 3,
+      "text": "Plats"
+    },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "pâte brisée", "quantity": 1, "dosage": "pièce" },
+      { "name": "lardons fumés", "quantity": 200, "dosage": "g" },
+      { "name": "œufs", "quantity": 3, "dosage": "" },
+      { "name": "crème fraîche", "quantity": 20, "dosage": "cL" },
+      { "name": "lait", "quantity": 10, "dosage": "cL" },
+      { "name": "gruyère râpé", "quantity": 100, "dosage": "g" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["moule à tarte", "poêle", "fouet", "cuillère", "four"],
+    "steps": [
+      "Préchauffez le four à 180°C.",
+      "Faites revenir les lardons dans une poêle jusqu’à ce qu’ils soient bien dorés.",
+      "Battez les œufs avec la crème, le lait, le sel et le poivre.",
+      "Déposez la pâte brisée dans le moule à tarte.",
+      "Répartissez les lardons sur la pâte, puis versez la préparation à base d’œufs.",
+      "Saupoudrez de gruyère râpé et enfournez pendant 30 à 40 minutes.",
+      "Servez chaud ou tiède."
+    ]
+  },
+  {
+    "id": "boeuf-bourguignon",
+    "title": "Boeuf bourguignon",
+    "img": "/assets/img/recipes/Boeuf-bourguignon.webp",
+    "vegetarian": "Non",
+    "categorie": {
+      "id": 3,
+      "text": "Plats"
+    },
+    "duration": "Plus de 60 minutes",
+    "ingredients": [
+      { "name": "viande de bœuf", "quantity": 800, "dosage": "g" },
+      { "name": "vin rouge", "quantity": 50, "dosage": "cL" },
+      { "name": "carottes", "quantity": 3, "dosage": "" },
+      { "name": "oignon", "quantity": 1, "dosage": "" },
+      { "name": "ail", "quantity": 2, "dosage": "gousses" },
+      { "name": "bouillon de bœuf", "quantity": 50, "dosage": "cL" },
+      { "name": "lardons", "quantity": 150, "dosage": "g" },
+      { "name": "champignons", "quantity": 200, "dosage": "g" },
+      { "name": "thym", "quantity": 1, "dosage": "brin" },
+      { "name": "laurier", "quantity": 2, "dosage": "feuilles" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["cocotte", "couteau", "cuillère en bois"],
+    "steps": [
+      "Coupez la viande en morceaux et faites-la dorer dans une cocotte avec les lardons.",
+      "Ajoutez les oignons émincés, l'ail haché, les carottes coupées en rondelles et laissez revenir.",
+      "Versez le vin rouge et laissez mijoter 5 minutes pour réduire un peu.",
+      "Ajoutez le bouillon de bœuf, le thym, le laurier, le sel et le poivre.",
+      "Couvrez et laissez cuire à feu doux pendant 2 heures en remuant de temps en temps.",
+      "Dans une poêle, faites revenir les champignons et ajoutez-les dans la cocotte 30 minutes avant la fin de la cuisson.",
+      "Servez chaud avec des pommes de terre ou des pâtes."
+    ]
+  },
+  {
+    "id": "saumon-aux-epinards",
+    "title": "Saumon aux épinards",
+    "img": "/assets/img/recipes/Saumon-aux-epinards.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 3,
+      "text": "Plats"
+    },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "filets de saumon", "quantity": 4, "dosage": "pièces" },
+      { "name": "épinards frais", "quantity": 300, "dosage": "g" },
+      { "name": "crème fraîche", "quantity": 10, "dosage": "cL" },
+      { "name": "ail", "quantity": 2, "dosage": "gousses" },
+      { "name": "huile d'olive", "quantity": 2, "dosage": "c. à soupe" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["poêle", "casserole", "cuillère", "plat à four"],
+    "steps": [
+      "Préchauffez le four à 180°C.",
+      "Dans une poêle, faites chauffer l'huile d'olive et faites revenir l'ail haché.",
+      "Ajoutez les épinards et laissez cuire jusqu’à ce qu’ils soient bien fondus.",
+      "Dans un plat à four, disposez les filets de saumon et nappez-les de crème fraîche.",
+      "Ajoutez les épinards cuits autour du saumon et assaisonnez de sel et de poivre.",
+      "Enfournez pour 15 à 20 minutes, jusqu'à ce que le saumon soit cuit à cœur.",
+      "Servez chaud."
+    ]
+  },
+  {
+    "id": "buddha-bowl-quinoa",
+    "title": "Buddha bowl au quinoa",
+    "img": "/assets/img/recipes/Buddha-bowl-quinoa.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 3,
+      "text": "Plats"
+    },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "quinoa", "quantity": 150, "dosage": "g" },
+      { "name": "avocat", "quantity": 1, "dosage": "" },
+      { "name": "tomates cerises", "quantity": 100, "dosage": "g" },
+      { "name": "pois chiches", "quantity": 150, "dosage": "g" },
+      { "name": "concombre", "quantity": 1, "dosage": "" },
+      { "name": "huile d'olive", "quantity": 2, "dosage": "c. à soupe" },
+      { "name": "jus de citron", "quantity": 1, "dosage": "c. à soupe" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["casserole", "cuillère", "bol", "couteau"],
+    "steps": [
+      "Cuisez le quinoa selon les instructions du paquet et laissez-le refroidir.",
+      "Coupez l'avocat, les tomates cerises et le concombre en morceaux.",
+      "Dans un grand bol, disposez le quinoa cuit, les légumes coupés, et les pois chiches.",
+      "Arrosez d'huile d'olive et de jus de citron.",
+      "Assaisonnez de sel et de poivre, puis mélangez bien.",
+      "Servez frais."
+    ]
+  },
+  {
+    "id": "sauce-beurre-blanc",
+    "title": "Sauce beurre blanc",
+    "img": "/assets/img/recipes/Sauce-beurre-blanc.webp",
+    "vegetarian": "Non",
+    "categorie": {
+      "id": 5,
+      "text": "Sauces"
+    },
+    "duration": "Moins de 15 minutes",
+    "ingredients": [
+      { "name": "beurre", "quantity": 150, "dosage": "g" },
+      { "name": "vin blanc", "quantity": 10, "dosage": "cL" },
+      { "name": "échalotes", "quantity": 2, "dosage": "" },
+      { "name": "crème fraîche", "quantity": 5, "dosage": "cL" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["casserole", "fouet"],
+    "steps": [
+      "Émincez les échalotes et faites-les revenir dans une casserole avec un peu de vin blanc jusqu'à évaporation.",
+      "Ajoutez le reste du vin blanc et laissez réduire de moitié.",
+      "Ajoutez la crème fraîche et faites chauffer à feu doux.",
+      "Incorporez progressivement le beurre froid, en fouettant pour émulsionner.",
+      "Assaisonnez avec du sel.",
+      "Servez immédiatement avec vos plats de poisson ou de viande."
+    ]
+  },
+  {
+    "id": "sauce-tomate-maison",
+    "title": "Sauce tomate maison",
+    "img": "/assets/img/recipes/Sauce-tomate-maison.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 5,
+      "text": "Sauces"
+    },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "tomates", "quantity": 6, "dosage": "" },
+      { "name": "oignon", "quantity": 1, "dosage": "" },
+      { "name": "ail", "quantity": 2, "dosage": "gousses" },
+      { "name": "huile d'olive", "quantity": 2, "dosage": "c. à soupe" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" },
+      { "name": "basilic", "quantity": 1, "dosage": "feuille" }
+    ],
+    "ustensils": ["casserole", "couteau", "cuillère en bois"],
+    "steps": [
+      "Coupez les tomates en petits morceaux et émincez l'oignon et l'ail.",
+      "Faites chauffer l'huile d'olive dans une casserole.",
+      "Ajoutez l'oignon et l'ail, et faites revenir pendant 5 minutes.",
+      "Ajoutez les tomates et laissez mijoter pendant 20 minutes.",
+      "Assaisonnez de sel, poivre et basilic haché.",
+      "Mixez la sauce si vous préférez une texture lisse.",
+      "Servez avec des pâtes ou comme base pour d'autres plats."
+    ]
+  },
+  {
+    "id": "sauce-madera",
+    "title": "Sauce madère",
+    "img": "/assets/img/recipes/Sauce-madere.webp",
+    "vegetarian": "Non",
+    "categorie": {
+      "id": 5,
+      "text": "Sauces"
+    },
+    "duration": "De 45 à 60 minutes",
+    "ingredients": [
+      { "name": "vin madère", "quantity": 20, "dosage": "cL" },
+      { "name": "fond de veau", "quantity": 50, "dosage": "cL" },
+      { "name": "échalotes", "quantity": 2, "dosage": "" },
+      { "name": "beurre", "quantity": 50, "dosage": "g" },
+      { "name": "sel", "quantity": 1, "dosage": "pincée" },
+      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
+    ],
+    "ustensils": ["casserole", "cuillère en bois"],
+    "steps": [
+      "Émincez les échalotes et faites-les revenir dans une casserole avec le beurre.",
+      "Ajoutez le vin madère et laissez réduire de moitié.",
+      "Ajoutez le fond de veau et laissez mijoter 30 minutes à feu doux.",
+      "Filtrez la sauce pour enlever les échalotes.",
+      "Rectifiez l'assaisonnement avec du sel et du poivre.",
+      "Servez avec des viandes rôties ou du gibier."
+    ]
+  },
+  {
+    "id": "tarte-aux-pommes",
+    "title": "Tarte aux pommes",
+    "img": "/assets/img/recipes/Tarte-aux-pommes.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 4,
+      "text": "Desserts"
+    },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "pâte feuilletée", "quantity": 1, "dosage": "rouleau" },
+      { "name": "pommes", "quantity": 4, "dosage": "" },
+      { "name": "sucre", "quantity": 50, "dosage": "g" },
+      { "name": "beurre", "quantity": 30, "dosage": "g" },
+      { "name": "cannelle", "quantity": 1, "dosage": "c. à café" }
+    ],
+    "ustensils": ["moule à tarte", "couteau", "cuillère"],
+    "steps": [
+      "Préchauffez le four à 180°C.",
+      "Déroulez la pâte feuilletée dans un moule à tarte.",
+      "Épluchez les pommes et coupez-les en tranches fines.",
+      "Disposez les tranches de pommes sur la pâte.",
+      "Parsemez de sucre, de cannelle et de petits morceaux de beurre.",
+      "Enfournez pour 30 à 40 minutes jusqu'à ce que la tarte soit dorée.",
+      "Servez tiède ou froide."
+    ]
+  },
+  {
+    "id": "mousse-au-chocolat",
+    "title": "Mousse au chocolat",
+    "img": "/assets/img/recipes/Mousse-au-chocolat.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 4,
+      "text": "Desserts"
+    },
+    "duration": "Moins de 15 minutes",
+    "ingredients": [
+      { "name": "chocolat noir", "quantity": 200, "dosage": "g" },
+      { "name": "œufs", "quantity": 3, "dosage": "" },
+      { "name": "sucre", "quantity": 30, "dosage": "g" }
+    ],
+    "ustensils": ["bol", "fouet", "casserole", "cuillère"],
+    "steps": [
+      "Faites fondre le chocolat au bain-marie.",
+      "Séparez les blancs des jaunes d'œufs.",
+      "Montez les blancs en neige avec le sucre.",
+      "Incorporez délicatement les jaunes au chocolat fondu, puis ajoutez les blancs d'œufs.",
+      "Mélangez délicatement jusqu'à obtenir une mousse aérienne.",
+      "Réfrigérez pendant au moins 2 heures avant de servir."
+    ]
+  },
+  {
+    "id": "clafoutis-aux-cerises",
+    "title": "Clafoutis aux cerises",
+    "img": "/assets/img/recipes/Clafoutis-aux-cerises.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 4,
+      "text": "Desserts"
+    },
+    "duration": "De 45 à 60 minutes",
+    "ingredients": [
+      { "name": "cerises", "quantity": 500, "dosage": "g" },
+      { "name": "œufs", "quantity": 3, "dosage": "" },
+      { "name": "sucre", "quantity": 100, "dosage": "g" },
+      { "name": "farine", "quantity": 100, "dosage": "g" },
+      { "name": "lait", "quantity": 30, "dosage": "cL" },
+      { "name": "beurre", "quantity": 30, "dosage": "g" },
+      { "name": "vanille", "quantity": 1, "dosage": "gousse" }
+    ],
+    "ustensils": ["moule à tarte", "fouet", "casserole"],
+    "steps": [
+      "Préchauffez le four à 180°C.",
+      "Beurrez un moule à tarte et disposez les cerises.",
+      "Dans un bol, battez les œufs avec le sucre.",
+      "Ajoutez la farine, puis le lait petit à petit en fouettant.",
+      "Ajoutez les graines de la gousse de vanille et le beurre fondu.",
+      "Versez la préparation sur les cerises et enfournez pendant 45 minutes.",
+      "Laissez refroidir avant de servir."
+    ]
+  },
+  {
+    "id": "panna-cotta-vanille",
+    "title": "Panna cotta à la vanille",
+    "img": "/assets/img/recipes/Panna-cotta-vanille.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 4,
+      "text": "Desserts"
+    },
+    "duration": "De 15 à 30 minutes",
+    "ingredients": [
+      { "name": "crème liquide", "quantity": 50, "dosage": "cL" },
+      { "name": "sucre", "quantity": 80, "dosage": "g" },
+      { "name": "gélatine", "quantity": 2, "dosage": "feuilles" },
+      { "name": "vanille", "quantity": 1, "dosage": "gousse" }
+    ],
+    "ustensils": ["bol", "casserole", "moule", "cuillère"],
+    "steps": [
+      "Faites tremper les feuilles de gélatine dans de l'eau froide.",
+      "Dans une casserole, faites chauffer la crème avec le sucre et la vanille.",
+      "Lorsque le sucre est dissous, ajoutez la gélatine essorée et mélangez bien.",
+      "Retirez du feu et versez dans des moules.",
+      "Laissez refroidir à température ambiante, puis réfrigérez pendant au moins 4 heures.",
+      "Servez avec un coulis de fruits rouges ou du caramel."
+    ]
+  },
+  {
+    "id": "compote-pomme-poire",
+    "title": "Compote pomme-poire",
+    "img": "/assets/img/recipes/Compote-pomme-poire.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 4,
+      "text": "Desserts"
+    },
+    "duration": "Moins de 15 minutes",
+    "ingredients": [
+      { "name": "pommes", "quantity": 4, "dosage": "" },
+      { "name": "poires", "quantity": 4, "dosage": "" },
+      { "name": "sucre", "quantity": 30, "dosage": "g" },
+      { "name": "cannelle", "quantity": 1, "dosage": "c. à café" }
+    ],
+    "ustensils": ["casserole", "cuillère en bois", "couteau"],
+    "steps": [
+      "Pelez et coupez les pommes et les poires en morceaux.",
+      "Mettez-les dans une casserole avec un peu d'eau.",
+      "Ajoutez le sucre et la cannelle, puis faites cuire à feu doux pendant 10 minutes.",
+      "Écrasez les fruits à l'aide d'une fourchette ou d'un mixeur.",
+      "Laissez refroidir et servez."
+    ]
+  },
+  {
+    "id": "tiramisu",
+    "title": "Tiramisu",
+    "img": "/assets/img/recipes/Tiramisu.webp",
+    "vegetarian": "Oui",
+    "categorie": {
+      "id": 4,
+      "text": "Desserts"
+    },
+    "duration": "De 30 à 45 minutes",
+    "ingredients": [
+      { "name": "mascarpone", "quantity": 250, "dosage": "g" },
+      { "name": "œufs", "quantity": 3, "dosage": "" },
+      { "name": "sucre", "quantity": 100, "dosage": "g" },
+      { "name": "café", "quantity": 20, "dosage": "cL" },
+      { "name": "biscuits à la cuillère", "quantity": 100, "dosage": "g" },
+      { "name": "cacao en poudre", "quantity": 1, "dosage": "c. à soupe" }
+    ],
+    "ustensils": ["bol", "fouet", "casserole", "moule"],
+    "steps": [
+      "Séparez les blancs des jaunes d'œufs.",
+      "Montez les blancs en neige avec le sucre.",
+      "Dans un autre bol, mélangez les jaunes avec le mascarpone.",
+      "Incorporez délicatement les blancs montés.",
+      "Trempez rapidement les biscuits dans le café et disposez-les dans un moule.",
+      "Versez la moitié de la préparation dessus.",
+      "Répétez avec une seconde couche de biscuits et de crème.",
+      "Laissez reposer au réfrigérateur pendant 4 heures.",
+      "Avant de servir, saupoudrez de cacao."
+    ]
+  }
+]

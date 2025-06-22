@@ -1,0 +1,4 @@
+{
+  "firstConsult": [{ "price": 70 }, { "coupleRate": 120 }],
+  "followUpConsult": [{ "price": 40 }, { "coupleRate": 60 }]
+}
