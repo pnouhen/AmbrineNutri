@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "./config.css";
+
+@layer utilities {
+  .h1 {
+    @apply text-3xl font-black;
+  }
+  
+  .h2 {
+    @apply text-2xl font-bold;
+  }
+  
+  .h3 {
+    @apply text-xl font-semibold;
+  }
+
+  .p-16 {
+  @apply text-base leading-6;
+} 
+  .navLi {
+    @apply hover:scale-x-105 transition-transform duration-300;
+  }
+  .navItem {
+    @apply flex justify-center items-center text-center font-header rounded-[1.25rem] shadow-header text-black lg:text-base md:text-xs lg:py-2.5 py-1.5 lg:px-4 px-2.5;
+  }
+}
+

@@ -1,63 +1,29 @@
-@tailwind utilities;
-
 html {
-  font-size: 16px;
-
-  @media (max-width: 374px) {
-    font-size: clamp(12px, calc(14 * 100dvw / 374), 14px);
-  }
-
   @media (min-width: 375px) and (max-width: 767px) {
-    font-size: clamp(12px, calc(16 * 100dvw / 1440), 14px);
+    font-size: 12px;
   }
 
   @media (min-width: 768px) and (max-width: 1023px) {
-    font-size: clamp(12px, calc(16 * 100dvw / 1440), 14px);
-  }
-
-  @media (min-width: 1024px) and (max-width: 1439px) {
-    font-size: clamp(12px, calc(16 * 100dvw / 1440), 16px);
-  }
-
-  @media (min-width: 1441px) and (max-width: 1599px) {
-    font-size: clamp(16px, calc(18 * 100dvw / 1600), 18px);
-  }
-
-  @media print {
     font-size: 14px;
   }
+
+  @media (min-width: 1024px) and (max-width: 1440px) {
+    font-size: 16px;
+  }
 }
 
-.font-title{
-          font-family: "Newsreader", sans-serif;
-
-}
-
-.font-h2 {
-  font-family: "Caprasimo";
-}
-
-#root{
+#root {
   font-family: "Montserrat", sans-serif;
 }
 
 @theme {
-  --color-white: rgba(253, 253, 253, 0.8);
-}
+  --color-white-80: rgba(253, 253, 253, 0.8);
+  --color-green: #85aa84;
+  --color-mustard : #b89854;
 
-@layer utilities {
-  h1{
-    @apply font-title text-3xl font-black;
-  }
-  h2 {
-    @apply font-h2 text-2xl m-0;
-  }
+  --font-h1: "Newsreader", sans-serif;
+  --font-title: "Caprasimo";
+  --font-header: "Alata", sans-serif;
 
-  h3{
-    @apply text-xl text-center;
-  }
-
-  .p-16 {
-    @apply text-base leading-6;
-  }
+--shadow-header: 0 0 15px -2px rgba(0, 0, 0, 0.5);
 }
