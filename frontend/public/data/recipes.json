@@ -1,6 +1,5 @@
 [
   {
-    "id": "houmous-maison",
     "title": "Houmous maison",
     "img": "/assets/img/recipes/Houmous-maison.webp",
     "vegetarian": "Oui",
@@ -21,7 +20,6 @@
     ]
   },
   {
-    "id": "mini-quiches-au-poulet",
     "title": "Mini quiches au poulet",
     "img": "/assets/img/recipes/Mini-quiches-au-poulet.webp",
     "vegetarian": "Non",
@@ -43,7 +41,6 @@
     ]
   },
   {
-    "id": "cromesquis-de-volaille",
     "title": "Cromesquis de volaille",
     "img": "/assets/img/recipes/Cromesquis-de-volaille.webp",
     "vegetarian": "Non",
@@ -64,7 +61,6 @@
     ]
   },
   {
-    "id": "oeufs-mimosa",
     "title": "Œufs mimosa",
     "img": "/assets/img/recipes/Oeufs-mimosa.webp",
     "vegetarian": "Oui",
@@ -85,7 +81,6 @@
     ]
   },
   {
-    "id": "salade-de-chevre-chaud",
     "title": "Salade de chèvre chaud",
     "img": "/assets/img/recipes/Salade-de-chèvre-chaud.webp",
     "vegetarian": "Oui",
@@ -106,7 +101,6 @@
     ]
   },
   {
-    "id": "rouleaux-de-printemps-au-poulet",
     "title": "Rouleaux de printemps au poulet",
     "img": "/assets/img/recipes/Rouleaux-de-printemps-au-poulet.webp",
     "vegetarian": "Non",
@@ -128,7 +122,6 @@
     ]
   },
   {
-    "id": "terrine-de-volaille-legere",
     "title": "Terrine de volaille légère",
     "img": "/assets/img/recipes/Terrine-de-volaille-legere.webp",
     "vegetarian": "Non",
@@ -148,7 +141,6 @@
     ]
   },
   {
-    "id": "ballotine-de-dinde-aux-legumes",
     "title": "Ballotine de dinde aux légumes",
     "img": "/assets/img/recipes/Ballotine-de-dinde-aux-legumes.webp",
     "vegetarian": "Non",
@@ -174,7 +166,6 @@
     ]
   },
   {
-    "id": "foie-de-volaille-en-salade-tiède",
     "title": "Foie de volaille en salade tiède",
     "img": "/assets/img/recipes/Foie-de-volaille-en-salade-tiede.webp",
     "vegetarian": "Non",
@@ -197,7 +188,6 @@
     ]
   },
   {
-    "id": "soupe-de-boeuf-a-l-ancienne",
     "title": "Soupe de bœuf à l'ancienne",
     "img": "/assets/img/recipes/Soupe-de-boeuf-a-l-ancienne.webp",
     "vegetarian": "Non",
@@ -220,7 +210,6 @@
     ]
   },
   {
-    "id": "soupe-de-potimarron",
     "title": "Soupe de potimarron",
     "img": "/assets/img/recipes/Soupe-de-potimarron.webp",
     "vegetarian": "Oui",
@@ -242,7 +231,6 @@
     ]
   },
   {
-    "id": "bisque-de-boeuf-et-epices",
     "title": "Bisque de bœuf et épices",
     "img": "/assets/img/recipes/Bisque-de-boeuf-et-epices.webp",
     "vegetarian": "Non",
@@ -265,7 +253,6 @@
     ]
   },
   {
-    "id": "poulet-au-lait-de-coco",
     "title": "Poulet au lait de coco",
     "img": "/assets/img/recipes/Poulet-au-lait-de-coco.webp",
     "vegetarian": "Non",
@@ -286,7 +273,6 @@
     ]
   },
   {
-    "id": "poulet-au-curry",
     "title": "Poulet au curry",
     "img": "/assets/img/recipes/Poulet-au-curry.webp",
     "vegetarian": "Non",
@@ -310,7 +296,6 @@
     ]
   },
   {
-    "id": "quiche-lorraine",
     "title": "Quiche lorraine",
     "img": "/assets/img/recipes/Quiche-lorraine.webp",
     "vegetarian": "Non",
@@ -341,7 +326,6 @@
     ]
   },
   {
-    "id": "boeuf-bourguignon",
     "title": "Boeuf bourguignon",
     "img": "/assets/img/recipes/Boeuf-bourguignon.webp",
     "vegetarian": "Non",
@@ -376,7 +360,6 @@
     ]
   },
   {
-    "id": "saumon-aux-epinards",
     "title": "Saumon aux épinards",
     "img": "/assets/img/recipes/Saumon-aux-epinards.webp",
     "vegetarian": "Oui",
@@ -406,7 +389,6 @@
     ]
   },
   {
-    "id": "buddha-bowl-quinoa",
     "title": "Buddha bowl au quinoa",
     "img": "/assets/img/recipes/Buddha-bowl-quinoa.webp",
     "vegetarian": "Oui",
@@ -437,7 +419,6 @@
     ]
   },
   {
-    "id": "sauce-beurre-blanc",
     "title": "Sauce beurre blanc",
     "img": "/assets/img/recipes/Sauce-beurre-blanc.webp",
     "vegetarian": "Non",
@@ -464,7 +445,6 @@
     ]
   },
   {
-    "id": "sauce-tomate-maison",
     "title": "Sauce tomate maison",
     "img": "/assets/img/recipes/Sauce-tomate-maison.webp",
     "vegetarian": "Oui",
@@ -494,7 +474,6 @@
     ]
   },
   {
-    "id": "sauce-madera",
     "title": "Sauce madère",
     "img": "/assets/img/recipes/Sauce-madere.webp",
     "vegetarian": "Non",
@@ -522,7 +501,6 @@
     ]
   },
   {
-    "id": "tarte-aux-pommes",
     "title": "Tarte aux pommes",
     "img": "/assets/img/recipes/Tarte-aux-pommes.webp",
     "vegetarian": "Oui",
@@ -550,7 +528,6 @@
     ]
   },
   {
-    "id": "mousse-au-chocolat",
     "title": "Mousse au chocolat",
     "img": "/assets/img/recipes/Mousse-au-chocolat.webp",
     "vegetarian": "Oui",
@@ -575,7 +552,6 @@
     ]
   },
   {
-    "id": "clafoutis-aux-cerises",
     "title": "Clafoutis aux cerises",
     "img": "/assets/img/recipes/Clafoutis-aux-cerises.webp",
     "vegetarian": "Oui",
@@ -605,7 +581,6 @@
     ]
   },
   {
-    "id": "panna-cotta-vanille",
     "title": "Panna cotta à la vanille",
     "img": "/assets/img/recipes/Panna-cotta-vanille.webp",
     "vegetarian": "Oui",
@@ -631,7 +606,6 @@
     ]
   },
   {
-    "id": "compote-pomme-poire",
     "title": "Compote pomme-poire",
     "img": "/assets/img/recipes/Compote-pomme-poire.webp",
     "vegetarian": "Oui",
@@ -656,7 +630,6 @@
     ]
   },
   {
-    "id": "tiramisu",
     "title": "Tiramisu",
     "img": "/assets/img/recipes/Tiramisu.webp",
     "vegetarian": "Oui",

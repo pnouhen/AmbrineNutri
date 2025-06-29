@@ -20,6 +20,8 @@ html {
   --color-white-80: rgba(253, 253, 253, 0.8);
   --color-green: #85aa84;
   --color-mustard : #b89854;
+  --color-brown: #654b32;
+  --color-gray: #808080;
 
   --font-h1: "Newsreader", sans-serif;
   --font-title: "Caprasimo";
