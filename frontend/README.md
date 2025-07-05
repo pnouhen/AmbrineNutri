@@ -1,1 +1,3 @@
-Configurer le Css en tailwind -> mixIn et general + responsive dynamique
+créer mon endpoint depuis mon backend avec mon routeur
+
+endpoint => fetch

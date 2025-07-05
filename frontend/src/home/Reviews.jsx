@@ -1,75 +1,44 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import ReviewsCard from "./ReviewsCard";
+
 import { reviews } from "../../public/data/reviews";
+import ReviewsSlideShow from "./ReviewsSlideShow";
+
+import ScrollPrev from "../scrolls/ScrollPrev";
+import ScrollNext from "../scrolls/ScrollNext";
+import ReviewsDots from "./ReviewsDots";
 
 export default function Reviews() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const reviewsSlidesShow = reviews.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
-//   ChatGpt
-  useEffect(() => {
-    if (!emblaApi) return;
+  const options = { slidesToScroll: "auto", loop: true };
+  const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-    const onSelect = () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    };
-
-    emblaApi.on("select", onSelect);
-    onSelect();
-
-    return () => emblaApi.off("select", onSelect);
-  }, [emblaApi]);
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  let reviewsSlidesShowLength = reviewsSlidesShow.length;
+  let numberDivInvisible = 0;
+  if (window.innerWidth >= 1024) {
+    reviewsSlidesShowLength = Math.ceil(reviewsSlidesShow.length / 3);
+    numberDivInvisible = reviewsSlidesShowLength * 3 - reviewsSlidesShow.length;
+  }
 
   return (
-    <section className="section relative flex flex-col gap-5 overflow-hidden">
+    <section className="section flex flex-col gap-5 overflow-hidden">
       <h2 className="h2">Les avis :</h2>
-      <div className="px-5">
-        <div className="embla overflow-hidden" ref={emblaRef}>
-          <div className="embla__container flex">
-            {reviews.map((review, index) => (
-              <div
-                key={index}
-                className="embla__slide lg:w-[32%] w-full ml-4 flex-shrink-0"
-              >
-                <ReviewsCard
-                  name={review.name}
-                  rating={review.rating}
-                  comment={review.comment}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="flex items-center gap-5">
+        <ScrollPrev emblaApi={emblaApi} />
+        <ReviewsSlideShow
+          emblaRef={emblaRef}
+          reviewsSlidesShow={reviewsSlidesShow}
+          numberDivInvisible={numberDivInvisible}
+        />
+        <ScrollNext emblaApi={emblaApi} />
       </div>
-
-      <div className="absolute top-1/2 left-0 px-4 translate-y-1/2 w-full flex justify-between">
-        <i
-          className="fa-solid fa-chevron-left cursor-pointer"
-          onClick={scrollPrev}
-        ></i>
-        <i
-          className="fa-solid fa-chevron-right cursor-pointer"
-          onClick={scrollNext}
-        ></i>
-      </div>
-
-      <div className="w-ful flex justify-center">
-        <div className="w-1/2 h-2 border-2 rounded-xl border-brown">
-          <div
-            style={{ width: `${((selectedIndex + 1) / reviews.length) * 100}%` }}
-            className="h-full bg-brown"
-          ></div>
-        </div>
-      </div>
+      <ReviewsDots
+        emblaApi={emblaApi}
+        reviewsSlidesShowLength={reviewsSlidesShowLength}
+      />
     </section>
   );
 }
