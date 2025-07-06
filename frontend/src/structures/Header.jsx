@@ -38,7 +38,7 @@ export default function Header() {
             ></i>
           </div>
           <ul
-            className={`flex md:justify-end gap-3 list-none ${
+            className={`flex md:justify-end gap-2 list-none ${
               open === false ? "max-md:hidden" : "w-full flex flex-col"
             }`}
           >

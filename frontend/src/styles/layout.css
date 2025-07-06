@@ -29,4 +29,26 @@
   .section {
     @apply bg-white-80 border-2 border-white p-5;
   }
+
+  .font18-600 {
+    @apply lg:text-lg md:text-base text-sm font-semibold;
+  }
+
+  .inputButton {
+    @apply rounded-xl shadow-inputButton;
+  }
+  
+  .insideInput {
+    @apply lg:text-base md:text-sm text-xs bg-lightgray focus:outline-none;
+  }
+
+  .buttonSubmit {
+  @apply text-white px-4 py-2 inputButton;
+  background: linear-gradient(
+    0deg,
+    rgba(145, 113, 81, 1) 0%,
+    rgba(101, 75, 50, 1) 100%
+  );
+}
+
 }

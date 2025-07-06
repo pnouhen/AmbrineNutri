@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 
 export default function ReviewsDots({
     emblaApi,
-  reviewsSlidesShowLength,
+  reviewsLength,
 }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -20,7 +20,7 @@ export default function ReviewsDots({
   return (
     <div className="w-ful flex justify-center">
       <ul className="w-full flex justify-center gap-4">
-        {[...Array(Math.round(reviewsSlidesShowLength))].map((_, index) => (
+        {[...Array(Math.round(reviewsLength))].map((_, index) => (
           <li
             key={index}
             className={`w-5 h-2.5 border-2 border-brown rounded-xl ${

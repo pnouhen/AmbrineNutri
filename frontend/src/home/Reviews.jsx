@@ -1,26 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
-import { reviews } from "../../public/data/reviews";
-import ReviewsSlideShow from "./ReviewsSlideShow";
-
+import { fetchData } from "../services/fetchData";
 import ScrollPrev from "../scrolls/ScrollPrev";
 import ScrollNext from "../scrolls/ScrollNext";
+
+import ReviewsSlideShow from "./ReviewsSlideShow";
 import ReviewsDots from "./ReviewsDots";
 
 export default function Reviews() {
-  const reviewsSlidesShow = reviews.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    fetchData("http://localhost:3000/api/reviews")
+      .then((data) => setReviews(data))
+      .catch((error) => console.error("Erreur de chargement", error));
+  }, []);
+
+  reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const options = { slidesToScroll: "auto", loop: true };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-  let reviewsSlidesShowLength = reviewsSlidesShow.length;
+  let reviewsLength = reviews.length;
   let numberDivInvisible = 0;
+
   if (window.innerWidth >= 1024) {
-    reviewsSlidesShowLength = Math.ceil(reviewsSlidesShow.length / 3);
-    numberDivInvisible = reviewsSlidesShowLength * 3 - reviewsSlidesShow.length;
+    reviewsLength = Math.ceil(reviews.length / 3);
+    numberDivInvisible = reviewsLength * 3 - reviews.length;
   }
 
   return (
@@ -30,15 +37,12 @@ export default function Reviews() {
         <ScrollPrev emblaApi={emblaApi} />
         <ReviewsSlideShow
           emblaRef={emblaRef}
-          reviewsSlidesShow={reviewsSlidesShow}
+          reviews={reviews}
           numberDivInvisible={numberDivInvisible}
         />
         <ScrollNext emblaApi={emblaApi} />
       </div>
-      <ReviewsDots
-        emblaApi={emblaApi}
-        reviewsSlidesShowLength={reviewsSlidesShowLength}
-      />
+      <ReviewsDots emblaApi={emblaApi} reviewsLength={reviewsLength} />
     </section>
   );
 }
