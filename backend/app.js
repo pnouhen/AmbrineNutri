@@ -1,9 +1,12 @@
-const express = require('express')
+const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config()
-const Review = require('./models/Review')
+const cron = require('node-cron');
+require('dotenv').config();
+const Review = require('./models/Review');
 
-const app = express()
+const app = express();
+
+app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -16,14 +19,52 @@ app.use((req, res, next) => {
   next();
 });
 
+// Route GET reviews
 app.get("/api/reviews", (req, res) => {
   Review.find()
-    .then(reviews => {
-      res.status(200).json(reviews);
-    })
-    .catch(error => {
-      res.status(400).json({ error });
-    });
+    .then(reviews => res.status(200).json(reviews))
+    .catch(error => res.status(400).json({ error }));
 });
 
-module.exports = app
+// Route POST review
+app.post("/api/reviews", async (req, res) => {
+  try {
+    delete req.body._id;
+    const review = new Review({ ...req.body });
+    const savedReview = await review.save();
+    res.status(201).json(savedReview);
+  } catch (error) {
+    console.error("Erreur lors de la sauvegarde :", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Generer par Chatgpt pour supprimer un nouveau reviews au bout de 10 minutes
+cron.schedule('*/10 * * * *', async () => {
+  console.log('Suppression automatique des vieux commentaires lancée...');
+  try {
+    const count = await Review.countDocuments();
+    if (count <= 6) {
+      console.log('Moins de 7 commentaires, aucune suppression effectuée.');
+      return;
+    }
+
+    const now = new Date();
+    const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
+
+    const result = await Review.deleteMany({
+      date: {
+        $gte: new Date("2025-01-01T00:00:00.000Z"),
+        $lte: new Date("2100-01-31T23:59:59.999Z"),
+        $lt: tenMinutesAgo
+      }
+    });
+
+    console.log(`${result.deletedCount} commentaires supprimés.`);
+  } catch (error) {
+    console.error('Erreur lors de la suppression automatique :', error);
+  }
+});
+
+
+module.exports = app;

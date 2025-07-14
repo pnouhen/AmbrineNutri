@@ -19,15 +19,25 @@ html {
 @theme {
   --color-white-80: rgba(253, 253, 253, 0.8);
   --color-green: #85aa84;
-  --color-mustard : #b89854;
+  --color-mustard: #b89854;
   --color-brown: #654b32;
   --color-gray: #808080;
   --color-lightgray: #d9d9d9;
+  --color-black-90: rgba(0, 0, 0, 0.5);
 
   --font-h1: "Newsreader", sans-serif;
   --font-title: "Caprasimo";
   --font-header: "Alata", sans-serif;
 
---shadow-header: 0 0 15px -2px rgba(0, 0, 0, 0.5);
---shadow-inputButton : 1px 1px 7px 3px rgba(0, 0, 0, 0.7)
+  --shadow-header: 0 0 15px -2px rgba(0, 0, 0, 0.5);
+  --shadow-inputButton: 1px 1px 7px 3px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

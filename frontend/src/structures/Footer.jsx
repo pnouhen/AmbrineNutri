@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="py-8 px-5 lg:grid lg:grid-cols-2 flex flex-col justify-between gap-8 bg-white">
+    <footer className="py-8 px-5 md:grid md:grid-cols-2 flex flex-wrap justify-around gap-8 bg-white">
       <article className="flex flex-col gap-6">
         <h2 className="h2">Contactez-moi :</h2>
         <div className="flex flex-col gap-6">
@@ -31,7 +31,7 @@ export default function Footer() {
           </div>
         </div>
       </article>
-      <article className="flex flex-wrap justify-around">
+      <article className="flex flex-wrap justify-around gap-6">
         <h2 className="w-full h2">Suivez-moi :</h2>
         <a
           href="https://www.facebook.com/Lauradietetique/"

@@ -1,9 +1,16 @@
 import React from "react";
 import { useState } from "react";
+
 import NavItem from "../header/NavItem";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+
+  if (open) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
 
   return (
     <header className="flex gap-4 px-8 py-2.5 bg-white-80">
@@ -25,8 +32,8 @@ export default function Header() {
 
         <nav
           className={`${
-            open === false ? "" : "max-md:h-[100vh] max-md:bg-white"
-          } max-md:absolute max-md:right-0 max-md:left-0 max-md:px-8 md:mx-2.5 max-md:w-full  max-md:flex max-md:flex-col max-md:items-end max-md:gap-14`}
+            open === false ? "" : "max-md:h-[100vh] max-md:w-[100vw] max-md:bg-white"
+          } max-md:absolute max-md:right-0 max-md:left-0 max-md:z-50 max-md:px-8 md:mx-2.5 max-md:w-full  max-md:flex max-md:flex-col max-md:items-end max-md:gap-14`}
         >
           {" "}
           <div className="md:hidden w-6 flex justify-center top-6 right-5 ">
