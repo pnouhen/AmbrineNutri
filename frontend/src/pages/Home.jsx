@@ -25,17 +25,22 @@ export default function Home() {
 
   reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  stopOverflow(checkSubmit)
+  stopOverflow(checkSubmit);
 
   return (
     <>
       <Header />
 
       <main className="relative py-5 flex flex-col gap-8 overflow-hidden">
-        <BackgroundImg url="/assets/img/background/background-home.webp" />
+        <BackgroundImg
+          url="/assets/img/background/background-home.webp"
+          className="object-top"
+        />
 
         <section className="section grid md:grid-cols-3 grid-cols-2 justify-center gap-8">
-          <h2 className="h2 col-start-1 md:col-end-4 col-end-3">Ensemble, nous pouvons :</h2>
+          <h2 className="h2 col-start-1 md:col-end-4 col-end-3">
+            Ensemble, nous pouvons :
+          </h2>
 
           {dataCardsObjectif.map(({ id, logo, title, text }) => (
             <CardObjectif key={id} logo={logo} title={title} text={text} />
@@ -44,10 +49,7 @@ export default function Home() {
 
         <Reviews reviews={reviews} />
 
-        <SubmitReview
-          setCheckSubmit={setCheckSubmit}
-          setReviews={setReviews}
-        />
+        <SubmitReview setCheckSubmit={setCheckSubmit} setReviews={setReviews} />
       </main>
       <Footer />
 
@@ -55,7 +57,16 @@ export default function Home() {
         action={checkSubmit === true}
         title="Avis déposé"
         onClickClose={() => setCheckSubmit("")}
-        message="Merci d'avoir partagé votre avis"
+        message={
+          <>
+            Merci pour votre retour !<br />
+            <strong>
+              Étant donné qu'il s'agit d'un site de démonstration, votre
+              commentaire sera supprimé dans 10 minutes.
+            </strong>
+          </>
+        }
+        dangerouslySetInnerHTML={true}
       />
 
       <ModalMessage
