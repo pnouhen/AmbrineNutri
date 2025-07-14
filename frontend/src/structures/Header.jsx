@@ -20,7 +20,7 @@ export default function Header() {
         className="h-36 w-20 object-contain"
       />
 
-      <div className="w-full flex flex-col gap-5">
+      <div className="w-full flex flex-col lg:gap-5">
         <div className="h-full flex flex-col justify-around">
 
           <h1 className="h1">Laura diététique</h1>
