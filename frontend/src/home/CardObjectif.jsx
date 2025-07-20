@@ -14,7 +14,7 @@ export default function HomeCardObjectif({logo, title, text }) {
         dangerouslySetInnerHTML={{
           __html: text,
         }}
-        className="p16 text-center"
+        className="text text-center"
       />
     </article>
   );

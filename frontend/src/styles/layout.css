@@ -11,10 +11,10 @@
   }
 
   .h3 {
-    @apply lg:text-xl md:text-base text-sm text-center font-semibold;
+    @apply lg:text-xl md:text-base text-sm font-semibold;
   }
 
-  .p16 {
+  .text {
     @apply p-0 lg:text-base md:text-sm text-xs leading-6;
   }
 
@@ -59,10 +59,23 @@
   @apply relative p-5 bg-white;
 }
 
+.displayFlex5px {
+  @apply flex gap-1.5;
+}
+
+
+
+
+
+
+
 .authPageDiv {
   @apply w-[28.125rem] flex flex-col items-center gap-5 rounded-2xl;
 }
+
 .authPageForm {
   @apply w-80 flex flex-col gap-5;
 }
+
+
 }

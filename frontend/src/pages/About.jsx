@@ -18,7 +18,7 @@ export default function About() {
             alt="Photo de Laura"
             className="md:w-full w-40 h-full md:rounded-tl-full rounded-2xl object-cover"
           />
-          <div className="w-full section p16 flex flex-col justify-around items-center gap-5 rounded-tr-2xl rounded-br-2xl max-md:rounded-2xl">
+          <div className="w-full section text flex flex-col justify-around items-center gap-5 rounded-tr-2xl rounded-br-2xl max-md:rounded-2xl">
             <p>
               Passionnée par l'importance de l'alimentation sur la santé, c'est
               naturellement que je me suis orientée vers des études en
