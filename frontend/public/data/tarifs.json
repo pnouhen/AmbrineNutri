@@ -1,12 +1,14 @@
 [
   {
-    "firstConsult": {
+    "type": "firstConsult",
+    "values": {
       "price": 70,
       "coupleRate": 120
     }
   },
   {
-    "followUpConsult": {
+    "type": "followUpConsult",
+    "values": {
       "price": 40,
       "coupleRate": 60
     }

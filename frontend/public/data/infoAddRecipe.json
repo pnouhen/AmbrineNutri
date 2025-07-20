@@ -1,6 +1,7 @@
 [
   {
-    "categories": [
+    "type" : "categories",
+    "values": [
       "Apéritif",
       "Entrées",
       "Soupes et Veloutés",
@@ -10,7 +11,8 @@
     ]
   },
   {
-    "durations": [
+    "type" : "duration",
+    "values": [
       "Moins de 15 minutes",
       "De 15 à 30 minutes",
       "De 30 à 45 minutes",
@@ -19,10 +21,12 @@
     ]
   },
   {
-    "vegetarian": ["Oui", "Non"]
+    "type" : "végétarien",
+    "values": ["Oui", "Non"]
   },
   {
-    "dosage": [
+    "type" : "dosage",
+    "values": [
       "cl",
       "L",
       "g",

@@ -18,7 +18,7 @@ export function ConsultationTarifsCard({
 
       {/* Les conditions permettent d'adapter la carte en fonction des elements souhaités */}
       {duration != "" && (
-        <div className="displayFlex5px align-baseline">
+        <div className="displayFlex5px  items-end">
           <h3 className="h3">{duration == "" ? "" : "Durée :"}</h3>
           <p className="text">{duration}</p>
         </div>
@@ -33,14 +33,14 @@ export function ConsultationTarifsCard({
       </div>
       {tarifs === true && (
         <>
-          <div className="displayFlex5px align-baseline">
+          <div className="displayFlex5px items-end">
             <h3 className="h3">Tarif :</h3>
             <p className="text">
               {price}
               {euroNote}
             </p>
           </div>
-          <div className="displayFlex5px align-baseline">
+          <div className="displayFlex5px items-end">
             <h3 className="h3">Tarif en couple :</h3>
             <p className="text">
               {coupleRate}
