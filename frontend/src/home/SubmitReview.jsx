@@ -6,8 +6,7 @@ import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 import StarRating from "./StarRating";
 
-
-export default function SubmitReview({ setCheckSubmit, reviews, setReviews }) {
+export default function SubmitReview({ setCheckSubmit, setReviews }) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -17,49 +16,58 @@ export default function SubmitReview({ setCheckSubmit, reviews, setReviews }) {
   const enterCount = comment.split("\n").length * 49 + 1;
   const maxCommentLength = 500 - enterCount;
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const firstName = firstNameRef.current?.value.trim();
-  const lastName = lastNameRef.current?.value.trim();
-  const commentTrimmed = comment.trim();
+    const firstName = firstNameRef.current?.value.trim();
+    const lastName = lastNameRef.current?.value.trim();
+    const commentTrimmed = comment.trim();
 
-  const isValid =
-    firstName !== "" &&
-    lastName !== "" &&
-    commentTrimmed !== "" &&
-    rating !== 0;
+    const isValid =
+      firstName !== "" &&
+      lastName !== "" &&
+      commentTrimmed !== "" &&
+      rating !== 0;
+    
+      let isValidString = ""
 
-  setCheckSubmit(isValid);
+      if(isValid) {
+        isValidString = "reviewsTrue"
+      } else {
+         isValidString = "reviewsFalse"
+      }
+    setCheckSubmit(isValidString);
 
-  const newReview = {
-    date: new Date().toISOString(),
-    name:
-      firstName.charAt(0).toUpperCase() +
-      firstName.slice(1).toLowerCase() +
-      " " +
-      lastName.charAt(0).toUpperCase() +
-      lastName.slice(1).toLowerCase(),
-    comment: commentTrimmed,
-    rating,
+    const newReview = {
+      date: new Date().toISOString(),
+      name:
+        firstName.charAt(0).toUpperCase() +
+        firstName.slice(1).toLowerCase() +
+        " " +
+        lastName.charAt(0).toUpperCase() +
+        lastName.slice(1).toLowerCase(),
+      comment: commentTrimmed,
+      rating,
+    };
+
+    if (isValid) {
+      setReviews((prevReviews) => [...prevReviews, newReview]);
+
+      try {
+        const data = await fetchDataPost(
+          `${import.meta.env.VITE_BASE_API}/api/reviews`,
+          newReview
+        );
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+
+      firstNameRef.current.value = "";
+      lastNameRef.current.value = "";
+      setComment("");
+      setRating(0);
+    }
   };
-
-  setReviews((prevReviews) => [...prevReviews, newReview]);
-
-  if(isValid) {
-    try {
-    const data = await fetchDataPost(`${import.meta.env.VITE_BASE_API}/api/reviews`, newReview);
-  } catch (error) {
-    console.error("Erreur:", error);
-  }
-
-  firstNameRef.current.value = "";
-  lastNameRef.current.value = "";
-  setComment("");
-  setRating(0);
-  }
-};
-
 
   return (
     <section className="section flex flex-col items-center gap-5 md:w-[43.75rem] w-full mx-auto">

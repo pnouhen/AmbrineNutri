@@ -17,7 +17,8 @@ export default function ConnexionForm({setCheckSubmit}) {
 
     if(isValid) {
         emailConnexionRef.current.value = ""
-        emailConnexionRef.current.value = ""
+        console.log(passwordConnexion)
+        passwordConnexionRef.current.value = ""
     } else {
           setCheckSubmit("noConnexion");
     }

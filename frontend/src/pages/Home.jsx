@@ -11,7 +11,7 @@ import CardObjectif from "../home/CardObjectif";
 import Reviews from "../home/Reviews";
 import Footer from "../structures/Footer";
 import SubmitReview from "../home/SubmitReview";
-import ModalMessage from "../components/MessageModal";
+import ModalMessage from "../Modals/MessageModal";
 
 export default function Home() {
   const [reviews, setReviews] = useState([]);
@@ -54,26 +54,8 @@ export default function Home() {
       <Footer />
 
       <ModalMessage
-        action={checkSubmit === true}
-        title="Avis déposé"
+        action={checkSubmit}
         onClickClose={() => setCheckSubmit("")}
-        message={
-          <>
-            Merci pour votre retour !<br />
-            <strong>
-              Étant donné qu'il s'agit d'un site de démonstration, votre
-              commentaire sera supprimé dans 10 minutes.
-            </strong>
-          </>
-        }
-        dangerouslySetInnerHTML={true}
-      />
-
-      <ModalMessage
-        action={checkSubmit === false}
-        title="Erreur de validation"
-        onClickClose={() => setCheckSubmit("")}
-        message="Le formulaire est incomplet"
       />
     </>
   );
