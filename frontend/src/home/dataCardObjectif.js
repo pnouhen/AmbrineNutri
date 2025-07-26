@@ -1,7 +1,7 @@
 export const dataCardsObjectif = [
     {
       id: "manage",
-      logo: "fa-solid fa-seedling text-green",
+      logo: "fa-solid fa-seedling text-green-100",
       title: "Gérer durablement<br />votre poids",
       text: "contre l’obésité, le<br />surpoids et la maigreur",
     },
@@ -13,7 +13,7 @@ export const dataCardsObjectif = [
     },
     {
       id: "adapt",
-      logo: "fa-solid fa-rotate text-green",
+      logo: "fa-solid fa-rotate text-green-100",
       title: "Adapter votre<br />alimentation",
       text: "pour éviter les problèmes<br />digestifs ou mieux vieillir",
     },
@@ -25,7 +25,7 @@ export const dataCardsObjectif = [
     },
     {
       id: "optimize",
-      logo: "fa-solid fa-dumbbell text-green",
+      logo: "fa-solid fa-dumbbell text-green-100",
       title: "Optimiser vos<br />performances",
       text: "physiques et<br />sportives",
     },

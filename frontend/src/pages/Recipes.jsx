@@ -1,50 +1,57 @@
 import React, { useEffect, useState } from "react";
+
+import { fetchDataGet } from "../services/fetchDataGet";
+
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
 import Footer from "../structures/Footer";
-import { fetchDataGet } from "../services/fetchDataGet";
+import { RecipeFilter } from "../recipes/RecipeFilter";
+import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
 
 export default function Recipes() {
   const [infoAddRecipe, setInfoAddRecipe] = useState([]);
-  const [categoriesRecipe, setCategoriesRecipe] = useState([]);
-  const [filter, setFilter] = useState("Tous");
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
       .then((data) => {
         setInfoAddRecipe(data);
-        console.log(data)
-        const fetchedCategories = data[0]?.values || [];
-        setCategoriesRecipe(["Tous", ...fetchedCategories]);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
 
+  useEffect(() => {
+    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
+      .then((recipes) => {
+        recipes.sort((a, b) => a.title.localeCompare(b.title));
+        setRecipes(recipes);
+      })
+      .catch((error) => console.error("Erreur lors du chargement", error));
+  }, []);
+
+  // Groupe recipe by page
+  let numberRecipes = 6;
+  if (window.innerWidth < 768) {
+    numberRecipes = 2;
+  }
+
+  let recipePages = [];
+  for (let i = 0; i < recipes.length; i += numberRecipes) {
+    recipePages.push(recipes.slice(i, i + numberRecipes));
+  }
+
   return (
     <>
       <Header />
-      <main className="relative py-5">
+      <main className="relative py-5 flex flex-col gap-5">
         <BackgroundImg
           className="right-0 object-cover object-top"
           url="/assets/img/background/background-recipes.webp"
         />
-        <section className="section">
-          <h2 className="h2 mb-5">Catégories</h2>
-          <ul className="m-auto lg:grid lg:grid-cols-3 flex flex-wrap justify-center lg:gap-2.5 gap-8">
-            {categoriesRecipe.map((categorie, index) => (
-              <li key={index} className={`lg:mx-auto ${index === categoriesRecipe.length - 1 ? "col-start-1 col-end-4" : ""}`}>
-                <button
-                  className={`text recipeButton ${
-                    filter === categorie ? "recipeButtonActive" : ""
-                  }`}
-                  onClick={() => setFilter(categorie)}
-                >
-                  {categorie}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+
+        <RecipeFilter data={infoAddRecipe} />
+
+        <RecipeSlideShow recipePages={recipePages} numberRecipes={numberRecipes} />
       </main>
       <Footer />
     </>

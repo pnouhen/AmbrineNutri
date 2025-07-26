@@ -7,7 +7,7 @@ export default function NavItem({ to, text }) {
       <NavLink
         to={`/${to}`}
         className={({ isActive }) =>
-          `navItem ${isActive ? "bg-mustard" : "bg-green"}`
+          `navItem ${isActive ? "bg-mustard" : "bg-green-100"}`
         }
       >
         {" "}

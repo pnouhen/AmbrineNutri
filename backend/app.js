@@ -6,6 +6,7 @@ require("dotenv").config();
 const Review = require("./models/Review");
 const Prices = require("./models/Prices");
 const InfoAddRecipes = require("./models/InfoAddRecipes");
+const Recipe = require("./models/Recipe");
 
 const app = express();
 
@@ -86,6 +87,12 @@ app.get("/api/prices", (req, res) => {
 app.get("/api/infoaddrecipes", (req, res) => {
   InfoAddRecipes.find()
     .then((infoAddRecipes) => res.status(200).json(infoAddRecipes))
+    .catch((error) => res.status(400).json({ error }));
+});
+
+app.get("/api/recipes", (req, res) => {
+  Recipe.find()
+    .then((recipes) => res.status(200).json(recipes))
     .catch((error) => res.status(400).json({ error }));
 });
 

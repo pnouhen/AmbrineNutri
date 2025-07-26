@@ -1,14 +1,18 @@
 import React from "react";
 
-export default function ScrollNext({ emblaApi }) {
+export default function ScrollNext({ emblaApi, className, text }) {
   const scrollNext = () => {
     emblaApi.scrollNext();
   };
 
   return (
-    <i
-      className="fa-solid fa-chevron-right md:text-3xl text-[0rem] cursor-pointer"
+    <div
+      className={`mx-auto flex items-center gap-1${className}`}
       onClick={scrollNext}
-    ></i>
+    >
+      <p>{text}</p>
+
+      <i className="fa-solid fa-chevron-right "></i>
+    </div>
   );
 }

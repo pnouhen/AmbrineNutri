@@ -1,14 +1,18 @@
 import React from "react";
 
-export default function ScrollPrev({ emblaApi }) {
+export default function ScrollPrev({ emblaApi, className, text }) {
   const scrollPrev = () => {
     emblaApi.scrollPrev();
   };
 
   return (
-    <i
-      className="fa-solid fa-chevron-left md:text-3xl text-[0rem] cursor-pointer"
+    <div
+      className={`mx-auto flex items-center gap-1 ${className}`}
       onClick={scrollPrev}
-    ></i>
+    >
+      <i className="fa-solid fa-chevron-left "></i>
+
+      <p>{text}</p>
+    </div>
   );
 }

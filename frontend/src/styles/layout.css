@@ -27,7 +27,7 @@
   }
 
   .section {
-    @apply bg-white-80 border-2 border-white p-5;
+    @apply bg-white-300 border-2 border-white p-5;
   }
 
   .font18-600 {
@@ -77,11 +77,21 @@
   @apply font-semibold shadow-recipeButtonActive;
 }
 
+.useBadgeInfo {
+  @apply absolute z-10 w-auto py-1.5 px-2.5 bg-green-200 text-white-200 font-semibold;
+}
 
+.duration {
+  @apply top-0 left-0 rounded-br-md;
+}
 
+.regimeActive {
+  @apply bottom-0 right-0 rounded-tl-md;
+}
 
-
-
+.imgRecipe {
+  @apply lg:w-80 w-52 lg:h-80 h-52;
+}
 
 
 .authPageDiv {

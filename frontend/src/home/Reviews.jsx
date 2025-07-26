@@ -27,13 +27,13 @@ export default function Reviews({ reviews }) {
       {reviews.length > 1 ? (
         <>
           <div className="flex items-center gap-5">
-            <ScrollPrev emblaApi={emblaApi} />
+            <ScrollPrev emblaApi={emblaApi} className="md:text-3xl text-base cursor-pointer" />
             <ReviewsSlideShow
               emblaRef={emblaRef}
               reviews={reviews}
               numberDivInvisible={numberDivInvisible}
             />
-            <ScrollNext emblaApi={emblaApi} />
+            <ScrollNext emblaApi={emblaApi} className="md:text-3xl text-base cursor-pointer"/>
           </div>
           <ReviewsDots emblaApi={emblaApi} reviewsLength={reviewsLength} />
         </>

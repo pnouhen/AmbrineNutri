@@ -13,7 +13,7 @@ export default function Header() {
   }
 
   return (
-    <header className="flex gap-4 px-8 py-2.5 bg-white-80">
+    <header className="flex gap-4 px-8 py-2.5 bg-white-300">
       <img
         src="/assets/logo/logo.webp"
         alt="Logo de Laura Diététique"
@@ -60,7 +60,7 @@ export default function Header() {
 
             <li className="navLi">
               <a
-                className="navItem bg-green"
+                className="navItem bg-green-100"
                 href="https://user.clicrdv.com/Laura-Gentes"
                 target="_blank"
                 rel="noopener noreferrer"

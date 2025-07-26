@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { stopOverflow } from "../services/stopOverflow";
 
-import { dataCardsObjectif } from "../../public/data/dataCardObjectif";
+import { dataCardsObjectif } from "../home/dataCardObjectif";
 
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
