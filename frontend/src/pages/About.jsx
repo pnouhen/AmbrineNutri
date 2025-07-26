@@ -12,7 +12,7 @@ export default function About() {
           url="/assets/img/background/background-about.webp"
           className="object-top"
         />
-        <section className="my-10 md:grid md:grid-cols-[30%_60%] p-5 max-md:flex max-md:flex-col max-md:items-center max-md:gap-8">
+        <section className="my-10 md:grid md:grid-cols-[30%_60%] p-5 max-md:flex max-md:flex-col max-md:items-center justify-center max-md:gap-8">
           <img
             src="/assets/img/LauraPicture.webp"
             alt="Photo de Laura"

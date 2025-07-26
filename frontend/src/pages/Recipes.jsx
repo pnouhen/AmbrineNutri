@@ -13,13 +13,13 @@ export default function Recipes() {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
       .then((data) => {
         setInfoAddRecipe(data);
-
+        console.log(data)
         const fetchedCategories = data[0]?.values || [];
         setCategoriesRecipe(["Tous", ...fetchedCategories]);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
-console.log(categoriesRecipe)
+
   return (
     <>
       <Header />

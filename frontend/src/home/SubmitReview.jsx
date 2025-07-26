@@ -44,8 +44,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
         firstName.charAt(0).toUpperCase() +
         firstName.slice(1).toLowerCase() +
         " " +
-        lastName.charAt(0).toUpperCase() +
-        lastName.slice(1).toLowerCase(),
+        lastName.charAt(0).toUpperCase(),
       comment: commentTrimmed,
       rating,
     };

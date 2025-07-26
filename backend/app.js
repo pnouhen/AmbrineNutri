@@ -84,7 +84,6 @@ app.get("/api/prices", (req, res) => {
 
 // Route recipes
 app.get("/api/infoaddrecipes", (req, res) => {
-  console.log("route est bonne");
   InfoAddRecipes.find()
     .then((infoAddRecipes) => res.status(200).json(infoAddRecipes))
     .catch((error) => res.status(400).json({ error }));

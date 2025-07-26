@@ -8,7 +8,7 @@ export default function HomeCardObjectif({logo, title, text }) {
         dangerouslySetInnerHTML={{
           __html: title,
         }}
-        className="h3"
+        className="h3 text-center"
       />
       <p
         dangerouslySetInnerHTML={{

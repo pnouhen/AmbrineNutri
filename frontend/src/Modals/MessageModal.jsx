@@ -22,7 +22,7 @@ export default function ModalMessage({
         onClick={(e) => e.stopPropagation()}
       >
         <ModalClose onClick={onClickClose} />
-        <h3 className="h3">{messageModal[0].title}</h3>
+        <h3 className="h3 text-center">{messageModal[0].title}</h3>
         {typeof messageModal[0].message === "string" && messageModal[0].message.includes("<") ? (
           <p className="text text-center" dangerouslySetInnerHTML={{ __html: messageModal[0].message }}></p>
         ) : (
