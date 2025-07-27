@@ -22,7 +22,7 @@ export default function Reviews({ reviews }) {
   }
 
   return (
-    <section className="section flex flex-col gap-5 overflow-hidden">
+    <section pb-5 className="section pb-5 px-5 flex flex-col gap-5 overflow-hidden">
       <h2 className="h2">Les avis :</h2>
       {reviews.length > 1 ? (
         <>

@@ -37,7 +37,7 @@ export default function Home() {
           className="object-top"
         />
 
-        <section className="section grid md:grid-cols-3 grid-cols-2 justify-center gap-8">
+        <section pb-5 className="section pb-5 px-5 grid md:grid-cols-3 grid-cols-2 justify-center gap-8">
           <h2 className="h2 col-start-1 md:col-end-4 col-end-3">
             Ensemble, nous pouvons :
           </h2>

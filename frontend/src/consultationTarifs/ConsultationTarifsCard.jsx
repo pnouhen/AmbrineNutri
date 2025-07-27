@@ -13,7 +13,7 @@ export function ConsultationTarifsCard({
   const euroNote = "€*";
 
   return (
-    <article className="lg:w-7/12 md:w-10/12 w-full section flex flex-col gap-5 rounded-2xl">
+    <article className="lg:w-7/12 md:w-10/12 w-full section pb-5 flex flex-col gap-5 rounded-2xl">
       <h2 className="h2">{title}</h2>
 
       {/* Les conditions permettent d'adapter la carte en fonction des elements souhaités */}

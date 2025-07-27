@@ -13,11 +13,11 @@ export default function Header() {
   }
 
   return (
-    <header className="flex gap-4 px-8 py-2.5 bg-white-300">
+    <header className="relative flex gap-4 px-8 py-2.5 bg-white-300">
       <img
         src="/assets/logo/logo.webp"
         alt="Logo de Laura Diététique"
-        className="h-36 w-20 object-contain"
+        className="md:h-36 h-16 md:w-20 w-8 object-contain"
       />
 
       <div className="w-full flex flex-col lg:gap-5">
@@ -33,10 +33,10 @@ export default function Header() {
         <nav
           className={`${
             open === false ? "" : "max-md:h-[100vh] max-md:w-[100vw] max-md:bg-white"
-          } max-md:absolute max-md:right-0 max-md:left-0 max-md:z-50 max-md:px-8 md:mx-2.5 max-md:w-full  max-md:flex max-md:flex-col max-md:items-end max-md:gap-14`}
+          } max-md:absolute max-md:right-1/2 max-md:left-0 max-md:z-50 max-md:px-8 md:mx-2.5 max-md:w-full  max-md:flex max-md:flex-col max-md:items-end max-md:gap-14`}
         >
           {" "}
-          <div className="md:hidden w-6 flex justify-center top-6 right-5 ">
+          <div className="md:hidden absolute top-0 translate-y-1/2 w-6 flex justify-center">
             <i
               className={`fa-solid ${
                 open === true ? "fa-xmark" : "fa-bars "
@@ -45,7 +45,7 @@ export default function Header() {
             ></i>
           </div>
           <ul
-            className={`flex md:justify-end gap-2 list-none ${
+            className={`max-md:absolute left-0 right-0 top-16 max-md:px-5 flex md:justify-end md:gap-2 gap-4 list-none ${
               open === false ? "max-md:hidden" : "w-full flex flex-col"
             }`}
           >

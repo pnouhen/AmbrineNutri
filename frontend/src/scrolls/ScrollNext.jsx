@@ -7,7 +7,7 @@ export default function ScrollNext({ emblaApi, className, text }) {
 
   return (
     <div
-      className={`mx-auto flex items-center gap-1${className}`}
+      className={`mx-auto flex items-center gap-1 ${className}`}
       onClick={scrollNext}
     >
       <p>{text}</p>

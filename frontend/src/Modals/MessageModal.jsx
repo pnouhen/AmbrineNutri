@@ -14,7 +14,7 @@ export default function ModalMessage({
   const messageModal = dataModalMeassage.filter(
     (message) => message.action === action
   );
-  console.log(messageModal)
+
   return (
     <div onClick={onClickClose} className="z-10 modal">
       <div

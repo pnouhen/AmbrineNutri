@@ -21,7 +21,7 @@ export default function ConsultationTarifs() {
       )
     .catch((error) => console.error("Erreur de chargement", error))
   }, [])
-  console.log(firstConsult.values?.price)
+
   return (
     <>
       <Header />

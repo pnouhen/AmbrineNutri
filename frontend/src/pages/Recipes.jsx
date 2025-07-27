@@ -10,15 +10,22 @@ import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
 
 export default function Recipes() {
   const [infoAddRecipe, setInfoAddRecipe] = useState([]);
+  const [categoriesRecipe, setCategoriesRecipe] = useState([]);
+  const [filter, setFilter] = useState("Tous");
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
-      .then((data) => {
-        setInfoAddRecipe(data);
+      .then((infoaddrecipes) => {
+        setInfoAddRecipe(infoaddrecipes);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
+
+  useEffect(() => {
+    const fetchedCategories = infoAddRecipe[0]?.values || [];
+    setCategoriesRecipe(["Tous", ...fetchedCategories]);
+  }, [infoAddRecipe]);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
@@ -29,6 +36,14 @@ export default function Recipes() {
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
 
+  // Filter categorie
+  let recipesFilter = recipes
+  if(filter != "Tous") {
+    recipesFilter = recipes.filter((recipe) => recipe.categorie.text === filter)
+  } else {
+    recipesFilter = recipes
+  }
+
   // Groupe recipe by page
   let numberRecipes = 6;
   if (window.innerWidth < 768) {
@@ -36,8 +51,8 @@ export default function Recipes() {
   }
 
   let recipePages = [];
-  for (let i = 0; i < recipes.length; i += numberRecipes) {
-    recipePages.push(recipes.slice(i, i + numberRecipes));
+  for (let i = 0; i < recipesFilter.length; i += numberRecipes) {
+    recipePages.push(recipesFilter.slice(i, i + numberRecipes));
   }
 
   return (
@@ -49,7 +64,7 @@ export default function Recipes() {
           url="/assets/img/background/background-recipes.webp"
         />
 
-        <RecipeFilter data={infoAddRecipe} />
+        <RecipeFilter data={categoriesRecipe} filter={filter} setFilter={setFilter} />
 
         <RecipeSlideShow recipePages={recipePages} numberRecipes={numberRecipes} />
       </main>

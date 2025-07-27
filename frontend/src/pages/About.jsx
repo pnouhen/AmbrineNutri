@@ -12,13 +12,13 @@ export default function About() {
           url="/assets/img/background/background-about.webp"
           className="object-top"
         />
-        <section className="my-10 md:grid md:grid-cols-[30%_60%] p-5 max-md:flex max-md:flex-col max-md:items-center justify-center max-md:gap-8">
+        <section pb-5 className="my-10 md:grid md:grid-cols-[30%_60%] p-5 max-md:flex max-md:flex-col max-md:items-center justify-center max-md:gap-8">
           <img
             src="/assets/img/LauraPicture.webp"
             alt="Photo de Laura"
             className="md:w-full w-40 h-full md:rounded-tl-full rounded-2xl object-cover"
           />
-          <div className="w-full section text flex flex-col justify-around items-center gap-5 rounded-tr-2xl rounded-br-2xl max-md:rounded-2xl">
+          <div className="w-full section pb-5 text flex flex-col justify-around items-center gap-5 rounded-tr-2xl rounded-br-2xl max-md:rounded-2xl">
             <p>
               Passionnée par l'importance de l'alimentation sur la santé, c'est
               naturellement que je me suis orientée vers des études en

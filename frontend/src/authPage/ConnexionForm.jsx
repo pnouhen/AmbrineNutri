@@ -17,7 +17,6 @@ export default function ConnexionForm({setCheckSubmit}) {
 
     if(isValid) {
         emailConnexionRef.current.value = ""
-        console.log(passwordConnexion)
         passwordConnexionRef.current.value = ""
     } else {
           setCheckSubmit("noConnexion");
@@ -25,7 +24,7 @@ export default function ConnexionForm({setCheckSubmit}) {
   }
 
   return (
-    <div className="section authPageDiv">
+    <div className="section pb-5 px-5 authPageDiv">
       <h2 className="h2">Connexion</h2>
       <form className="authPageForm" onSubmit={handleSubmit}>
         <LabelInput

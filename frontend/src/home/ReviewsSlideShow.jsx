@@ -1,13 +1,13 @@
 import React from "react";
 
 import ReviewsCard from "./ReviewsCard";
+import { NumberDivInvisible } from "../components/NumberDivInvisible";
 
 export default function ReviewsSlideShow({
   emblaRef,
   reviews,
-  numberDivInvisible
+  numberDivInvisible,
 }) {
-
   return (
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="embla__container flex">
@@ -20,12 +20,11 @@ export default function ReviewsSlideShow({
             />
           </div>
         ))}
-        {[...Array(numberDivInvisible)].map((_, index) => (
-          <div
-            key={index}
-            className="lg:w-[32%] w-full ml-4 flex-shrink-0"
-          ></div>
-        ))}
+
+        <NumberDivInvisible
+          numberDivInvisible={numberDivInvisible}
+          className="lg:w-[32%] w-full ml-4"
+        />
       </div>
     </div>
   );
