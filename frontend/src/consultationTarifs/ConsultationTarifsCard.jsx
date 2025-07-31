@@ -13,12 +13,12 @@ export function ConsultationTarifsCard({
   const euroNote = "€*";
 
   return (
-    <article className="lg:w-7/12 md:w-10/12 w-full section pb-5 flex flex-col gap-5 rounded-2xl">
+    <article className="lg:w-7/12 md:w-10/12 w-full section p-5 flex flex-col gap-5 rounded-2xl">
       <h2 className="h2">{title}</h2>
 
       {/* Les conditions permettent d'adapter la carte en fonction des elements souhaités */}
       {duration != "" && (
-        <div className="displayFlex5px  items-end">
+        <div className="displayFlex5px  items-center">
           <h3 className="h3">{duration == "" ? "" : "Durée :"}</h3>
           <p className="text">{duration}</p>
         </div>
@@ -33,14 +33,14 @@ export function ConsultationTarifsCard({
       </div>
       {tarifs === true && (
         <>
-          <div className="displayFlex5px items-end">
+          <div className="displayFlex5px items-center">
             <h3 className="h3">Tarif :</h3>
             <p className="text">
               {price}
               {euroNote}
             </p>
           </div>
-          <div className="displayFlex5px items-end">
+          <div className="displayFlex5px items-center">
             <h3 className="h3">Tarif en couple :</h3>
             <p className="text">
               {coupleRate}

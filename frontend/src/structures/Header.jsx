@@ -36,7 +36,7 @@ export default function Header() {
           } max-md:absolute max-md:right-1/2 max-md:left-0 max-md:z-50 max-md:px-8 md:mx-2.5 max-md:w-full  max-md:flex max-md:flex-col max-md:items-end max-md:gap-14`}
         >
           {" "}
-          <div className="md:hidden absolute top-0 translate-y-1/2 w-6 flex justify-center">
+          <div className="md:hidden absolute right-4 top-0 translate-y-1/2 w-6 flex justify-center">
             <i
               className={`fa-solid ${
                 open === true ? "fa-xmark" : "fa-bars "
@@ -45,7 +45,7 @@ export default function Header() {
             ></i>
           </div>
           <ul
-            className={`max-md:absolute left-0 right-0 top-16 max-md:px-5 flex md:justify-end md:gap-2 gap-4 list-none ${
+            className={`max-md:absolute left-0 right-0 top-16 max-md:px-5 flex md:justify-end md:gap-1 gap-4 list-none ${
               open === false ? "max-md:hidden" : "w-full flex flex-col"
             }`}
           >
