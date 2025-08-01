@@ -23,11 +23,6 @@
       "dest": "/frontend/dist/index.html"
     }
   ],
-  "functions": {
-    "backend/app.js": {
-      "maxDuration": 10
-    }
-  },
   "crons": [
     {
       "path": "/api/cleanup-reviews",
