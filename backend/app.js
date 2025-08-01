@@ -49,6 +49,33 @@ app.post("/api/reviews", async (req, res) => {
   }
 });
 
+// Generer par Chatgpt pour supprimer un nouveau reviews au bout de 10 minutes
+cron.schedule("0 3 * * *", async () => {
+  console.log("Suppression automatique des vieux commentaires lancée...");
+  try {
+    const count = await Review.countDocuments();
+    if (count <= 6) {
+      console.log("Moins de 7 commentaires, aucune suppression effectuée.");
+      return;
+    }
+
+    const now = new Date();
+    const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
+
+    const result = await Review.deleteMany({
+      date: {
+        $gte: new Date("2025-01-01T00:00:00.000Z"),
+        $lte: new Date("2100-01-31T23:59:59.999Z"),
+        $lt: tenMinutesAgo,
+      },
+    });
+
+    console.log(`${result.deletedCount} commentaires supprimés.`);
+  } catch (error) {
+    console.error("Erreur lors de la suppression automatique :", error);
+  }
+});
+
 // Route prices
 app.get("/api/prices", (req, res) => {
   Prices.find()
