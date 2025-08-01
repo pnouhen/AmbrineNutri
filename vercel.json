@@ -24,9 +24,9 @@
     }
   ],
   "crons": [
-    {
-      "path": "/api/cleanup-reviews",
-      "schedule": "*/10 * * * *"
-    }
-  ]
+  {
+    "path": "/api/cleanup-reviews",
+    "schedule": "0 3 * * *"
+  }
+]
 }
