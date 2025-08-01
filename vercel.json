@@ -13,6 +13,7 @@
       "use": "@vercel/node"
     }
   ],
+  "installCommand": "cd frontend && npm install",
   "routes": [
     {
       "src": "/api/(.*)",
@@ -24,9 +25,9 @@
     }
   ],
   "crons": [
-  {
-    "path": "/api/cleanup-reviews",
-    "schedule": "0 3 * * *"
-  }
-]
+    {
+      "path": "/api/cleanup-reviews",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }
