@@ -33,7 +33,7 @@ export default function RecipeDetails() {
       <main className="relative py-5" onClick={() => setIsOpen(false)}>
         <BackgroundImg url={"/assets/img/background/background-recipes.webp"} />
 
-        <section pb-5 className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
+        <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
           {recipeDetails !== undefined ? (
             <>
               <h2 className="h2 w-full">{recipeDetails.title}</h2>

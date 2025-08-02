@@ -69,7 +69,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
   };
 
   return (
-    <section pb-5 className="section pb-5 px-5 flex flex-col items-center gap-5 md:w-[43.75rem] w-full mx-auto">
+    <section className="section pb-5 px-5 flex flex-col items-center gap-5 md:w-[43.75rem] w-full mx-auto">
       <h2 className="h2">Laisser un avis :</h2>
       <form
         onSubmit={handleSubmit}
