@@ -11,5 +11,5 @@ export default defineConfig({
     sourcemap: false,
     minify: 'terser'
   },
-  base: './' // Important pour les chemins relatifs sur Vercel
+  base: '/'
 })
