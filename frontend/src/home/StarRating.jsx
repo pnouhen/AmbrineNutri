@@ -22,8 +22,8 @@ export default function StarRating({
   return (
     <ul className={`flex ${classNameUl}`}>
       {[...Array(5)].map((_, i) => (
-        <i
-          key={i}
+        <li key={i}>
+          <i
           className={`fa-solid fa-star text-xl pr-2 ${
             i < current ? "text-green-100" : "text-gray"
           }`}
@@ -32,9 +32,11 @@ export default function StarRating({
           onMouseLeave={editable ? () => setHoverRating(0) : undefined}
           style={{ cursor: editable ? "pointer" : "default" }}
         ></i>
+        </li>
+        
       ))}
       {showLabel && (
-        <p className="pg-2 font-bold w-24">{ratingText[current]}</p>
+        <li className="pg-2 font-bold w-24">{ratingText[current]}</li>
       )}
     </ul>
   );

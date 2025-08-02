@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`)
-      .then((data) => console.log("Réponse", data))
+      .then((data) => setReviews(data))
       .catch((error) => console.error("Erreur de chargement", error));
   }, []);
 
