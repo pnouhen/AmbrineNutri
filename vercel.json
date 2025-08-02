@@ -1,23 +1,19 @@
 {
   "version": 2,
-  "builds": [
+   "builds": [
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
       }
-    },
-    {
-      "src": "backend/app.js",
-      "use": "@vercel/node"
     }
   ],
   "installCommand": "cd frontend && npm install",
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/backend/app.js"
+      "src": "/(.*)",
+      "dest": "/frontend/dist/index.html"
     }
   ],
   "crons": [
