@@ -82,7 +82,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             type="text"
             id="lastName"
             classNameInput="w-[14.5625rem] h-10"
-            ref={lastNameRef}
+            InputRef={lastNameRef}
           />
 
           <LabelInput
@@ -91,7 +91,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             type="text"
             id="firstName"
             classNameInput="w-[14.5625rem] h-10"
-            ref={firstNameRef}
+            InputRef={firstNameRef}
           />
         </div>
 

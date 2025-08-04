@@ -7,13 +7,13 @@ export default function LabelInput({
   onChange,
   type,
   id,
-  ref,
+  InputRef,
   classNameInput
 }) {
   return (
     <div className="flex flex-col gap-2.5">
       <label htmlFor={htmlFor} className="ml-2.5 font18-600">{label} </label>
-      <input type={type} id={id} ref={ref} value={value} onChange={onChange} className={`py-2.5 px-5 inputButton insideInput ${classNameInput}`}/>
+      <input type={type} id={id} ref={InputRef} value={value} onChange={onChange} className={`py-2.5 px-5 inputButton insideInput ${classNameInput}`}/>
     </div>
   );
 }
