@@ -39,7 +39,7 @@ export default function Recipes() {
   // Filter categorie
   let recipesFilter = recipes
   if(filter != "Tous") {
-    recipesFilter = recipes.filter((recipe) => recipe.categorie.text === filter)
+    recipesFilter = recipes.filter((recipe) => recipe.duration === filter)
   } else {
     recipesFilter = recipes
   }
