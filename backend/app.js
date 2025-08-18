@@ -3,17 +3,13 @@ const mongoose = require("mongoose");
 const cron = require("node-cron");
 require("dotenv").config();
 
-const Review = require("./models/Review");
-const Prices = require("./models/Prices");
-const InfoAddRecipes = require("./models/InfoAddRecipes");
-const Recipe = require("./models/Recipe");
+const reviewRoutes = require("./routes/reviews");
+const pricesRoutes = require("./routes/prices");
+const infoAddRecipesRouter = require('./routes/infoAddRecipes')
+const recipeRouter = require('./routes/recipe')
 
 const app = express();
-
 app.use(express.json());
-
-const dns = require('dns');
-const net = require('net');
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -33,26 +29,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Route reviews
-app.get("/api/reviews", (req, res) => {
-  Review.find()
-    .then((reviews) => res.status(200).json(reviews))
-    .catch((error) => res.status(400).json({ error }));
-});
-
-app.post("/api/reviews", async (req, res) => {
-  try {
-    delete req.body._id;
-    const review = new Review({ ...req.body });
-    const savedReview = await review.save();
-    res.status(201).json(savedReview);
-  } catch (error) {
-    console.error("Erreur lors de la sauvegarde :", error);
-    res.status(500).json({ error: error.message });
-  }
-});
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/prices", pricesRoutes);
+app.use("/api/infoaddrecipes", infoAddRecipesRouter);
+app.use("/api/recipes", recipeRouter);
 
 // Generer par Chatgpt pour supprimer un nouveau reviews au bout de 10 minutes
+const Review = require("./models/Review");
+
 cron.schedule("*/10 * * * *", async () => {
   console.log("Suppression automatique des vieux commentaires lancée...");
   try {
@@ -77,26 +61,6 @@ cron.schedule("*/10 * * * *", async () => {
   } catch (error) {
     console.error("Erreur lors de la suppression automatique :", error);
   }
-});
-
-// Route prices
-app.get("/api/prices", (req, res) => {
-  Prices.find()
-    .then((prices) => res.status(200).json(prices))
-    .catch((error) => res.status(400).json({ error }));
-});
-
-// Route recipes
-app.get("/api/infoaddrecipes", (req, res) => {
-  InfoAddRecipes.find()
-    .then((infoAddRecipes) => res.status(200).json(infoAddRecipes))
-    .catch((error) => res.status(400).json({ error }));
-});
-
-app.get("/api/recipes", (req, res) => {
-  Recipe.find()
-    .then((recipes) => res.status(200).json(recipes))
-    .catch((error) => res.status(400).json({ error }));
 });
 
 module.exports = app;

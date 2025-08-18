@@ -28,14 +28,14 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
       lastName !== "" &&
       commentTrimmed !== "" &&
       rating !== 0;
-    
-      let isValidString = ""
 
-      if(isValid) {
-        isValidString = "reviewsTrue"
-      } else {
-         isValidString = "reviewsFalse"
-      }
+    let isValidString = "";
+
+    if (isValid) {
+      isValidString = "reviewsTrue";
+    } else {
+      isValidString = "reviewsFalse";
+    }
     setCheckSubmit(isValidString);
 
     const newReview = {
@@ -113,6 +113,12 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             onChange={(e) => setComment(e.target.value)}
             maxLength={maxCommentLength}
             value={comment}
+            onKeyDown={(e) => {
+              console.log(maxCommentLength - comment.length)
+              if (e.key === "Enter" &maxCommentLength - comment.length < 50) {
+                e.preventDefault()
+              }
+            }}
           />
         </div>
 
