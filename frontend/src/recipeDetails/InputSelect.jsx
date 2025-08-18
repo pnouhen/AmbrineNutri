@@ -7,7 +7,7 @@ export function InputSelect({
   isOpen,
   setIsOpen,
 }) {
-  const handlePeople = (option, index) => {
+  const handlePeople = (index) => {
     setIndexPeople(index);
   };
 
@@ -45,7 +45,7 @@ export function InputSelect({
       onKeyDown={handleKeyDown}
     >
       <p>
-        {indexPeople + 1} {indexPeople === 1 ? "personne" : "personnes"}
+        {indexPeople + 1} {indexPeople === 0 ? "personne" : "personnes"}
       </p>
       <i className="fa-solid fa-chevron-down"></i>
       <ul
@@ -61,7 +61,7 @@ export function InputSelect({
             className={`py-1 p-2.5 cursor-pointer ${
               index === indexPeople ? "text-white-200 bg-blue-500" : ""
             }`}
-            onClick={() => handlePeople(option, index)}
+            onClick={() => handlePeople(index)}
             onMouseEnter={() => setIndexPeople(index)}
           >
             {index + 1} {index === 0 ? "personne" : "personnes"}

@@ -12,10 +12,13 @@ const app = express();
 
 app.use(express.json());
 
+const dns = require('dns');
+const net = require('net');
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+  .catch((err) => console.log("Connexion à MongoDB échouée !", err));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

@@ -9,24 +9,26 @@ import { ConsultationTarifsCard } from "../consultationTarifs/ConsultationTarifs
 import Footer from "../structures/Footer";
 
 export default function ConsultationTarifs() {
- const [firstConsult, setFirstConsult] =useState(0)
- const [followUpConsult, setFollowUpConsult] =useState(0)
+  const [firstConsult, setFirstConsult] = useState(0);
+  const [followUpConsult, setFollowUpConsult] = useState(0);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`)
-    .then((data) => {
-        setFirstConsult(data[0])
-        setFollowUpConsult(data[1])
-    }
-      )
-    .catch((error) => console.error("Erreur de chargement", error))
-  }, [])
+      .then((data) => {
+        setFirstConsult(data[0]);
+        setFollowUpConsult(data[1]);
+      })
+      .catch((error) => console.error("Erreur de chargement", error));
+  }, []);
 
   return (
     <>
       <Header />
       <main className="relative p-5 flex flex-col items-center gap-5">
-        <BackgroundImg url="/assets/img/background/background-methodRate.webp" className="object-right" />
+        <BackgroundImg
+          url="/assets/img/background/background-methodRate.webp"
+          className="object-right"
+        />
         {dataCardsConsultTarif.map(
           ({
             data,
@@ -44,8 +46,16 @@ export default function ConsultationTarifs() {
               duration={duration}
               description={description}
               tarifs={tarifs}
-              price={type === "firstConsult" ? firstConsult.values?.price : followUpConsult.values?.price}
-              coupleRate={type === "firstConsult" ? firstConsult.values?.coupleRate : followUpConsult.values?.coupleRate}
+              price={
+                type === "firstConsult"
+                  ? firstConsult?.values?.price
+                  : followUpConsult?.values?.price
+              }
+              coupleRate={
+                type === "firstConsult"
+                  ? firstConsult?.values?.coupleRate
+                  : followUpConsult?.values?.coupleRate
+              }
               priceCondition={priceCondition}
             />
           )
