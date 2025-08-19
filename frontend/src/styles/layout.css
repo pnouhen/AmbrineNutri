@@ -92,9 +92,6 @@
   @apply lg:w-80 w-52 lg:h-80 h-52;
 }
 
-
-
-
 .authPageDiv {
   @apply w-[28.125rem] flex flex-col items-center gap-5 rounded-2xl;
 }

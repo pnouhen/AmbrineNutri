@@ -6,6 +6,7 @@ import ConsultationTarifs from "./pages/ConsultationTarifs";
 import Recipes from "./pages/Recipes";
 import RecipeDetails from "./pages/RecipeDetails";
 import AuthPage from "./pages/AuthPage";
+import { CheckoutPage } from "./pages/CheckoutPage";
 
 import "./styles/layout.css"
 
@@ -41,7 +42,13 @@ const router = createBrowserRouter(
     element: (
         <AuthPage />
     ),
-  } 
+  },
+  {
+    path: "/panier",
+    element: (
+        <CheckoutPage />
+    ),
+  }
  ]
 )
 
