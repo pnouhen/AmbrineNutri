@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import RecipeCard from "./RecipeCard";
 import { NumberDivInvisible } from "../components/NumberDivInvisible";
 import { RecipePagination } from "./RecipePagination";
-import MessageErrorBackEnd from "../components/MessageErrorBackEnd";
+import MessageNoData from "../components/MessageNoData";
 
 export function RecipeSlideShow({ recipePages, numberRecipes }) {
   const options = { slidesToScroll: 1, loop: false };
@@ -63,7 +63,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes }) {
           <RecipePagination emblaApi={emblaApi} numberRecipes={numberRecipes} />
         </>
       ) : (
-        <MessageErrorBackEnd className="lg:col-start-1 lg:col-end-4" />
+        <MessageNoData className="lg:col-start-1 lg:col-end-4" text="Désolé, un problème est survenu."/>
       )}
     </section>
   );

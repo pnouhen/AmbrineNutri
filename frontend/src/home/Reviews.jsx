@@ -7,7 +7,7 @@ import ScrollNext from "../scrolls/ScrollNext";
 import ReviewsSlideShow from "./ReviewsSlideShow";
 import ReviewsDots from "./ReviewsDots";
 
-import MessageErrorBackEnd from "../components/MessageErrorBackEnd";
+import MessageNoData from "../components/MessageNoData";
 
 export default function Reviews({ reviews }) {
   const options = { slidesToScroll: "auto", loop: true };
@@ -38,7 +38,7 @@ export default function Reviews({ reviews }) {
           <ReviewsDots emblaApi={emblaApi} reviewsLength={reviewsLength} />
         </>
       ) : (
-        <MessageErrorBackEnd />
+        <MessageNoData text="Désolé, un problème est survenu."/>
       )}
     </section>
   );

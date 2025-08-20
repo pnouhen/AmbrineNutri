@@ -42,6 +42,10 @@
     @apply lg:text-base md:text-sm text-xs bg-lightgray focus:outline-none;
   }
 
+  .buttonNoSubmit {
+    @apply cursor-not-allowed;
+  }
+
   .buttonSubmit {
   @apply text-white px-4 py-2;
   background: linear-gradient(
@@ -56,7 +60,7 @@
 }
 
 .modalContainer {
-  @apply relative p-5 bg-white;
+  @apply relative p-5 rounded-lg bg-white;
 }
 
 .displayFlex5px {

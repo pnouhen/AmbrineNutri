@@ -6,7 +6,7 @@ import { fetchDataGet } from "../services/fetchDataGet";
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
 import BackgroundImg from "../components/BackgroundImg";
-import MessageErrorBackEnd from "../components/MessageErrorBackEnd";
+import MessageNoData from "../components/MessageNoData";
 import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
@@ -111,7 +111,7 @@ export default function RecipeDetails() {
               </div>
             </>
           ) : (
-            <MessageErrorBackEnd />
+            <MessageNoData text="Désolé, un problème est survenu."/>
           )}
         </section>
       </main>

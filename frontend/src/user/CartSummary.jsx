@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import MessageNoData from "../components/MessageNoData"
+
 export function CartSummary({ recipes }) {
   const [recipesPanier, setRecipesPanier] = useState([]);
 
@@ -16,11 +18,12 @@ export function CartSummary({ recipes }) {
   return (
     <div>
       <h2 className="h2 mb-10">Panier</h2>
-      <div className="pt-5 grid md:grid-cols-2 gap-5 border-t-2 border-gray-400">
-        {recipesPanier.map((recipe) => (
+      <div className="pt-5 flex flex-col gap-5 border-t-2 border-gray-400">
+        <h3 className="h3"> Les recettes</h3>
+        {recipesPanier.length > 0 ? (recipesPanier.map((recipe) => (
           <div
             key={recipe._id}
-            className="pr-5 flex items-center gap-5 border-2 border-black"
+            className="pr-5 flex items-center gap-5 shadow-inputButton"
           >
             <NavLink
               id={recipe._id}
@@ -47,7 +50,9 @@ export function CartSummary({ recipes }) {
               </button>
             </div>
           </div>
-        ))}
+        ))) : (
+          <MessageNoData text="Le panier est vide"/>
+        )}
       </div>
 
       <div className="py-5 flex flex-col gap-2.5 border-b-2 border-gray-400">
