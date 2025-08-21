@@ -43,7 +43,7 @@ export default function SignInForm({ setCheckSubmit }) {
         confirmPasswordSignInRef.current.value = "";
       }
     } else {
-      setCheckSubmit("ErrorSignIn");
+      setCheckSubmit("ErrorSubmit");
     }
   };
 

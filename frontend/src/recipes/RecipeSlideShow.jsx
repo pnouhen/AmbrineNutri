@@ -44,7 +44,6 @@ export function RecipeSlideShow({ recipePages, numberRecipes }) {
                           }
                           textRegime={vegetarian === "Oui" ? "Végétarien" : ""}
                           title={title}
-                          classNameImg="opacity-40"
                           src={img}
                         />
                       </NavLink>

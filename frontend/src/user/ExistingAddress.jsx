@@ -44,7 +44,7 @@ export function ExistingAddress({
       {userInfo.map((coord) => (
         <div
           key={coord.id}
-          className={`p-5 flex flex-col gap-4 rounded-lg cursor-pointer ${
+          className={`p-5 flex flex-col gap-4 rounded-lg bg-yellow-50 cursor-pointer ${
             coord.id === coordDefault?.id
               ? "shadow-recipeButtonActive"
               : "shadow-recipeButton"

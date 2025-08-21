@@ -33,7 +33,7 @@ export const dataModalMeassage = [
   },
 
   {
-    action: "ErrorSignIn",
+    action: "ErrorSubmit",
     title: "Erreur dans le formulaire",
     message: "Tous les champs doivent être remplis",
   },
@@ -49,4 +49,15 @@ export const dataModalMeassage = [
     title: "Erreur dans le formulaire",
     message: "Les mots de passe doivent être identiques",
   },
+  {
+    action: "PaymentSuccessful",
+    title: "Paiement réussi",
+    message:`Merci d'avoir acheté la ou les recettes
+            <br />
+            Vous trouverez votre facture dans votre espace personnel
+            <br />
+            <strong>
+              Étant donné qu'il s'agit d'un site de démonstration, les données ne seront pas conservés
+            </strong>`,
+  }
 ];

@@ -4,9 +4,11 @@
 
 @theme {
   --color-white-200: #d6d6d6;
-  --color-white-300: rgba(253, 253, 253, 0.8);
+  --color-white-300: rgba(253, 253, 253, 0.9);
+  --color-green-50: #dbe4c6;
   --color-green-100: #85aa84;
   --color-green-200: #30672e;
+  --color-yellow-50: #fff6cc;
   --color-mustard: #b89854;
   --color-brown: #654b32;
   --color-gray: #808080;

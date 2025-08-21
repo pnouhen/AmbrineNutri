@@ -103,7 +103,7 @@ export function ModalCoord({
   if (!isOpen) return null;
 
   return (
-    <div onClick={() => closeModal()} className="modal md:px-10 px-5">
+    <div onClick={() => closeModal()} className="modal max-md:px-5">
       <div
         className="modalContainer md:w-1/2 w-full"
         onClick={(e) => e.stopPropagation()}

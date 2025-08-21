@@ -4,7 +4,6 @@ export default function RecipeCard({
   duration,
   classNameRegime,
   textRegime,
-  classNameImg,
   src,
   title,
 }) {
@@ -13,7 +12,7 @@ export default function RecipeCard({
       <p className="text useBadgeInfo duration">{duration}</p>
       <p className={classNameRegime}>{textRegime}</p>
       <img
-        className={`imgRecipe ${classNameImg}`}
+        className={`imgRecipe opacity-50`}
         src={src}
         alt={`Image de ${title}`}
         loading="eager"

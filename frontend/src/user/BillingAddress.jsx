@@ -22,8 +22,8 @@ export function BillingAddress({
   });
 
   return (
-    <div className="relative flex flex-col gap-5">
-      <h3 className="h3 pt-5">Adresse de facturation</h3>
+    <div className="pb-6 border-panier relative flex flex-col gap-5">
+      <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
         userInfo={userInfo}
         setUserInfo={setUserInfo}
@@ -37,7 +37,7 @@ export function BillingAddress({
 
       <Button
         text="+ Ajouter une adresse"
-        className="bg-green-100"
+        className="mt-2.5 bg-green-100"
         onClick={() => setIsOpen(!isOpen)}
       />
 

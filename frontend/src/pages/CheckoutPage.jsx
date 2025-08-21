@@ -3,14 +3,17 @@ import React, { useEffect, useState } from "react";
 import Header from "../structures/Header";
 import { CartSummary } from "../user/CartSummary";
 import { BillingAddress } from "../user/BillingAddress";
-import Footer from "../structures/Footer";
-
 import { fetchDataGet } from "../services/fetchDataGet";
+import { PaymentForm } from "../user/PaymentForm";
+import ModalMessage from "../Modals/MessageModal";
+import Footer from "../structures/Footer";
 
 export function CheckoutPage() {
   const [recipes, setRecipes] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [coordDefault, setCoordDefault] = useState();
+
+  const [checkSubmit, setCheckSubmit] = useState("");
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
@@ -54,9 +57,9 @@ export function CheckoutPage() {
   return (
     <>
       <Header />
-      <main className="section p-5">
-        <div className="mx-auto md:w-1/2">
-          <CartSummary recipes={recipes} />
+      <main className="py-5 bg-gradient-to-r from-[#dbe4c6] to-[#fff6cc]">
+        <div className="mx-auto px-5 section md:w-1/2 rounded-2xl">
+          <CartSummary payementsuccess={checkSubmit} recipes={recipes} />
 
           <BillingAddress
             userInfo={userInfo}
@@ -64,7 +67,14 @@ export function CheckoutPage() {
             coordDefault={coordDefault}
             setCoordDefault={setCoordDefault}
           />
+
+          <PaymentForm setCheckSubmit={setCheckSubmit} />
         </div>
+
+        <ModalMessage
+          action={checkSubmit}
+          onClickClose={() => setCheckSubmit("")}
+        />
       </main>
 
       <Footer />

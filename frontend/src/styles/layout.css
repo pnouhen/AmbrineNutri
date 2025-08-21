@@ -34,6 +34,14 @@
     @apply lg:text-lg md:text-base text-sm font-semibold;
   }
 
+  .labelInput {
+    @apply flex flex-col gap-1;
+  }
+
+  .label {
+    @apply ml-2.5;
+  }
+
   .inputButton {
     @apply rounded-xl shadow-inputButton;
   }
@@ -104,5 +112,8 @@
   @apply w-80 flex flex-col gap-5;
 }
 
+.border-panier {
+  @apply pt-5 border-t-2 border-gray-400;
+}
 
 }
