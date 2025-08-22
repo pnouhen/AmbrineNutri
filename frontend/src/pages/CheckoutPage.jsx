@@ -5,13 +5,18 @@ import { CartSummary } from "../user/CartSummary";
 import { BillingAddress } from "../user/BillingAddress";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { PaymentForm } from "../user/PaymentForm";
+import GenerateFacture from "../user/GenerateFacture";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
+import { PDFDownloadLink } from "@react-pdf/renderer";
+
 export function CheckoutPage() {
   const [recipes, setRecipes] = useState([]);
+  const [recipesPanier, setRecipesPanier] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [coordDefault, setCoordDefault] = useState();
+  const [recipesPanierSaved, setRecipesPanierSaved] = useState([]);
 
   const [checkSubmit, setCheckSubmit] = useState("");
 
@@ -23,6 +28,18 @@ export function CheckoutPage() {
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
+
+  useEffect(() => {
+    recipes.forEach((recipe) => (recipe.panier = true));
+    setRecipesPanier(recipes.slice(0, 2));
+  }, [recipes]);
+
+  useEffect(() => {
+    if (checkSubmit === "PaymentSuccessful") {
+      setRecipesPanierSaved(recipesPanier);
+      setRecipesPanier([]);
+    }
+  }, [checkSubmit]);
 
   const coordTest = {
     id: 1,
@@ -53,13 +70,16 @@ export function CheckoutPage() {
     setUserInfo(initialUserInfo);
     setCoordDefault(initialUserInfo[0]);
   }, []);
-
   return (
     <>
       <Header />
       <main className="py-5 bg-gradient-to-r from-[#dbe4c6] to-[#fff6cc]">
         <div className="mx-auto px-5 section md:w-1/2 rounded-2xl">
-          <CartSummary payementsuccess={checkSubmit} recipes={recipes} />
+          <CartSummary
+            recipesPanier={recipesPanier}
+            setRecipesPanier={setRecipesPanier}
+            recipes={recipes}
+          />
 
           <BillingAddress
             userInfo={userInfo}
@@ -68,7 +88,12 @@ export function CheckoutPage() {
             setCoordDefault={setCoordDefault}
           />
 
-          <PaymentForm setCheckSubmit={setCheckSubmit} />
+          <PaymentForm
+            userInfo={userInfo}
+            recipesPanier={recipesPanier}
+            setCheckSubmit={setCheckSubmit}
+            setRecipesPanier={setRecipesPanier}
+          />
         </div>
 
         <ModalMessage
@@ -78,6 +103,22 @@ export function CheckoutPage() {
       </main>
 
       <Footer />
+
+      {checkSubmit === "PaymentSuccessful" && (
+        <PDFDownloadLink
+          document={
+            <GenerateFacture
+              coordDefault={coordDefault}
+              recipesPanier={recipesPanierSaved}
+            />
+          }
+          fileName="facture.pdf"
+        >
+          {({ loading }) =>
+            loading ? "Génération..." : "Télécharger la facture"
+          }
+        </PDFDownloadLink>
+      )}
     </>
   );
 }

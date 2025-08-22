@@ -3,24 +3,11 @@ import { NavLink } from "react-router-dom";
 
 import MessageNoData from "../components/MessageNoData";
 
-export function CartSummary({ recipes, payementsuccess }) {
-  const [recipesPanier, setRecipesPanier] = useState([]);
-
-  useEffect(() => {
-    recipes.forEach((recipe) => (recipe.panier = true));
-    setRecipesPanier(recipes.slice(0, 2));
-  }, [recipes]);
-
-  const deleteRecipe = (id) => {
-    setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
-  };
-
-  useEffect(() => {
-  if (payementsuccess === "PaymentSuccessful") {
-    setRecipesPanier([]);
-  }
-}, [payementsuccess]);
-
+export function CartSummary({ recipesPanier, setRecipesPanier}) {
+    const deleteRecipe = (id) => {
+      setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
+    };
+  
     return (
     <>
       <h2 className="h2 mb-5">Panier</h2>
@@ -68,7 +55,7 @@ export function CartSummary({ recipes, payementsuccess }) {
           <p className="h3">Total : {recipesPanier.length}€ </p>
           <p className="text">
             Dont TVA :{" "}
-            {Number.parseFloat(recipesPanier.length * 0.2).toFixed(2)}€
+            {Number.parseFloat(recipesPanier.length * 0.17).toFixed(2)}€
           </p>
         </div>
       </div>

@@ -49,6 +49,7 @@ export const dataModalMeassage = [
     title: "Erreur dans le formulaire",
     message: "Les mots de passe doivent être identiques",
   },
+
   {
     action: "PaymentSuccessful",
     title: "Paiement réussi",
@@ -59,5 +60,17 @@ export const dataModalMeassage = [
             <strong>
               Étant donné qu'il s'agit d'un site de démonstration, les données ne seront pas conservés
             </strong>`,
-  }
+  },
+
+  {
+    action: "EmptyCoord",
+    title: "Paiement non effectué",
+    message: "Veuillez ajouter une adresse pour la facturation",
+  },
+
+  {
+    action: "EmptyPanier",
+    title: "Paiement non effectué",
+    message: "Le panier est vide",
+  },
 ];

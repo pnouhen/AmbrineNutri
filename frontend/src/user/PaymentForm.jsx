@@ -4,7 +4,12 @@ import Cleave from "cleave.js/react";
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 
-export function PaymentForm({ setCheckSubmit }) {
+export function PaymentForm({
+  userInfo,
+  recipesPanier,
+  setCheckSubmit,
+  setRecipesPanier,
+}) {
   const carteNameRef = useRef();
   const cardNumberRef = useRef();
   const expiryDateRef = useRef();
@@ -37,16 +42,19 @@ export function PaymentForm({ setCheckSubmit }) {
       expiryDate >= dateNow &&
       cryptogram.length === 3;
 
-    if (isValid) {
+    if (isValid && userInfo.length > 0 && recipesPanier.length > 0) {
       setCheckSubmit("PaymentSuccessful");
+      setRecipesPanier([]);
 
-      carteNameRef.current.value = ""
-      cardNumberRef.current.state.value = ""
-      cryptogramRef.current.value = ""
-      expiryDateRef.current.state.value = ""
-    } else {
-      setCheckSubmit("ErrorSubmit");
+      carteNameRef.current.value = "";
+      cardNumberRef.current.state.value = "";
+      cryptogramRef.current.value = "";
+      expiryDateRef.current.state.value = "";
     }
+
+    if (!isValid) setCheckSubmit("ErrorSubmit");
+    if (userInfo.length === 0) setCheckSubmit("EmptyCoord");
+    if (recipesPanier.length === 0) setCheckSubmit("EmptyPanier");
   };
 
   return (
