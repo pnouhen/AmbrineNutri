@@ -7,6 +7,7 @@ const reviewRoutes = require("./routes/reviews");
 const pricesRoutes = require("./routes/prices");
 const infoAddRecipesRouter = require('./routes/infoAddRecipes')
 const recipeRouter = require('./routes/recipe')
+const users = require("./routes/user")
 
 const app = express();
 app.use(express.json());
@@ -33,31 +34,25 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/prices", pricesRoutes);
 app.use("/api/infoaddrecipes", infoAddRecipesRouter);
 app.use("/api/recipes", recipeRouter);
+app.use("/api/users", users)
 
 // Generer par Chatgpt pour supprimer un nouveau reviews au bout de 10 minutes
 const Review = require("./models/Review");
+const User = require("./models/Users");
 
 cron.schedule("*/10 * * * *", async () => {
-  console.log("Suppression automatique des vieux commentaires lancée...");
   try {
-    const count = await Review.countDocuments();
-    if (count <= 6) {
-      console.log("Moins de 7 commentaires, aucune suppression effectuée.");
-      return;
-    }
+    // Supprimer les reviews après le 28 février 2025
+    const cutoffDate = new Date("2025-02-28T00:00:00.000Z");
+    await Review.deleteMany({ date: { $gt: cutoffDate } });
 
-    const now = new Date();
-    const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
+    // Supprimer les utilisateurs sauf ceux à conserver
+    const idsToKeep = [
+      "68a86b065c34f943f6a29d39",
+      "68a86b2e5c34f943f6a29d3b"
+    ];
 
-    const result = await Review.deleteMany({
-      date: {
-        $gte: new Date("2025-01-01T00:00:00.000Z"),
-        $lte: new Date("2100-01-31T23:59:59.999Z"),
-        $lt: tenMinutesAgo,
-      },
-    });
-
-    console.log(`${result.deletedCount} commentaires supprimés.`);
+    await User.deleteMany({ _id: { $nin: idsToKeep } });
   } catch (error) {
     console.error("Erreur lors de la suppression automatique :", error);
   }

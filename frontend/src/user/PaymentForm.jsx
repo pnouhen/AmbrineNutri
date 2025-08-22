@@ -72,7 +72,7 @@ export function PaymentForm({
           type="text"
           id="carteName"
           classNameInput="w-full"
-          InputRef={carteNameRef}
+          ref={carteNameRef}
         />
 
         <div className="labelInput w-full">
@@ -85,7 +85,7 @@ export function PaymentForm({
             id="cardNumber"
             options={{ creditCard: true }}
             value="4242424242424242"
-            ref={cardNumberRef}
+           ref={cardNumberRef}
           />
         </div>
 
@@ -104,7 +104,7 @@ export function PaymentForm({
               delimiter: "/",
             }}
             value="0232"
-            ref={expiryDateRef}
+           ref={expiryDateRef}
           />
         </div>
 
@@ -114,7 +114,7 @@ export function PaymentForm({
           type="password"
           id="cryptogram"
           classNameInput="lg:w-[10.625rem] md:w-[9.5625rem] w-[8.5rem]"
-          InputRef={cryptogramRef}
+          ref={cryptogramRef}
           value="250"
           maxLength={3}
         />

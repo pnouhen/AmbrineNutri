@@ -51,6 +51,14 @@ export const dataModalMeassage = [
   },
 
   {
+    action: "ErrorInscription",
+    title: "Erreur d’inscription",
+  message: `Les informations saisies ne peuvent pas être utilisées.
+            <br />
+            Veuillez vérifier vos champs et réessayer.`
+  },
+
+  {
     action: "PaymentSuccessful",
     title: "Paiement réussi",
     message:`Merci d'avoir acheté la ou les recettes

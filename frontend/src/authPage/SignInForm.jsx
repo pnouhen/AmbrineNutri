@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
+import { fetchDataPost } from "../services/fetchDataPost";
 
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
@@ -10,7 +12,7 @@ export default function SignInForm({ setCheckSubmit }) {
   const passwordSignInRef = useRef();
   const confirmPasswordSignInRef = useRef();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const lastnameSignIn = lastnameSignInRef.current?.value.trim();
@@ -34,13 +36,28 @@ export default function SignInForm({ setCheckSubmit }) {
       } else if (!isConfirmPasswordValid) {
         setCheckSubmit("ErrorPassword");
       } else {
-        setCheckSubmit("SignIn");
+        const newUser = {
+          firstName: firstNameSign,
+          lastName: lastnameSignIn,
+          email: emailSignIn,
+          password: passwordSignIn,
+        };
+        try {
+          const data = await fetchDataPost(
+            `${import.meta.env.VITE_BASE_API}/api/users/signup`,
+            newUser
+          );
+          setCheckSubmit("SignIn");
 
-        lastnameSignInRef.current.value = "";
-        firstNameSignInRef.current.value = "";
-        emailSignInRef.current.value = "";
-        passwordSignInRef.current.value = "";
-        confirmPasswordSignInRef.current.value = "";
+          lastnameSignInRef.current.value = "";
+          firstNameSignInRef.current.value = "";
+          emailSignInRef.current.value = "";
+          passwordSignInRef.current.value = "";
+          confirmPasswordSignInRef.current.value = "";
+        } catch (error) {
+          console.error("Erreur :", error);
+          setCheckSubmit("ErrorInscription");
+        }
       }
     } else {
       setCheckSubmit("ErrorSubmit");

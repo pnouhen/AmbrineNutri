@@ -120,7 +120,7 @@ export function ModalCoord({
               type={"text"}
               id={"lastName"}
               value={updateCoord.lastName}
-              InputRef={lastNameRef}
+              ref={lastNameRef}
             />
           </div>
 
@@ -131,7 +131,7 @@ export function ModalCoord({
               type={"text"}
               id={"firstName"}
               value={updateCoord.firstName}
-              InputRef={firstNameRef}
+              ref={firstNameRef}
             />
           </div>
 
@@ -142,7 +142,7 @@ export function ModalCoord({
               type={"text"}
               id={"address"}
               value={updateCoord.adress}
-              InputRef={addressRef}
+              ref={addressRef}
             />
           </div>
 
@@ -153,7 +153,7 @@ export function ModalCoord({
               type={"number"}
               id={"postalCode"}
               value={updateCoord.postalCode}
-              InputRef={postalCodeRef}
+              ref={postalCodeRef}
             />
           </div>
 
@@ -164,7 +164,7 @@ export function ModalCoord({
               type={"text"}
               id={"city"}
               value={updateCoord.city}
-              InputRef={cityRef}
+              ref={cityRef}
             />
           </div>
 
@@ -175,7 +175,7 @@ export function ModalCoord({
               type={"text"}
               id={"country"}
               value={updateCoord.country}
-              InputRef={countryRef}
+              ref={countryRef}
             />
           </div>
 

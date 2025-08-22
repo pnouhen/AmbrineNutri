@@ -82,7 +82,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             type="text"
             id="lastName"
             classNameInput="w-[14.5625rem] h-10"
-            InputRef={lastNameRef}
+            ref={lastNameRef}
           />
 
           <LabelInput
@@ -91,7 +91,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             type="text"
             id="firstName"
             classNameInput="w-[14.5625rem] h-10"
-            InputRef={firstNameRef}
+            ref={firstNameRef}
           />
         </div>
 
@@ -114,7 +114,6 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             maxLength={maxCommentLength}
             value={comment}
             onKeyDown={(e) => {
-              console.log(maxCommentLength - comment.length)
               if (e.key === "Enter" &maxCommentLength - comment.length < 50) {
                 e.preventDefault()
               }

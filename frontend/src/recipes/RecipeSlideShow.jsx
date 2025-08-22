@@ -23,7 +23,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes }) {
 
       {recipePages.length > 0 ? (
         <>
-          <div className="overflow-hidden" ref={emblaRef}>
+          <div className="overflow-hidden"ref={emblaRef}>
             <div className="embla_container flex">
               {recipePages.map((page, index) => (
                 <div className="embla__slide shrink-0 w-full" key={index}>

@@ -18,7 +18,7 @@ export default function ModalMessage({
   return (
     <div onClick={onClickClose} className="z-10 modal">
       <div
-        className="modalContainer w-96 flex flex-col justify-center g-2.5"
+        className="modalContainer w-96 flex flex-col justify-center gap-4"
         onClick={(e) => e.stopPropagation()}
       >
         <ModalClose onClick={onClickClose} />
