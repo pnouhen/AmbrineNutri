@@ -38,7 +38,7 @@ export default function Header() {
   useEffect(() => {
     const savedToken = sessionStorage.getItem("token");
     setToken(savedToken || "");
-
+    if(token !== "")
     fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
       .then((user) => setUserInfo(user))
       .catch((error) => console.error("Erreur lors du chargement", error));
@@ -52,7 +52,7 @@ export default function Header() {
     }
     setToken("");
   };
-console.log(userInfo)
+
   return (
     <header className="relative flex gap-4 px-8 py-2.5 bg-white-300">
       <img
