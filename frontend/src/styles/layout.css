@@ -19,11 +19,19 @@
   }
 
   .navLi {
-    @apply hover:scale-x-105 transition-transform duration-300;
+    @apply hover:font-semibold;
   }
 
   .navItem {
-    @apply flex justify-center items-center text-center font-header rounded-[1.25rem] shadow-header text-black lg:text-base md:text-xs lg:py-2.5 py-1.5 lg:px-4 px-2.5;
+    @apply flex justify-center items-center text-center font-header shadow-header text-black lg:text-base md:text-xs;
+  }
+
+  .navItem-rounded {
+    @apply rounded-[1.25rem];
+  }
+
+  .navItem-padding {
+    @apply lg:py-2.5 py-1.5 lg:px-4 px-2.5;
   }
 
   .section {
@@ -109,11 +117,10 @@
 }
 
 .authPageForm {
-  @apply w-80 flex flex-col gap-5;
+  @apply md:w-80 w-full flex flex-col gap-5;
 }
 
 .border-panier {
   @apply pt-5 border-t-2 border-gray-400;
 }
-
 }

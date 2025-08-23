@@ -24,34 +24,49 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
-      if (user === null) {
-        res
+      if (!user) {
+        return res
           .status(401)
-          .json({ message: "Paire identifiant/mot de passe incorrecte" });
-      } else {
-        bcrypt
-          .compare(req.body.password, user.password)
-          .then((valid) => {
-            if (!valid) {
-              res
-                .status(401)
-                .json({ message: "Paire identifiant/mot de passe incorrecte" });
-            } else {
-              res.status(200).json({
-                userID: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                role: user.role,
-                token: jwt.sign(
-                  { userID: user._id, role: user.role },
-                  process.env.JWT_SECRET,
-                  { expiresIn: "24h" }
-                ),
-              });
-            }
-          })
-          .catch((error) => res.statuts(500).json({ error }));
+          .json({ message: "Identifiant/mot de passe incorrect" });
       }
+
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return res
+              .status(401)
+              .json({ message: "Identifiant/mot de passe incorrect" });
+          }
+
+          res.status(200).json({
+            user: {
+              id: user._id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+            },
+            token: jwt.sign(
+              { userID: user._id, role: user.role },
+              process.env.JWT_SECRET,
+              { expiresIn: "24h" }
+            ),
+          });
+        })
+        .catch((error) => res.status(500).json({ error }));
     })
-    .catch((error) => res.statuts(500).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
+};
+
+exports.getMe = (req, res) => {
+  // req.userId est défini par le middleware auth
+  User.findById(req.userId)
+    .select("-password") // exclut le mot de passe
+    .then((user) => {
+      if (!user)
+        return res.status(404).json({ message: "Utilisateur non trouvé" });
+      res.status(200).json(user);
+    })
+    .catch((error) => res.status(500).json({ error }));
 };
