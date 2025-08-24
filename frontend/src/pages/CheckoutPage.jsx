@@ -10,8 +10,11 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useNavigate } from "react-router-dom";
+import { fetchDataGetUser } from "../services/fetchDataGetUser";
 
 export function CheckoutPage() {
+  const navigate = useNavigate();
   const [recipes, setRecipes] = useState([]);
   const [recipesPanier, setRecipesPanier] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
@@ -21,18 +24,31 @@ export function CheckoutPage() {
   const [checkSubmit, setCheckSubmit] = useState("");
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) navigate("/se-connecter");
+  }, []);
+
+  useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
       .then((recipes) => {
-        recipes.sort((a, b) => a.title.localeCompare(b.title));
         setRecipes(recipes);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
 
   useEffect(() => {
-    recipes.forEach((recipe) => (recipe.panier = true));
-    setRecipesPanier(recipes.slice(0, 2));
-  }, [recipes]);
+    fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+      .then((userId) => {
+        const searchRecipeInPanier = recipes.filter((recipe) =>
+          userId.panier.includes(recipe._id)
+        );
+
+        setRecipesPanier(searchRecipeInPanier);
+      })
+      .catch((error) => console.error("Erreur lors du chargement", error));
+  }, [recipes])
+
+  // Mettre en place le delete
 
   useEffect(() => {
     if (checkSubmit === "PaymentSuccessful") {
@@ -70,6 +86,7 @@ export function CheckoutPage() {
     setUserInfo(initialUserInfo);
     setCoordDefault(initialUserInfo[0]);
   }, []);
+
   return (
     <>
       <Header />

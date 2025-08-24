@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import PageTracker from "./components/PageTracker"; // Ajoutez ceci
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ConsultationTarifs from "./pages/ConsultationTarifs";
@@ -10,47 +11,36 @@ import { CheckoutPage } from "./pages/CheckoutPage";
 
 import "./styles/layout.css"
 
-const router = createBrowserRouter(
- [
-   {
-     path: "/",
-     element: <Home />,
-   },
-   {
-     path: "/qui-suis-je",
-     element: <About/>,
-   },
-   {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PageTracker><Home /></PageTracker>,
+  },
+  {
+    path: "/qui-suis-je",
+    element: <PageTracker><About /></PageTracker>,
+  },
+  {
     path: "/consultations-et-tarifs",
-    element: (
-        <ConsultationTarifs />
-    ),
-  },{
+    element: <PageTracker><ConsultationTarifs /></PageTracker>,
+  },
+  {
     path: "/recettes",
-    element: (
-        <Recipes />
-    ),
+    element: <PageTracker><Recipes /></PageTracker>,
   },
   {
     path: "/recettes/:id",
-    element: (
-        <RecipeDetails />
-    ),
+    element: <PageTracker><RecipeDetails /></PageTracker>,
   },
   {
     path: "/se-connecter",
-    element: (
-        <AuthPage />
-    ),
+    element: <PageTracker><AuthPage /></PageTracker>,
   },
   {
     path: "/panier",
-    element: (
-        <CheckoutPage />
-    ),
+    element: <PageTracker><CheckoutPage /></PageTracker>,
   }
- ]
-)
+]);
 
 function App() {
   return <RouterProvider router={router} />;

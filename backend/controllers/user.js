@@ -70,3 +70,26 @@ exports.getMe = (req, res) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
+
+exports.addToPanier = async (req, res) => {
+  try {
+    const userId = req.userId; // récupéré depuis le middleware auth
+    const { recipeId } = req.body;
+
+    if (!recipeId) {
+      return res.status(400).json({ message: "recipeId manquant" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    user.panier.push(recipeId); // ajout au panier
+    await user.save();
+
+    res.status(200).json({ success: true, panier: user.panier });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

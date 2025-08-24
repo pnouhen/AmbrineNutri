@@ -3,14 +3,15 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import NavItem from "../header/NavItem";
 import { fetchDataGetUser } from "../services/fetchDataGetUser";
+
+import NavItem from "../header/NavItem";
 
 export default function Header() {
   const [menuBurger, setMenuBurger] = useState(false);
   const [compteActive, setCompteActive] = useState(false);
 
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(null);
   const [userInfo, setUserInfo] = useState("");
 
   const location = useLocation();
@@ -37,12 +38,13 @@ export default function Header() {
 
   useEffect(() => {
     const savedToken = sessionStorage.getItem("token");
-    setToken(savedToken || "");
-    if(token !== "")
-    fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-      .then((user) => setUserInfo(user))
-      .catch((error) => console.error("Erreur lors du chargement", error));
-  }, []);
+    setToken(savedToken);
+
+    if (token !== null)
+      fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+        .then((user) => setUserInfo(user))
+        .catch((error) => console.error("Erreur lors du chargement", error));
+  }, [token]);
 
   const removeToken = () => {
     sessionStorage.removeItem("token");
@@ -50,7 +52,7 @@ export default function Header() {
     if (panierActive) {
       navigate(-1);
     }
-    setToken("");
+    setToken(null);
   };
 
   return (
@@ -126,7 +128,7 @@ export default function Header() {
               text="Recettes"
             />
 
-            {token !== "" ? (
+            {token !== null ? (
               <li
                 className={`navItem relative min-w-[8.75rem] ${
                   compteActive ? "rounded-t-[1.25rem]" : "navItem-rounded"
@@ -138,7 +140,7 @@ export default function Header() {
                   className="navItem-padding relative w-full z-10 flex justify-center gap-2 cursor-pointer "
                   onClick={onClickCompte}
                 >
-                 {userInfo?.firstName}
+                  {userInfo?.firstName}
                   <i
                     className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                       compteActive ? "rotate-180 mt-1" : "rotate-360"
