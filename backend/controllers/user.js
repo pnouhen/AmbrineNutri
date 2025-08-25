@@ -73,24 +73,22 @@ exports.getMe = (req, res) => {
 
 exports.addToPanier = async (req, res) => {
   try {
-    const userId = req.userId; // récupéré depuis le middleware auth
+    const userId = req.userId;
     const { recipeId } = req.body;
 
-    if (!recipeId) {
+    if (!recipeId)
       return res.status(400).json({ message: "recipeId manquant" });
-    }
 
-    const user = await User.findById(userId);
-    if (!user) {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { panier: recipeId } }, // on ne stocke que l'ID
+      { new: true }
+    );
+
+    if (!updatedUser)
       return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
 
-    if (!user.panier.includes(recipeId)) {
-      user.panier.push(recipeId);
-      await user.save();
-    }
-
-    res.status(200).json({ success: true, panier: user.panier });
+    res.status(200).json({ success: true, panier: updatedUser.panier });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -120,3 +118,86 @@ exports.removeToPanier = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.addToAddress = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { address } = req.body; // renommer ici en "address" pour plus de clarté
+
+    if (!address) return res.status(400).json({ message: "address manquant" });
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $push: { address: { $each: [address], $position: 0 } } },
+      { new: true }
+    );
+
+    if (!updatedUser)
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+
+    res.status(200).json({ success: true, address: updatedUser.address });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+exports.updateAddressById = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { id, newAddress } = req.body; // récupère depuis le body
+
+    if (!newAddress || !id) {
+      return res.status(400).json({ message: "Adresse ou ID manquant" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    // Trouver l'adresse existante par ID
+    const index = user.address.findIndex(a => a.id === id);
+    if (index === -1) {
+      return res.status(404).json({ message: "Adresse non trouvée" });
+    }
+
+    // Mettre à jour l'adresse
+    user.address[index] = newAddress;
+
+    await user.save();
+
+    res.status(200).json({ success: true, address: user.address });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+exports.removeToAddress = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const address = Number(req.params.address);
+
+    if (!address) {
+      return res.status(400).json({ message: "address manquant" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    // filtre l'adresse dans le tableau
+    user.address = user.address.filter((addr) => addr.id !== address);
+
+    await user.save();
+
+    res.status(200).json({ success: true, address: user.address });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+

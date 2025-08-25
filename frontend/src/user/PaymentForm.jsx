@@ -5,11 +5,11 @@ import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 
 export function PaymentForm({
-  user,
   recipesPanier,
   setCheckSubmit,
   setRecipesPanier,
 }) {
+  const user = []
   const carteNameRef = useRef();
   const cardNumberRef = useRef();
   const expiryDateRef = useRef();

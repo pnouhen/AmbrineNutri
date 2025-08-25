@@ -1,55 +1,72 @@
 import React, { useState } from "react";
-import { ModalCoord } from "./ModalCoord";
+
+import { fetchDataUserPut } from "../services/fetchDataUserPut";
+import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 export function ExistingAddress({
-  user,
-  setUser,
+  address,
+  setAddress,
   isOpen,
   setIsOpen,
   setUpdateCoord,
-  coordDefault,
-  setCoordDefault
 }) {
-  if (user.length === 0) return null;
-  const changeCoordDefault = (coord) => {
-  coord.dateSelect = Date.now();
+  if (address.length === 0) return null;
 
-  const newCoordDefault = [...user].sort(
-    (a, b) => b.dateSelect - a.dateSelect
-  );
+  //  async function changeCoordDefault(coord) {
+  //   if (!coord.default)
+  //     setAddress((prev) => {
+  //       const newAddress = prev.map((element) => {
+  //         if (element.id !== coord.id) {
+  //           return { ...element, default: false };
+  //         }
+  //         return { ...element, default: true };
+  //       });
+  //       return newAddress;
+  //     });
+  //     try {
+  //     const body = {
+  //       id: coord.id,
+  //       newAddress: { ...coord, default: true } // envoi le coord mis à jour
+  //     };
+  //     await fetchDataUserPut(`${import.meta.env.VITE_BASE_API}/api/users/me/address`, body);
+  //   } catch (err) {
+  //     console.error("Erreur lors de la mise à jour dans la BDD :", err);
+  //   }
+  // };
 
-  setCoordDefault(newCoordDefault[0]);
-};
+  const updateAddress = (coord, event) => {
+    event.stopPropagation();
+    setIsOpen(!isOpen);
+    setUpdateCoord({
+      id: coord.id,
+      lastName: coord.lastName,
+      firstName: coord.firstName,
+      address: coord.address,
+      postalCode: coord.postalCode,
+      city: coord.city,
+      country: coord.country,
+    });
+  };
 
-  const updateAdress = (coord, event) => {
-  event.stopPropagation();
-  setIsOpen(!isOpen);
-  setUpdateCoord({
-    id: coord.id,
-    lastName: coord.lastName,
-    firstName: coord.firstName,
-    adress: coord.adress,
-    postalCode: coord.postalCode,
-    city: coord.city,
-    country: coord.country,
-  });
-};
-
-  const deleteAdress = (id) => {
-    setUser(user.filter((coord) => coord.id !== id));
+  const deleteAddress = (id) => {
+    fetchDataUserDelete(
+      `${import.meta.env.VITE_BASE_API}/api/users/me/address/${id}`
+    )
+      .then(() => setAddress(address.filter((coord) => coord.id !== id)))
+      .catch((error) => {
+        console.error("Erreur :", error);
+      });
   };
 
   return (
     <>
-      {user.map((coord) => (
+      {address.map((coord) => (
         <div
           key={coord.id}
           className={`p-5 flex flex-col gap-4 rounded-lg bg-yellow-50 cursor-pointer ${
-            coord.id === coordDefault?.id
-              ? "shadow-recipeButtonActive"
-              : "shadow-recipeButton"
+            coord.default ? "shadow-recipeButtonActive" : "shadow-recipeButton"
           }`}
-          onClick={() => changeCoordDefault(coord)}
+          // onClick={() => changeCoordDefault(coord)}
         >
           <div>
             <p className="h3">
@@ -57,20 +74,20 @@ export function ExistingAddress({
             </p>
 
             <p className="text">
-              {coord.adress}, {coord.postalCode}, {coord.city}, {coord.country}
+              {coord.address}, {coord.postalCode}, {coord.city}, {coord.country}
             </p>
           </div>
           <div className="flex gap-4">
             <button
               className="font-semibold cursor-pointer"
-              onClick={(e) => updateAdress(coord, e)}
+              onClick={(e) => updateAddress(coord, e)}
             >
               Modifier
             </button>
 
             <button
               className="font-semibold cursor-pointer"
-              onClick={() => deleteAdress(coord.id)}
+              onClick={() => deleteAddress(coord.id)}
             >
               Supprimer
             </button>

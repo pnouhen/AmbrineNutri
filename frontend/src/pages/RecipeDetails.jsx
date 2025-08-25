@@ -4,7 +4,6 @@ import { AuthContext } from "../contexts/AuthContext";
 
 import { fetchDataGet } from "../services/fetchDataGet";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
-import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
@@ -13,6 +12,7 @@ import MessageNoData from "../components/MessageNoData";
 import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
+import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
 export default function RecipeDetails() {
   const { id } = useParams();
@@ -40,7 +40,6 @@ export default function RecipeDetails() {
     if (token && recipeDetails) {
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then(user => {
-          setUserInfo(user);
           setInPanier(user.panier.includes(recipeDetails._id));
         })
         .catch(console.error);
@@ -52,13 +51,13 @@ export default function RecipeDetails() {
 
   // Ajouter la recette au panier
   const handleAddPanier = () => {
-    if (token && recipeDetails) {
-      const body = { recipeId: recipeDetails._id };
-      fetchDataUserPost(`${import.meta.env.VITE_BASE_API}/api/users/me`, body)
-        .then(() => setInPanier(true))
-        .catch(console.error);
-    }
-  };
+  if (token && recipeDetails) {
+    const body = { recipeId: recipeDetails._id };
+    fetchDataUserPost(`${import.meta.env.VITE_BASE_API}/api/users/me/panier`, body)
+      .then(() => setInPanier(true))
+      .catch(console.error);
+  }
+};
 
   return (
     <>

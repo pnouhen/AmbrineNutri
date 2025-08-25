@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
 import Button from "../components/Button";
 import { ModalCoord } from "./ModalCoord";
 import { ExistingAddress } from "./ExistingAddress";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
 
-export function BillingAddress({
-  user,
-  setUser,
-  setCoordSelect,
-  coordDefault,
-  setCoordDefault
-}) {
+
+export function BillingAddress() {
+    const { token, userInfo, setUserInfo } = useContext(AuthContext);
+  
+  const [address, setAddress] = useState([])
+  const [coordDefault, setCoordDefault] = useState([])
   const [isOpen, setIsOpen] = useState(false);
   const [updateCoord, setUpdateCoord] = useState({
-    id: "",
     lastName: "",
     firstName: "",
-    adress: "",
+    address: "",
     postalCode: "",
     city: "",
     country: "",
   });
 
+  useEffect(() => {
+    if(token)
+      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+    .then((usr) => setAddress(usr.address))
+    .catch((error) => console.error("Erreur lors du chargement", error));
+  }, [])
+
   return (
     <div className="pb-6 border-panier relative flex flex-col gap-5">
       <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
-        user={user}
-        setUser={setUser}
+        address={address}
+        setAddress={setAddress}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setUpdateCoord={setUpdateCoord}
-        setCoordSelect={setCoordSelect}
-        coordDefault={coordDefault}
-        setCoordDefault={setCoordDefault}
       />
 
       <Button
@@ -42,8 +48,9 @@ export function BillingAddress({
       />
 
       <ModalCoord
-        user={user}
-        setUser={setUser}
+        token = {token}
+        address={address}
+        setAddress={setAddress}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         updateCoord={updateCoord}

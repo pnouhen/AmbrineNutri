@@ -77,7 +77,7 @@ export default function GenerateFacture({ coordDefault, recipesPanier }) {
 
   const dataFacture = {
     name: `${coordDefault?.lastName} ${coordDefault?.firstName}`,
-    adress: coordDefault?.adress,
+    address: coordDefault?.address,
     PCCity: `${coordDefault?.postalCode} ${coordDefault?.city}`,
     country: coordDefault?.country,
     date: formatted,
@@ -111,7 +111,7 @@ export default function GenerateFacture({ coordDefault, recipesPanier }) {
         {/* INFO CLIENT */}
         <View style={styles.section}>
           <Text>{dataFacture.name}</Text>
-          <Text>{dataFacture.adress}</Text>
+          <Text>{dataFacture.address}</Text>
           <Text>{dataFacture.PCCity}</Text>
           <Text>{dataFacture.country}</Text>
         </View>

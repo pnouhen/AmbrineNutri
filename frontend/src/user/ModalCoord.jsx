@@ -3,15 +3,18 @@ import React, { useRef, useState } from "react";
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 import ModalClose from "../Modals/ModalClose";
+import { fetchDataUserPost } from "../services/fetchDataUserPost";
+import { fetchDataUserPut } from "../services/fetchDataUserPut";
 
 export function ModalCoord({
-  user,
-  setUser,
+  token,
+  address,
+  setAddress,
   isOpen,
   setIsOpen,
   updateCoord,
   setUpdateCoord,
-  setCoordDefault
+  setCoordDefault,
 }) {
   const lastNameRef = useRef();
   const firstNameRef = useRef();
@@ -24,28 +27,27 @@ export function ModalCoord({
 
   const cleanUpdateCoord = () => {
     setUpdateCoord({
-        id: "",
-        lastName: "",
-        firstName: "",
-        adress: "",
-        postalCode: "",
-        city: "",
-        country: "",
-      });
-  }
+      id: "",
+      lastName: "",
+      firstName: "",
+      address: "",
+      postalCode: "",
+      city: "",
+      country: "",
+    });
+  };
 
   const closeModal = () => {
     setIsOpen(!isOpen);
     setEmptyInput(false);
-    cleanUpdateCoord()
+    cleanUpdateCoord();
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const lastName = lastNameRef.current?.value.trim();
     const firstName = firstNameRef.current?.value.trim();
-    const address = addressRef.current?.value.trim();
+    const newAddress = addressRef.current?.value.trim();
     const postalCode = postalCodeRef.current?.value.trim();
     const city = cityRef.current?.value.trim();
     const country = countryRef.current?.value.trim();
@@ -53,48 +55,63 @@ export function ModalCoord({
     const isValid =
       lastName !== "" &&
       firstName !== "" &&
-      address !== "" &&
+      newAddress !== "" &&
       postalCode !== "" &&
       city !== "" &&
       country !== "";
 
-    if (isValid) {
+    if (isValid && token) {
       setEmptyInput(false);
 
-      let checkId = 0;
-
-      if (updateCoord.id) {
-        checkId = updateCoord.id;
-      } else {
-        checkId = Date.now();
-      }
+      let id = updateCoord && updateCoord.id ? updateCoord.id : Date.now();
 
       const newCoord = {
-        id: checkId,
         lastName: lastName,
         firstName: firstName,
-        adress: address,
+        address: newAddress,
         postalCode: postalCode,
         city: city,
         country: country,
-        dateSelect: Date.now()
+        id: id,
+        default: true,
       };
 
-      const checkNewCoord = user.filter(
-        (coord) => coord.id === newCoord.id
-      );
+      if (!updateCoord.id) {
+        const body = {
+          address: newCoord, // renommer correctement pour correspondre au back-end
+        };
 
-      if (checkNewCoord.length === 0) {
-        setUser((prev) => [...prev, newCoord]);
+        fetchDataUserPost(
+          `${import.meta.env.VITE_BASE_API}/api/users/me/address`,
+          body
+        )
+          .then(() => {
+            if (address.length > 0)
+              address.forEach((element) => (element.default = false));
+            setAddress((prev) => [newCoord, ...prev]);
+          })
+          .catch(console.error);
       } else {
-        setUser((prev) =>
-          prev.map((coord) => (coord.id === newCoord.id ? newCoord : coord))
-        );
+        const body = {
+          id: id,
+          newAddress: newCoord,
+        };
+
+        fetchDataUserPut(
+          `${import.meta.env.VITE_BASE_API}/api/users/me/address`,
+          body
+        )
+          .then(() => {
+            setAddress((prev) =>
+  prev.map((adr) => (adr.id === newCoord.id ? newCoord : adr))
+);;
+          })
+          .catch(console.error);
       }
-      
-      cleanUpdateCoord()
-      setIsOpen(!isOpen);  
-      setCoordDefault(newCoord)  
+
+      cleanUpdateCoord();
+      setIsOpen(!isOpen);
+      setCoordDefault(newCoord);
     } else {
       setEmptyInput(true);
     }
@@ -141,7 +158,7 @@ export function ModalCoord({
               label="Adresse"
               type={"text"}
               id={"address"}
-              value={updateCoord.adress}
+              value={updateCoord.address}
               ref={addressRef}
             />
           </div>

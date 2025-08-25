@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
+import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 import Header from "../structures/Header";
 import { CartSummary } from "../user/CartSummary";
@@ -12,9 +16,6 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { useNavigate } from "react-router-dom";
-import { fetchDataUserGet } from "../services/fetchDataUserGet";
-import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 export function CheckoutPage() {
   const { token, userInfo, setUserInfo } = useContext(AuthContext);
@@ -23,7 +24,6 @@ export function CheckoutPage() {
 
   const [recipes, setRecipes] = useState([]);
   const [recipesPanier, setRecipesPanier] = useState([]);
-  const [user, setUser] = useState([]);
   const [coordDefault, setCoordDefault] = useState();
   const [recipesPanierSaved, setRecipesPanierSaved] = useState([]);
 
@@ -34,29 +34,31 @@ export function CheckoutPage() {
   }, [token]);
 
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
-      .then((recipes) => {
-        setRecipes(recipes);
-      })
-      .catch((error) => console.error("Erreur lors du chargement", error));
+    if (token)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
+        .then((recipes) => {
+          setRecipes(recipes);
+        })
+        .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
 
   useEffect(() => {
-    fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-      .then((userId) => {
-        const searchRecipeInPanier = recipes.filter((recipe) =>
-          userId.panier.includes(recipe._id)
-        );
-        setRecipesPanier(searchRecipeInPanier);
-      })
-      .catch((error) => console.error("Erreur lors du chargement", error));
+    if (token)
+      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+        .then((userId) => {
+          const searchRecipeInPanier = recipes.filter((recipe) =>
+            userId.panier.includes(recipe._id)
+          );
+          setRecipesPanier(searchRecipeInPanier);
+        })
+        .catch((error) => console.error("Erreur lors du chargement", error));
   }, [recipes]);
 
   const deleteRecipe = (id) => {
     fetchDataUserDelete(
       `${import.meta.env.VITE_BASE_API}/api/users/me/panier/${id}`
     )
-      .then((data) => {
+      .then(() => {
         setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
       })
       .catch((error) => {
@@ -71,36 +73,6 @@ export function CheckoutPage() {
     }
   }, [checkSubmit]);
 
-  const coordTest = {
-    id: 1,
-    lastName: "Nouhen",
-    firstName: "Gaby",
-    adress: "7 rue Benjamin Delessert",
-    postalCode: "87100",
-    city: "Limoges",
-    country: "France",
-    dateSelect: 1755699396215,
-  };
-
-  const coordTest2 = {
-    id: 2,
-    lastName: "Pedro",
-    firstName: "Jimmy",
-    adress: "7 rue Benjamin Delessert",
-    postalCode: "87100",
-    city: "Limoges",
-    country: "France",
-    dateSelect: Date.now(),
-  };
-
-  useEffect(() => {
-    const initialUser = [coordTest, coordTest2].sort(
-      (a, b) => b.dateSelect - a.dateSelect
-    );
-    setUser(initialUser);
-    setCoordDefault(initialUser[0]);
-  }, []);
-
   return (
     <>
       <Header />
@@ -111,15 +83,9 @@ export function CheckoutPage() {
             deleteRecipe={deleteRecipe}
           />
 
-          <BillingAddress
-            user={user}
-            setUser={setUser}
-            coordDefault={coordDefault}
-            setCoordDefault={setCoordDefault}
-          />
+          <BillingAddress/>
 
           <PaymentForm
-            user={user}
             recipesPanier={recipesPanier}
             setCheckSubmit={setCheckSubmit}
             setRecipesPanier={setRecipesPanier}
