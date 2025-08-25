@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { ModalCoord } from "./ModalCoord";
 
 export function ExistingAddress({
-  userInfo,
-  setUserInfo,
+  user,
+  setUser,
   isOpen,
   setIsOpen,
   setUpdateCoord,
   coordDefault,
   setCoordDefault
 }) {
-  if (userInfo.length === 0) return null;
+  if (user.length === 0) return null;
   const changeCoordDefault = (coord) => {
   coord.dateSelect = Date.now();
 
-  const newCoordDefault = [...userInfo].sort(
+  const newCoordDefault = [...user].sort(
     (a, b) => b.dateSelect - a.dateSelect
   );
 
@@ -36,12 +36,12 @@ export function ExistingAddress({
 };
 
   const deleteAdress = (id) => {
-    setUserInfo(userInfo.filter((coord) => coord.id !== id));
+    setUser(user.filter((coord) => coord.id !== id));
   };
 
   return (
     <>
-      {userInfo.map((coord) => (
+      {user.map((coord) => (
         <div
           key={coord.id}
           className={`p-5 flex flex-col gap-4 rounded-lg bg-yellow-50 cursor-pointer ${

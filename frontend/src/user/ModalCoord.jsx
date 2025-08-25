@@ -5,8 +5,8 @@ import Button from "../components/Button";
 import ModalClose from "../Modals/ModalClose";
 
 export function ModalCoord({
-  userInfo,
-  setUserInfo,
+  user,
+  setUser,
   isOpen,
   setIsOpen,
   updateCoord,
@@ -80,14 +80,14 @@ export function ModalCoord({
         dateSelect: Date.now()
       };
 
-      const checkNewCoord = userInfo.filter(
+      const checkNewCoord = user.filter(
         (coord) => coord.id === newCoord.id
       );
 
       if (checkNewCoord.length === 0) {
-        setUserInfo((prev) => [...prev, newCoord]);
+        setUser((prev) => [...prev, newCoord]);
       } else {
-        setUserInfo((prev) =>
+        setUser((prev) =>
           prev.map((coord) => (coord.id === newCoord.id ? newCoord : coord))
         );
       }

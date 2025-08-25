@@ -1,13 +1,12 @@
-export async function fetchDataPostUser(url, playload) {
+export async function fetchDataUserGet(url) {
   try {
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: token ? `Bearer ${token}` : "",
       },
-      body: JSON.stringify(playload),
     });
 
     if (!response.ok) {

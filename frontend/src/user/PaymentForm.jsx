@@ -5,7 +5,7 @@ import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 
 export function PaymentForm({
-  userInfo,
+  user,
   recipesPanier,
   setCheckSubmit,
   setRecipesPanier,
@@ -42,7 +42,7 @@ export function PaymentForm({
       expiryDate >= dateNow &&
       cryptogram.length === 3;
 
-    if (isValid && userInfo.length > 0 && recipesPanier.length > 0) {
+    if (isValid && user.length > 0 && recipesPanier.length > 0) {
       setCheckSubmit("PaymentSuccessful");
       setRecipesPanier([]);
 
@@ -53,7 +53,7 @@ export function PaymentForm({
     }
 
     if (!isValid) setCheckSubmit("ErrorSubmit");
-    if (userInfo.length === 0) setCheckSubmit("EmptyCoord");
+    if (user.length === 0) setCheckSubmit("EmptyCoord");
     if (recipesPanier.length === 0) setCheckSubmit("EmptyPanier");
   };
 

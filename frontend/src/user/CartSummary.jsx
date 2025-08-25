@@ -3,11 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import MessageNoData from "../components/MessageNoData";
 
-export function CartSummary({ recipesPanier, setRecipesPanier}) {
-    const deleteRecipe = (id) => {
-      setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
-    };
-  
+export function CartSummary({ recipesPanier, deleteRecipe}) {
     return (
     <>
       <h2 className="h2 mb-5">Panier</h2>

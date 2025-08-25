@@ -95,3 +95,28 @@ exports.addToPanier = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.removeToPanier = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { recipeId } = req.params; // <- on récupère depuis l'URL maintenant
+
+    if (!recipeId) {
+      return res.status(400).json({ message: "recipeId manquant" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    if (user.panier.includes(recipeId)) {
+      user.panier = user.panier.filter((r) => r !== recipeId); // <- on réaffecte
+      await user.save();
+    }
+
+    res.status(200).json({ success: true, panier: user.panier });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

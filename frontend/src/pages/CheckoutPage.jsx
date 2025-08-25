@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 import Header from "../structures/Header";
 import { CartSummary } from "../user/CartSummary";
@@ -11,22 +13,25 @@ import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useNavigate } from "react-router-dom";
-import { fetchDataGetUser } from "../services/fetchDataGetUser";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
+import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 export function CheckoutPage() {
+  const { token, userInfo, setUserInfo } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
   const [recipes, setRecipes] = useState([]);
   const [recipesPanier, setRecipesPanier] = useState([]);
-  const [userInfo, setUserInfo] = useState([]);
+  const [user, setUser] = useState([]);
   const [coordDefault, setCoordDefault] = useState();
   const [recipesPanierSaved, setRecipesPanierSaved] = useState([]);
 
   const [checkSubmit, setCheckSubmit] = useState("");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     if (!token) navigate("/se-connecter");
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
@@ -37,18 +42,27 @@ export function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+    fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
       .then((userId) => {
         const searchRecipeInPanier = recipes.filter((recipe) =>
           userId.panier.includes(recipe._id)
         );
-
         setRecipesPanier(searchRecipeInPanier);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
-  }, [recipes])
+  }, [recipes]);
 
-  // Mettre en place le delete
+  const deleteRecipe = (id) => {
+    fetchDataUserDelete(
+      `${import.meta.env.VITE_BASE_API}/api/users/me/panier/${id}`
+    )
+      .then((data) => {
+        setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
+      })
+      .catch((error) => {
+        console.error("Erreur :", error);
+      });
+  };
 
   useEffect(() => {
     if (checkSubmit === "PaymentSuccessful") {
@@ -80,11 +94,11 @@ export function CheckoutPage() {
   };
 
   useEffect(() => {
-    const initialUserInfo = [coordTest, coordTest2].sort(
+    const initialUser = [coordTest, coordTest2].sort(
       (a, b) => b.dateSelect - a.dateSelect
     );
-    setUserInfo(initialUserInfo);
-    setCoordDefault(initialUserInfo[0]);
+    setUser(initialUser);
+    setCoordDefault(initialUser[0]);
   }, []);
 
   return (
@@ -94,19 +108,18 @@ export function CheckoutPage() {
         <div className="mx-auto px-5 section md:w-1/2 rounded-2xl">
           <CartSummary
             recipesPanier={recipesPanier}
-            setRecipesPanier={setRecipesPanier}
-            recipes={recipes}
+            deleteRecipe={deleteRecipe}
           />
 
           <BillingAddress
-            userInfo={userInfo}
-            setUserInfo={setUserInfo}
+            user={user}
+            setUser={setUser}
             coordDefault={coordDefault}
             setCoordDefault={setCoordDefault}
           />
 
           <PaymentForm
-            userInfo={userInfo}
+            user={user}
             recipesPanier={recipesPanier}
             setCheckSubmit={setCheckSubmit}
             setRecipesPanier={setRecipesPanier}

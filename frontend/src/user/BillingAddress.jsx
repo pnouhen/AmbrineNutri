@@ -4,8 +4,8 @@ import { ModalCoord } from "./ModalCoord";
 import { ExistingAddress } from "./ExistingAddress";
 
 export function BillingAddress({
-  userInfo,
-  setUserInfo,
+  user,
+  setUser,
   setCoordSelect,
   coordDefault,
   setCoordDefault
@@ -25,8 +25,8 @@ export function BillingAddress({
     <div className="pb-6 border-panier relative flex flex-col gap-5">
       <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
+        user={user}
+        setUser={setUser}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setUpdateCoord={setUpdateCoord}
@@ -42,8 +42,8 @@ export function BillingAddress({
       />
 
       <ModalCoord
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
+        user={user}
+        setUser={setUser}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         updateCoord={updateCoord}

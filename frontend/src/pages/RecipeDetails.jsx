@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 import { fetchDataGet } from "../services/fetchDataGet";
-import { fetchDataGetUser } from "../services/fetchDataGetUser";
-import { fetchDataPostUser } from "../services/fetchDataPostUser";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
+import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
@@ -12,8 +13,6 @@ import MessageNoData from "../components/MessageNoData";
 import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
-
-import { AuthContext } from "../contexts/AuthContext";
 
 export default function RecipeDetails() {
   const { id } = useParams();
@@ -39,7 +38,7 @@ export default function RecipeDetails() {
   // Vérifie si la recette est dans le panier dès que token ou recette change
    useEffect(() => {
     if (token && recipeDetails) {
-      fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then(user => {
           setUserInfo(user);
           setInPanier(user.panier.includes(recipeDetails._id));
@@ -55,7 +54,7 @@ export default function RecipeDetails() {
   const handleAddPanier = () => {
     if (token && recipeDetails) {
       const body = { recipeId: recipeDetails._id };
-      fetchDataPostUser(`${import.meta.env.VITE_BASE_API}/api/users/me`, body)
+      fetchDataUserPost(`${import.meta.env.VITE_BASE_API}/api/users/me`, body)
         .then(() => setInPanier(true))
         .catch(console.error);
     }

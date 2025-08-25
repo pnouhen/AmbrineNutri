@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import { fetchDataGetUser } from "../services/fetchDataGetUser";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { AuthContext } from "../contexts/AuthContext";
 
 import NavItem from "../header/NavItem";
@@ -41,7 +41,7 @@ export default function Header() {
 
   useEffect(() => {
     if (token)
-      fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then((user) => setUser(user))
         .catch((error) => console.error("Erreur lors du chargement", error));
   }, [token]);
