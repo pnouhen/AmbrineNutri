@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
 
 import { fetchDataGet } from "../services/fetchDataGet";
@@ -13,54 +13,51 @@ import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
 
+import { AuthContext } from "../contexts/AuthContext";
+
 export default function RecipeDetails() {
   const { id } = useParams();
+  const { token, userInfo, setUserInfo } = useContext(AuthContext);
+
   const [recipeDetails, setRecipeDetails] = useState();
-
   const [isOpen, setIsOpen] = useState(false);
-
   const [inPanier, setInPanier] = useState(false);
   const [buy, setBuy] = useState(false);
-
   const [indexPeople, setIndexPeople] = useState(0);
   const numberPeople = 7;
 
-  const [token, setToken] = useState(null);
-
+  // Récupération de la recette
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
       .then((recipes) => {
-        const recipe = recipes.find((recipe) => recipe._id === id);
+        const recipe = recipes.find((r) => r._id === id);
         setRecipeDetails(recipe);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
-  }, []);
+  }, [id]);
 
-  useEffect(() => {
-    const savedToken = sessionStorage.getItem("token");
-    setToken(savedToken);
-
-    if (token !== null && recipeDetails !== undefined)
+  // Vérifie si la recette est dans le panier dès que token ou recette change
+   useEffect(() => {
+    if (token && recipeDetails) {
       fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then((userId) => {
-          const seachRecipeInPanier = userId.panier.filter(
-            (recp) => recp === recipeDetails._id
-          );
-          if (seachRecipeInPanier.length === 1) setInPanier(true);
+        .then(user => {
+          setUserInfo(user);
+          setInPanier(user.panier.includes(recipeDetails._id));
         })
-        .catch((error) => console.error("Erreur lors du chargement", error));
-  }, [token, recipeDetails]);
+        .catch(console.error);
+    } else {
+      setInPanier(false);
+    }
+  }, [token, recipeDetails, setUserInfo]);
 
+
+  // Ajouter la recette au panier
   const handleAddPanier = () => {
-    if (token !== null && recipeDetails) {
+    if (token && recipeDetails) {
       const body = { recipeId: recipeDetails._id };
-
-      fetchDataPostUser(
-        `${import.meta.env.VITE_BASE_API}/api/users/me`,
-        body
-      )
-      .then(() => setInPanier(true))
-      .catch((error) => console.error("Erreur lors du chargement", error));
+      fetchDataPostUser(`${import.meta.env.VITE_BASE_API}/api/users/me`, body)
+        .then(() => setInPanier(true))
+        .catch(console.error);
     }
   };
 
@@ -69,10 +66,10 @@ export default function RecipeDetails() {
       <Header />
 
       <main className="relative py-5" onClick={() => setIsOpen(false)}>
-        <BackgroundImg url={"/assets/img/background/background-recipes.webp"} />
+        <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
         <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
-          {recipeDetails !== undefined ? (
+          {recipeDetails ? (
             <>
               <h2 className="h2 w-full">{recipeDetails.title}</h2>
 
@@ -131,32 +128,23 @@ export default function RecipeDetails() {
                 <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
                   <h3 className="h3">Les étapes :</h3>
                   <div className="text h-full flex flex-col items-center gap-2.5">
-                    {token === null ? (
+                    {!token ? (
                       <>
                         <p className="text">
-                          Étant donné le temps investi dans la création des
-                          recettes, je demande une contribution de 1€ par
-                          recette.
+                          Étant donné le temps investi dans la création des recettes, je demande une contribution de 1€ par recette.
                           <br />
-                          Si cela vous intéresse, vous pouvez vous inscrire ou
-                          vous connecter en cliquant ici :
+                          Si cela vous intéresse, vous pouvez vous inscrire ou vous connecter en cliquant ici :
                         </p>
-                        <NavLink
-                          to="/se-connecter"
-                          className="font-semibold underline"
-                        >
+                        <NavLink to="/se-connecter" className="font-semibold underline">
                           Connexion / Inscription
                         </NavLink>
                       </>
                     ) : !inPanier ? (
                       <>
                         <p className="text">
-                          Étant donné le temps investi dans la création des
-                          recettes, je demande une contribution de 1€ par
-                          recette.
+                          Étant donné le temps investi dans la création des recettes, je demande une contribution de 1€ par recette.
                           <br />
-                          Si cela vous intéresse, vous pouvez l'ajouter au
-                          panier en cliquant ici :
+                          Si cela vous intéresse, vous pouvez l'ajouter au panier en cliquant ici :
                         </p>
                         <button
                           className="font-semibold underline cursor-pointer"
@@ -168,17 +156,9 @@ export default function RecipeDetails() {
                     ) : !buy ? (
                       <>
                         <p className="text">
-                          Étant donné le temps investi dans la création des
-                          recettes, je demande une contribution de 1€ par
-                          recette.
-                          <br />
-                          Recette ajoutée à votre panier ! Cliquez ici pour la
-                          consulter :
+                          Recette ajoutée à votre panier ! Cliquez ici pour la consulter :
                         </p>
-                        <NavLink
-                          to="/panier"
-                          className="font-semibold underline"
-                        >
+                        <NavLink to="/panier" className="font-semibold underline">
                           Accéder au panier
                         </NavLink>
                       </>

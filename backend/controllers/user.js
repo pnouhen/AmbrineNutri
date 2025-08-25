@@ -85,8 +85,10 @@ exports.addToPanier = async (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    user.panier.push(recipeId); // ajout au panier
-    await user.save();
+    if (!user.panier.includes(recipeId)) {
+      user.panier.push(recipeId);
+      await user.save();
+    }
 
     res.status(200).json({ success: true, panier: user.panier });
   } catch (err) {

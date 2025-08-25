@@ -2,8 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 import { fetchDataGetUser } from "../services/fetchDataGetUser";
+import { AuthContext } from "../contexts/AuthContext";
 
 import NavItem from "../header/NavItem";
 
@@ -11,8 +13,9 @@ export default function Header() {
   const [menuBurger, setMenuBurger] = useState(false);
   const [compteActive, setCompteActive] = useState(false);
 
-  const [token, setToken] = useState(null);
-  const [userInfo, setUserInfo] = useState("");
+  const { token, userInfo, logout } = useContext(AuthContext);
+
+  const [user, setUser] = useState("");
 
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
@@ -37,22 +40,14 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const savedToken = sessionStorage.getItem("token");
-    setToken(savedToken);
-
-    if (token !== null)
+    if (token)
       fetchDataGetUser(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then((user) => setUserInfo(user))
+        .then((user) => setUser(user))
         .catch((error) => console.error("Erreur lors du chargement", error));
   }, [token]);
 
-  const removeToken = () => {
-    sessionStorage.removeItem("token");
-    setCompteActive(false);
-    if (panierActive) {
-      navigate(-1);
-    }
-    setToken(null);
+  const handleLogout = () => {
+    logout(); 
   };
 
   return (
@@ -128,7 +123,7 @@ export default function Header() {
               text="Recettes"
             />
 
-            {token !== null ? (
+            {token ? (
               <li
                 className={`navItem relative min-w-[8.75rem] ${
                   compteActive ? "rounded-t-[1.25rem]" : "navItem-rounded"
@@ -140,7 +135,7 @@ export default function Header() {
                   className="navItem-padding relative w-full z-10 flex justify-center gap-2 cursor-pointer "
                   onClick={onClickCompte}
                 >
-                  {userInfo?.firstName}
+                  {user?.firstName}
                   <i
                     className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                       compteActive ? "rotate-180 mt-1" : "rotate-360"
@@ -164,7 +159,7 @@ export default function Header() {
                   <li>
                     <button
                       className="navItem navLi navItem-padding w-full rounded-b-[1.25rem] bg-green-100 cursor-pointer"
-                      onClick={removeToken}
+                      onClick={handleLogout}
                     >
                       Deconnexion
                     </button>
