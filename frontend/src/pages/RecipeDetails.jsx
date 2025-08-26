@@ -40,6 +40,7 @@ export default function RecipeDetails() {
     if (token && recipeDetails) {
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then(user => {
+          console.log(user)
           setInPanier(user.panier.includes(recipeDetails._id));
         })
         .catch(console.error);

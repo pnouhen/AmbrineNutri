@@ -11,7 +11,7 @@ import { fetchDataUserGet } from "../services/fetchDataUserGet";
 export function BillingAddress() {
     const { token, userInfo, setUserInfo } = useContext(AuthContext);
   
-  const [address, setAddress] = useState([])
+  const [addresses, setAddresses] = useState([])
   const [coordDefault, setCoordDefault] = useState([])
   const [isOpen, setIsOpen] = useState(false);
   const [updateCoord, setUpdateCoord] = useState({
@@ -26,7 +26,7 @@ export function BillingAddress() {
   useEffect(() => {
     if(token)
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-    .then((usr) => setAddress(usr.address))
+    .then((usr) => setAddresses(usr.addresses))
     .catch((error) => console.error("Erreur lors du chargement", error));
   }, [])
 
@@ -34,8 +34,8 @@ export function BillingAddress() {
     <div className="pb-6 border-panier relative flex flex-col gap-5">
       <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
-        address={address}
-        setAddress={setAddress}
+        addresses={addresses}
+        setAddresses={setAddresses}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setUpdateCoord={setUpdateCoord}
@@ -49,8 +49,8 @@ export function BillingAddress() {
 
       <ModalCoord
         token = {token}
-        address={address}
-        setAddress={setAddress}
+        addresses={addresses}
+        setAddresses={setAddresses}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         updateCoord={updateCoord}

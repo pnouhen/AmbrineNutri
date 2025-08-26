@@ -4,35 +4,13 @@ import { fetchDataUserPut } from "../services/fetchDataUserPut";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 export function ExistingAddress({
-  address,
-  setAddress,
+  addresses,
+  setAddresses,
   isOpen,
   setIsOpen,
   setUpdateCoord,
 }) {
-  if (address.length === 0) return null;
-
-  //  async function changeCoordDefault(coord) {
-  //   if (!coord.default)
-  //     setAddress((prev) => {
-  //       const newAddress = prev.map((element) => {
-  //         if (element.id !== coord.id) {
-  //           return { ...element, default: false };
-  //         }
-  //         return { ...element, default: true };
-  //       });
-  //       return newAddress;
-  //     });
-  //     try {
-  //     const body = {
-  //       id: coord.id,
-  //       newAddress: { ...coord, default: true } // envoi le coord mis à jour
-  //     };
-  //     await fetchDataUserPut(`${import.meta.env.VITE_BASE_API}/api/users/me/address`, body);
-  //   } catch (err) {
-  //     console.error("Erreur lors de la mise à jour dans la BDD :", err);
-  //   }
-  // };
+  if (addresses.length === 0) return null;
 
   const updateAddress = (coord, event) => {
     event.stopPropagation();
@@ -50,9 +28,9 @@ export function ExistingAddress({
 
   const deleteAddress = (id) => {
     fetchDataUserDelete(
-      `${import.meta.env.VITE_BASE_API}/api/users/me/address/${id}`
+      `${import.meta.env.VITE_BASE_API}/api/users/me/addresses/${id}`
     )
-      .then(() => setAddress(address.filter((coord) => coord.id !== id)))
+      .then(() => setAddresses(addresses.filter((coord) => coord.id !== id)))
       .catch((error) => {
         console.error("Erreur :", error);
       });
@@ -60,11 +38,11 @@ export function ExistingAddress({
 
   return (
     <>
-      {address.map((coord) => (
+      {addresses.map((coord) => (
         <div
           key={coord.id}
           className={`p-5 flex flex-col gap-4 rounded-lg bg-yellow-50 cursor-pointer ${
-            coord.default ? "shadow-recipeButtonActive" : "shadow-recipeButton"
+            coord.isDefault ? "shadow-recipeButtonActive" : "shadow-recipeButton"
           }`}
           // onClick={() => changeCoordDefault(coord)}
         >

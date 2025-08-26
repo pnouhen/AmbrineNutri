@@ -10,8 +10,8 @@ router.get('/me', auth, userCtrl.getMe);
 router.post('/me/panier', auth, userCtrl.addToPanier)
 router.delete('/me/panier/:recipeId', auth, userCtrl.removeToPanier)
 
-router.post('/me/address', auth, userCtrl.addToAddress)
-router.put('/me/address', auth, userCtrl.updateAddressById)
-router.delete('/me/address/:addressId', auth, userCtrl.removeToAddress)
+router.post('/me/addresses', auth, userCtrl.addToAddress)
+router.put('/me/addresses', auth, userCtrl.updateAddressById)
+router.delete('/me/addresses/:addressId', auth, userCtrl.removeToAddress)
 
 module.exports = router

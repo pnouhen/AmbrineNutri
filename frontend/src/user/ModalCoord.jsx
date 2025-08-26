@@ -8,8 +8,8 @@ import { fetchDataUserPut } from "../services/fetchDataUserPut";
 
 export function ModalCoord({
   token,
-  address,
-  setAddress,
+  addresses,
+  setAddresses,
   isOpen,
   setIsOpen,
   updateCoord,
@@ -47,7 +47,7 @@ export function ModalCoord({
 
     const lastName = lastNameRef.current?.value.trim();
     const firstName = firstNameRef.current?.value.trim();
-    const newAddress = addressRef.current?.value.trim();
+    const address = addressRef.current?.value.trim();
     const postalCode = postalCodeRef.current?.value.trim();
     const city = cityRef.current?.value.trim();
     const country = countryRef.current?.value.trim();
@@ -55,7 +55,7 @@ export function ModalCoord({
     const isValid =
       lastName !== "" &&
       firstName !== "" &&
-      newAddress !== "" &&
+      address !== "" &&
       postalCode !== "" &&
       city !== "" &&
       country !== "";
@@ -68,29 +68,31 @@ export function ModalCoord({
       const newCoord = {
         lastName: lastName,
         firstName: firstName,
-        address: newAddress,
+        address: address,
         postalCode: postalCode,
         city: city,
         country: country,
         id: id,
-        default: true,
+        isDefault: true,
       };
 
       if (!updateCoord.id) {
-        const body = {
-          address: newCoord, // renommer correctement pour correspondre au back-end
-        };
+      const body = {
+  address: newCoord, // newCoord = { street: "...", city: "...", ... }
+};
 
-        fetchDataUserPost(
-          `${import.meta.env.VITE_BASE_API}/api/users/me/address`,
-          body
-        )
-          .then(() => {
-            if (address.length > 0)
-              address.forEach((element) => (element.default = false));
-            setAddress((prev) => [newCoord, ...prev]);
-          })
-          .catch(console.error);
+fetchDataUserPost(
+  `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
+  body
+)
+  .then((res) => {
+    // On décoche les adresses précédentes par défaut
+    if (addresses.length > 0) addresses.forEach(el => el.default = false);
+    
+    // On ajoute la nouvelle adresse en début de tableau
+    setAddresses(prev => [{ ...newCoord, default: true }, ...prev]);
+  })
+  .catch(console.error);
       } else {
         const body = {
           id: id,
@@ -98,13 +100,13 @@ export function ModalCoord({
         };
 
         fetchDataUserPut(
-          `${import.meta.env.VITE_BASE_API}/api/users/me/address`,
+          `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
           body
         )
           .then(() => {
-            setAddress((prev) =>
-  prev.map((adr) => (adr.id === newCoord.id ? newCoord : adr))
-);;
+            setAddresses((prev) =>
+              prev.map((adr) => (adr.id === newCoord.id ? newCoord : adr))
+            );
           })
           .catch(console.error);
       }
