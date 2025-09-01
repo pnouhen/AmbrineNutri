@@ -60,7 +60,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.getMe = (req, res) => {
-  // req.userId est défini par le middleware auth
   User.findById(req.userId)
     .select("-password") // exclut le mot de passe
     .then((user) => {
@@ -81,7 +80,7 @@ exports.addToPanier = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { panier: recipeId } }, // on ne stocke que l'ID
+      { $addToSet: { panier: recipeId } },
       { new: true }
     );
 
@@ -120,8 +119,6 @@ exports.removeToPanier = async (req, res) => {
 };
 
 exports.addToAddress = async (req, res) => {
-  console.log("REQ.BODY:", req.body); // Pour debug
-  
   try {
     const userId = req.userId; 
     const { address } = req.body;
@@ -137,13 +134,13 @@ exports.addToAddress = async (req, res) => {
     
     await User.findByIdAndUpdate(
       userId,
-      { $set: { "addresses.$[].default": false } }, // Attention: "addresses" pas "adresses"
+      { $set: { "addresses.$[].default": false } }, 
       { new: true }
     );
     
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $push: { addresses: { $each: [addressWithDefault], $position: 0 } } }, // "addresses" pas "adresses"
+      { $push: { addresses: { $each: [addressWithDefault], $position: 0 } } },
       { new: true }
     );
     
@@ -157,8 +154,6 @@ exports.addToAddress = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
 
 exports.updateAddressById = async (req, res) => {
   try {
@@ -190,9 +185,7 @@ exports.updateAddressById = async (req, res) => {
   }
 };
 
-
 exports.removeToAddress = async (req, res) => {
-  console.log(req.params.addressId)
   try {
     const userId = req.userId;
     const addressId = Number(req.params.addressId); // <- corrige ici

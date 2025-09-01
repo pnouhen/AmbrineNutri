@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 const addressSchema = new mongoose.Schema({
-  lastName: { type: String, required: true },
-  firstName: { type: String, required: true },
-  address: { type: String, required: true },
-  postalCode: { type: String, required: true },
-  city: { type: String, required: true },
-  country: { type: String, required: true },
-  id: { type: Number, required: true },
-  isDefault: { type: Boolean, default: false },
+  lastName: { type: String, required: false },
+  firstName: { type: String, required: false },
+  address: { type: String, required: false },
+  postalCode: { type: String, required: false },
+  city: { type: String, required: false },
+  country: { type: String, required: false },
+  id: { type: Number, required: false },
+  isDefault: { type: Boolean, required: false, default: true },
 });
 
 const userSchema = new mongoose.Schema({
@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ["user", "admin"], default: "user" },
-  panier: { type: [String], required: true, default: [] },
-  purchases: { type: [String], required: true, default: [] },
+  panier: { type: [String], required: false, default: [] },
+  purchases: { type: [String], required: false, default: [] },
   addresses: [addressSchema],
 });
 

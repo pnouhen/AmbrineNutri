@@ -5,9 +5,9 @@ require("dotenv").config();
 
 const reviewRoutes = require("./routes/reviews");
 const pricesRoutes = require("./routes/prices");
-const infoAddRecipesRouter = require("./routes/infoAddRecipes");
-const recipeRouter = require("./routes/recipe");
-const users = require("./routes/user");
+const infoAddRecipesRoutes = require("./routes/infoAddRecipes");
+const recipesRouter = require("./routes/recipes");
+const usersRoutes = require("./routes/users");
 
 const app = express();
 app.use(express.json());
@@ -32,9 +32,9 @@ app.use((req, res, next) => {
 
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/prices", pricesRoutes);
-app.use("/api/infoaddrecipes", infoAddRecipesRouter);
-app.use("/api/recipes", recipeRouter);
-app.use("/api/users", users);
+app.use("/api/infoaddrecipes", infoAddRecipesRoutes);
+app.use("/api/recipes", recipesRouter);
+app.use("/api/users", usersRoutes);
 
 // Generer par Chatgpt pour supprimer un nouveau reviews au bout de 10 minutes
 const Review = require("./models/Review");

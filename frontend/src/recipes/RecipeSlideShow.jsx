@@ -62,7 +62,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes }) {
           <RecipePagination emblaApi={emblaApi} numberRecipes={numberRecipes} />
         </>
       ) : (
-        <MessageNoData className="lg:col-start-1 lg:col-end-4" text="Désolé, un problème est survenu."/>
+        <MessageNoData className="lg:col-start-1 lg:col-end-4" text="Aucune recette n'est disponible."/>
       )}
     </section>
   );

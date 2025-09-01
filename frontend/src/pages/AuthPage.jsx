@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { redirectAfterLogin } from "../components/redirectAfterLogin";
 import { AuthContext } from "../contexts/AuthContext";
@@ -11,6 +11,7 @@ import Footer from "../structures/Footer";
 import ModalMessage from "../Modals/MessageModal";
 
 export default function AuthPage() {
+  const [checkSubmit, setCheckSubmit] = useState("")
   const navigate = useNavigate();
   const location = useLocation();
   const { token } = useContext(AuthContext);
@@ -29,11 +30,11 @@ useEffect(() => {
           url="/assets/img/background/background-connexion.webp"
           className="object-center"
         />
-        <ConnexionForm />
-        <SignInForm />
+        <ConnexionForm setCheckSubmit={setCheckSubmit}/>
+        <SignInForm setCheckSubmit={setCheckSubmit}/>
       </main>
       <Footer />
-      <ModalMessage action="" onClickClose={() => {}} />
+      <ModalMessage action={checkSubmit} onClickClose={() => setCheckSubmit("")} />
     </>
   );
 }

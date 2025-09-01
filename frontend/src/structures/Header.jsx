@@ -19,7 +19,6 @@ export default function Header() {
 
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
-  const navigate = useNavigate();
 
   const onClickCompte = () => {
     setCompteActive(!compteActive);

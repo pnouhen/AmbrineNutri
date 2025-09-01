@@ -12,8 +12,8 @@ export function Ingredients({ recipeDetails, indexPeople, buy }) {
             {buy
               ? (formatNumber(Number(ingredient.quantity) * (indexPeople + 1)))
               : "***"}
-            {ingredient.dosage.length <= 2 ? "" : " "}
-            {buy ? ingredient.dosage : ""} {ingredient.name}
+            {ingredient.quantity.length <= 2 ? "" : " "}
+            {buy ? ingredient.quantity : ""} {ingredient.name}
           </p>
         ))}
       </div>

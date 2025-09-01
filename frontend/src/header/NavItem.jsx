@@ -10,7 +10,6 @@ export default function NavItem({ to, className, text }) {
           `navItem ${className} ${isActive ? "bg-mustard" : "bg-green-100"}`
         }
       >
-        {" "}
         {text}
       </NavLink>
     </li>

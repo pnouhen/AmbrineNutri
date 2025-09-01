@@ -2,6 +2,7 @@ import React, { useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { redirectAfterLogin } from "../components/redirectAfterLogin";
 import { AuthContext } from "../contexts/AuthContext";
+import { fetchDataPost } from "../services/fetchDataPost";
 
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
@@ -12,7 +13,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useContext(AuthContext); // ← contexte
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,37 +22,27 @@ export default function ConnexionForm({ setCheckSubmit }) {
     const passwordConnexion = passwordConnexionRef.current?.value.trim();
     const isValid = emailConnexion && passwordConnexion !== "";
 
+    const connexion = {
+      email: emailConnexion,
+      password: passwordConnexion,
+    };
+
     if (!isValid) {
-      setCheckSubmit("noConnexion");
-      return;
+      setCheckSubmit("ErrorSubmit");
+    } else {
+      try {
+        await fetchDataPost(
+          `${import.meta.env.VITE_BASE_API}/api/users/login`,
+          connexion
+        ).then((data) => {
+          login(data.token, data.user);
+          redirectAfterLogin(navigate, location);
+        });
+      } catch (error) {
+        console.error("Erreur:", error);
+        setCheckSubmit("noConnexion");
+      }
     }
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BASE_API}/api/users/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: emailConnexion, password: passwordConnexion }),
-        }
-      );
-
-      if (!response.ok) throw new Error("Identifiants incorrects");
-
-      const data = await response.json();
-
-      // ← met à jour le contexte et sessionStorage
-      login(data.token, data.user); // data.user doit contenir les infos utilisateur
-
-      // Redirection vers la page précédente
-      redirectAfterLogin(navigate, location);
-    } catch (error) {
-      console.error("Erreur de connexion :", error);
-      setCheckSubmit("noConnexion");
-    }
-
-    emailConnexionRef.current.value = "";
-    passwordConnexionRef.current.value = "";
   };
 
   return (
@@ -71,6 +62,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
           type="password"
           id="passwordConnexion"
           ref={passwordConnexionRef}
+          autoComplete={"off"}
         />
         <Button text="Se connecter" className="buttonSubmit" />
       </form>

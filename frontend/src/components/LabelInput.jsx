@@ -12,6 +12,7 @@ const LabelInput = React.forwardRef(
       classNameInput,
       onChange,
       maxLength,
+      autoComplete
     },
     ref
   ) => {
@@ -28,6 +29,7 @@ const LabelInput = React.forwardRef(
           className={`py-2.5 px-5 inputButton insideInput ${classNameInput}`}
           onChange={onChange}
           maxLength={maxLength}
+          autoComplete={autoComplete}
         />
       </div>
     );
