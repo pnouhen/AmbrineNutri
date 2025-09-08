@@ -137,7 +137,7 @@ export default function RecipeDetails() {
                           Connexion / Inscription
                         </NavLink>
                       </>
-                    ) : !inPanier ? (
+                    ) : !inPanier && !buy ? (
                       <>
                         <p className="text">
                           Étant donné le temps investi dans la création des recettes, je demande une contribution de 1€ par recette.

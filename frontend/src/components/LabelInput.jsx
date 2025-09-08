@@ -28,7 +28,7 @@ const LabelInput = React.forwardRef(
           ref={ref}
           className={`py-2.5 px-5 inputButton insideInput ${classNameInput}`}
           onChange={onChange}
-          maxLength={maxLength}
+          maxLength={maxLength === null ? "50" : maxLength}
           autoComplete={autoComplete}
         />
       </div>

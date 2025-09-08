@@ -7,7 +7,7 @@ import { NumberDivInvisible } from "../components/NumberDivInvisible";
 import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
-export function RecipeSlideShow({ recipePages, numberRecipes }) {
+export function RecipeSlideShow({ recipePages, numberRecipes, messageNoData}) {
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
@@ -62,7 +62,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes }) {
           <RecipePagination emblaApi={emblaApi} numberRecipes={numberRecipes} />
         </>
       ) : (
-        <MessageNoData className="lg:col-start-1 lg:col-end-4" text="Aucune recette n'est disponible."/>
+        <MessageNoData className="lg:col-start-1 lg:col-end-4" text={messageNoData}/>
       )}
     </section>
   );

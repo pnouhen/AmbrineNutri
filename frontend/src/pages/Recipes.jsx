@@ -13,6 +13,9 @@ export default function Recipes() {
   const [categoriesRecipe, setCategoriesRecipe] = useState([]);
   const [filter, setFilter] = useState("Tous");
   const [recipes, setRecipes] = useState([]);
+  const [messageNoData, setMessageNoData] = useState(
+    "Aucune recette n'est disponible."
+  );
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
@@ -33,15 +36,20 @@ export default function Recipes() {
         recipes.sort((a, b) => a.title.localeCompare(b.title));
         setRecipes(recipes);
       })
-      .catch((error) => console.error("Erreur lors du chargement", error));
+      .catch((error) => {
+        setMessageNoData("Désolé, un problème est survenu.")
+        console.error("Erreur lors du chargement", error);
+      });
   }, []);
 
   // Filter categorie
-  let recipesFilter = recipes
-  if(filter != "Tous") {
-    recipesFilter = recipes.filter((recipe) => recipe.categorie.text === filter)
+  let recipesFilter = recipes;
+  if (filter != "Tous") {
+    recipesFilter = recipes.filter(
+      (recipe) => recipe.categorie.text === filter
+    );
   } else {
-    recipesFilter = recipes
+    recipesFilter = recipes;
   }
 
   // Groupe recipe by page
@@ -64,9 +72,17 @@ export default function Recipes() {
           url="/assets/img/background/background-recipes.webp"
         />
 
-        <RecipeFilter data={categoriesRecipe} filter={filter} setFilter={setFilter} />
+        <RecipeFilter
+          data={categoriesRecipe}
+          filter={filter}
+          setFilter={setFilter}
+        />
 
-        <RecipeSlideShow recipePages={recipePages} numberRecipes={numberRecipes} />
+        <RecipeSlideShow
+          recipePages={recipePages}
+          numberRecipes={numberRecipes}
+          messageNoData={messageNoData}
+        />
       </main>
       <Footer />
     </>
