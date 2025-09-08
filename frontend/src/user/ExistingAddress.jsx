@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 
-import { fetchDataUserPut } from "../services/fetchDataUserPut";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
+import { fetchDataUserPut } from "../services/fetchDataUserPut";
+import MessageNoData from "../components/MessageNoData";
 
 export function ExistingAddress({
   addresses,
   setAddresses,
-  isOpen,
   setIsOpen,
   setUpdateCoord,
+  messageNoData,
+  setCoordDefault,
 }) {
-  if (addresses.length === 0) return null;
+  const updateAddress = (coord, e) => {
+    e.stopPropagation();
+    setIsOpen(true);
 
-  const updateAddress = (coord, event) => {
-    event.stopPropagation();
-    setIsOpen(!isOpen);
     setUpdateCoord({
-      id: coord.id,
+      id: coord._id,
       lastName: coord.lastName,
       firstName: coord.firstName,
       address: coord.address,
@@ -26,11 +27,41 @@ export function ExistingAddress({
     });
   };
 
-  const deleteAddress = (id) => {
-    fetchDataUserDelete(
-      `${import.meta.env.VITE_BASE_API}/api/users/me/addresses/${id}`
+  const updateCoordDefault = (coord) => {
+    coord.isDefault === true;
+    const body = {
+      id: coord._id,
+      newAddress: coord,
+    };
+
+    fetchDataUserPut(
+      `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
+      body
     )
-      .then(() => setAddresses(addresses.filter((coord) => coord.id !== id)))
+      .then(() => {
+        setCoordDefault(coord);
+        setAddresses((prev) =>
+          prev.map((adr) =>
+            String(adr._id) === String(coord._id)
+              ? { ...coord, isDefault: true }
+              : { ...adr, isDefault: false }
+          )
+        );
+      })
+      .catch(console.error);
+  };
+
+  const deleteAddress = (deleteCoord, e) => {
+    e.stopPropagation();
+    console
+    fetchDataUserDelete(
+      `${import.meta.env.VITE_BASE_API}/api/users/me/addresses/${
+        deleteCoord._id
+      }`
+    )
+      .then(() => {
+        if (deleteCoord.isDefault === true) setCoordDefault({});
+      })
       .catch((error) => {
         console.error("Erreur :", error);
       });
@@ -38,40 +69,47 @@ export function ExistingAddress({
 
   return (
     <>
-      {addresses.map((coord) => (
-        <div
-          key={coord.id}
-          className={`p-5 flex flex-col gap-4 rounded-lg bg-yellow-50 cursor-pointer ${
-            coord.isDefault ? "shadow-recipeButtonActive" : "shadow-recipeButton"
-          }`}
-          // onClick={() => changeCoordDefault(coord)}
-        >
-          <div>
-            <p className="h3">
-              {coord.firstName} {coord.lastName}
-            </p>
+      {addresses.length > 0 || !addresses ? (
+        addresses.map((coord, index) => (
+          <div
+            key={index}
+            className={`pr-5 pt-5 flex flex-col rounded-lg bg-yellow-50 cursor-pointer ${
+              coord.isDefault
+                ? "shadow-recipeButtonActive"
+                : "shadow-recipeButton"
+            }`}
+            onClick={() => updateCoordDefault(coord)}
+          >
+            <div className="pl-5">
+              <p className="h3">
+                {coord.firstName} {coord.lastName}
+              </p>
 
-            <p className="text">
-              {coord.address}, {coord.postalCode}, {coord.city}, {coord.country}
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <button
-              className="font-semibold cursor-pointer"
-              onClick={(e) => updateAddress(coord, e)}
-            >
-              Modifier
-            </button>
+              <p className="text">
+                {coord.address}, {coord.postalCode}, {coord.city},{" "}
+                {coord.country}
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <button
+                className="p-5 font-semibold cursor-pointer"
+                onClick={(e) => updateAddress(coord, e)}
+              >
+                Modifier
+              </button>
 
-            <button
-              className="font-semibold cursor-pointer"
-              onClick={() => deleteAddress(coord.id)}
-            >
-              Supprimer
-            </button>
+              <button
+                className="p-5 font-semibold cursor-pointer"
+                onClick={(e) => deleteAddress(coord, e)}
+              >
+                Supprimer
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <MessageNoData text={messageNoData} />
+      )}
     </>
   );
 }

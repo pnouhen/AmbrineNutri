@@ -8,8 +8,9 @@ export function PaymentForm({
   recipesPanier,
   setCheckSubmit,
   setRecipesPanier,
+  coordDefault,
 }) {
-  const user = []
+  const user = [];
   const carteNameRef = useRef();
   const cardNumberRef = useRef();
   const expiryDateRef = useRef();
@@ -17,7 +18,7 @@ export function PaymentForm({
 
   const submitPayement = (e) => {
     e.preventDefault();
-
+    console.log("clique");
     // Récupération des valeurs
     const carteName = carteNameRef.current?.value.trim();
     const cardNumber = cardNumberRef.current?.state.value.trim();
@@ -42,9 +43,11 @@ export function PaymentForm({
       expiryDate >= dateNow &&
       cryptogram.length === 3;
 
-    if (isValid && user.length > 0 && recipesPanier.length > 0) {
+    if (isValid && coordDefault && recipesPanier.length > 0) {
       setCheckSubmit("PaymentSuccessful");
       setRecipesPanier([]);
+
+      // Vider le panier via du back-end et un put
 
       carteNameRef.current.value = "";
       cardNumberRef.current.state.value = "";
@@ -53,7 +56,7 @@ export function PaymentForm({
     }
 
     if (!isValid) setCheckSubmit("ErrorSubmit");
-    if (user.length === 0) setCheckSubmit("EmptyCoord");
+    if (!coordDefault) setCheckSubmit("EmptyCoord");
     if (recipesPanier.length === 0) setCheckSubmit("EmptyPanier");
   };
 
@@ -85,7 +88,7 @@ export function PaymentForm({
             id="cardNumber"
             options={{ creditCard: true }}
             value="4242424242424242"
-           ref={cardNumberRef}
+            ref={cardNumberRef}
           />
         </div>
 
@@ -104,7 +107,7 @@ export function PaymentForm({
               delimiter: "/",
             }}
             value="0232"
-           ref={expiryDateRef}
+            ref={expiryDateRef}
           />
         </div>
 

@@ -25,22 +25,10 @@ export function ModalCoord({
 
   const [emptyInput, setEmptyInput] = useState(false);
 
-  const cleanUpdateCoord = () => {
-    setUpdateCoord({
-      id: "",
-      lastName: "",
-      firstName: "",
-      address: "",
-      postalCode: "",
-      city: "",
-      country: "",
-    });
-  };
-
   const closeModal = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(false);
     setEmptyInput(false);
-    cleanUpdateCoord();
+    setUpdateCoord({});
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,8 +51,6 @@ export function ModalCoord({
     if (isValid && token) {
       setEmptyInput(false);
 
-      let id = updateCoord && updateCoord.id ? updateCoord.id : Date.now();
-
       const newCoord = {
         lastName: lastName,
         firstName: firstName,
@@ -72,28 +58,30 @@ export function ModalCoord({
         postalCode: postalCode,
         city: city,
         country: country,
-        id: id,
         isDefault: true,
       };
 
       if (!updateCoord.id) {
-      const body = {
-  address: newCoord, // newCoord = { street: "...", city: "...", ... }
-};
+        const body = {
+          address: newCoord,
+        };
 
-fetchDataUserPost(
-  `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
-  body
-)
-  .then((res) => {
-    // On décoche les adresses précédentes par défaut
-    if (addresses.length > 0) addresses.forEach(el => el.default = false);
-    
-    // On ajoute la nouvelle adresse en début de tableau
-    setAddresses(prev => [{ ...newCoord, default: true }, ...prev]);
-  })
-  .catch(console.error);
+        fetchDataUserPost(
+          `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
+          body
+        )
+          .then((res) => {
+            // On décoche les adresses précédentes par défaut
+            if (addresses.length > 0)
+              addresses.forEach((el) => (el.isDefault = false));
+
+            // On ajoute la nouvelle adresse en début de tableau
+            setAddresses((prev) => [{ ...newCoord, isefault: true }, ...prev]);
+          })
+          .catch(console.error);
       } else {
+        const id = updateCoord.id;
+
         const body = {
           id: id,
           newAddress: newCoord,
@@ -104,14 +92,19 @@ fetchDataUserPost(
           body
         )
           .then(() => {
+            newCoord._id = id;
             setAddresses((prev) =>
-              prev.map((adr) => (adr.id === newCoord.id ? newCoord : adr))
+              prev.map((adr) =>
+                String(adr._id) === String(id)
+                  ? { ...newCoord, isDefault: true}
+                  : { ...adr, isDefault: false }
+              )
             );
           })
           .catch(console.error);
       }
 
-      cleanUpdateCoord();
+      setUpdateCoord({});
       setIsOpen(!isOpen);
       setCoordDefault(newCoord);
     } else {

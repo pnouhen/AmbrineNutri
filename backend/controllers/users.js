@@ -61,7 +61,7 @@ exports.login = (req, res, next) => {
 
 exports.getMe = (req, res) => {
   User.findById(req.userId)
-    .select("-password") 
+    .select("-password")
     .then((user) => {
       if (!user)
         return res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -118,37 +118,38 @@ exports.removeToPanier = async (req, res) => {
   }
 };
 
+// Ajouter removeAllPanier via un put en mettant une limite pour un length > 0
+
 exports.addToAddress = async (req, res) => {
   try {
-    const userId = req.userId; 
+    const userId = req.userId;
     const { address } = req.body;
-    
     if (!address) {
       return res.status(400).json({ message: "address manquant" });
     }
-    
+
     const addressWithDefault = {
       ...address,
-      default: true
+      isDefault: true,
     };
-    
+
     await User.findByIdAndUpdate(
       userId,
-      { $set: { "addresses.$[].default": false } }, 
+      { $set: { "addresses.$[].isDefault": false } },
       { new: true }
     );
-    
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $push: { addresses: { $each: [addressWithDefault], $position: 0 } } },
       { new: true }
     );
-    
+
     if (!updatedUser) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
+    } else {
+      res.status(200).json({ success: true, addresses: updatedUser.addresses });
     }
-    
-    res.status(200).json({ success: true, addresses: updatedUser.addresses }); // "addresses" pas "adresses"
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -169,16 +170,35 @@ exports.updateAddressById = async (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    const index = user.addresses.findIndex(a => a.id === id);
+    // Mettre toutes les adresses en "false"
+    user.addresses.forEach((addr) => {
+      addr.isDefault = false;
+    });
+
+    // Trouver l'index
+    const index = user.addresses.findIndex(
+      (addr) => String(addr.id) === String(id)
+    );
     if (index === -1) {
       return res.status(404).json({ message: "Adresse non trouvée" });
     }
 
-    user.addresses[index] = newAddress;
+    // Prendre l'adresse modifiée
+    const updatedAddress = {
+      ...user.addresses[index]._doc,
+      ...newAddress,
+      isDefault: true,
+    };
+
+    // Supprimer l’ancienne position
+    user.addresses.splice(index, 1);
+
+    // Réinsérer au début du tableau
+    user.addresses.unshift(updatedAddress);
 
     await user.save();
 
-    res.status(200).json({ success: true, address: user.address });
+    res.status(200).json({ success: true, addresses: user.addresses });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -188,7 +208,7 @@ exports.updateAddressById = async (req, res) => {
 exports.removeToAddress = async (req, res) => {
   try {
     const userId = req.userId;
-    const addressId = Number(req.params.addressId); // <- corrige ici
+    const addressId = req.params.addressId;
 
     if (!addressId) {
       return res.status(400).json({ message: "address manquant" });
@@ -199,7 +219,9 @@ exports.removeToAddress = async (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    user.addresses = user.addresses.filter((addr) => addr.id !== addressId);
+    user.addresses = user.addresses.filter(
+      (addr) => String(addr._id) !== String(addressId)
+    );
 
     await user.save();
 
@@ -208,37 +230,3 @@ exports.removeToAddress = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-exports.updateIsDefault = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { id, newAddress } = req.body; // récupère depuis le body
-
-    if (!newAddress || !id) {
-      return res.status(400).json({ message: "Adresse ou ID manquant" });
-    }
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
-
-    // Trouver l'adresse existante par ID
-    const index = user.address.findIndex(a => a.id === id);
-    if (index === -1) {
-      return res.status(404).json({ message: "Adresse non trouvée" });
-    }
-
-    // Mettre à jour isDefault
-    user.address.map(adrs => adrs.isDefault = false)
-    user.address[index].isDefault = true;
-
-    await user.save();
-
-    res.status(200).json({ success: true, address: user.address });
-
-  } catch(err) {
-    res.status(500).json({message: err.message})
-  }
-}

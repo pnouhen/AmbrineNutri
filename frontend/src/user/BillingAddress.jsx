@@ -7,28 +7,30 @@ import { ModalCoord } from "./ModalCoord";
 import { ExistingAddress } from "./ExistingAddress";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
 
+export function BillingAddress({coordDefault, setCoordDefault}) {
+  const { token, userInfo, setUserInfo } = useContext(AuthContext);
 
-export function BillingAddress() {
-    const { token, userInfo, setUserInfo } = useContext(AuthContext);
-  
-  const [addresses, setAddresses] = useState([])
-  const [coordDefault, setCoordDefault] = useState([])
+  const [addresses, setAddresses] = useState([]);
+  const [messageNoData, setMessageNoData] = useState(
+    "Aucune adresse n'est disponible"
+  );
   const [isOpen, setIsOpen] = useState(false);
-  const [updateCoord, setUpdateCoord] = useState({
-    lastName: "",
-    firstName: "",
-    address: "",
-    postalCode: "",
-    city: "",
-    country: "",
-  });
+  const [updateCoord, setUpdateCoord] = useState({});
 
   useEffect(() => {
-    if(token)
+    if (token)
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-    .then((usr) => setAddresses(usr.addresses))
-    .catch((error) => console.error("Erreur lors du chargement", error));
-  }, [])
+        .then((usr) => {
+          setAddresses(usr.addresses);
+          setCoordDefault(
+            usr.addresses.filter((adress) => adress.isDefault === true)
+          );
+        })
+        .catch((error) => {
+          console.error("Erreur lors du chargement", error);
+          setMessageNoData("Désolé, un problème est survenu.");
+        });
+  }, [addresses]);
 
   return (
     <div className="pb-6 border-panier relative flex flex-col gap-5">
@@ -36,9 +38,10 @@ export function BillingAddress() {
       <ExistingAddress
         addresses={addresses}
         setAddresses={setAddresses}
-        isOpen={isOpen}
         setIsOpen={setIsOpen}
         setUpdateCoord={setUpdateCoord}
+        messageNoData={messageNoData}
+        setCoordDefault={setCoordDefault}
       />
 
       <Button
@@ -48,7 +51,7 @@ export function BillingAddress() {
       />
 
       <ModalCoord
-        token = {token}
+        token={token}
         addresses={addresses}
         setAddresses={setAddresses}
         isOpen={isOpen}

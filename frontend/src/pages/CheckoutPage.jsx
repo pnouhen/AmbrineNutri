@@ -83,12 +83,13 @@ export function CheckoutPage() {
             deleteRecipe={deleteRecipe}
           />
 
-          <BillingAddress/>
+          <BillingAddress coordDefault={coordDefault} setCoordDefault={setCoordDefault}/>
 
           <PaymentForm
             recipesPanier={recipesPanier}
             setCheckSubmit={setCheckSubmit}
             setRecipesPanier={setRecipesPanier}
+            coordDefault={coordDefault}
           />
         </div>
 
