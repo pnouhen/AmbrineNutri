@@ -66,7 +66,13 @@ export const dataModalMeassage = [
   {
     action: "passwordLength",
     title: "Erreur dans le formulaire",
-    message: "Le mot de passe doit contenir au minimum 8 caractères",
+    message: "Le mot de passe doit contenir au minimum 12 caractères",
+  },
+
+  {
+    action: "passwordContain",
+    title: "Erreur dans le formulaire",
+    message: "Le mot de passe doit contenir au moins une majuscule, une miniscule, un nombre et un caractères spécial",
   },
 
   {

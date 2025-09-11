@@ -21,12 +21,11 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
 
     const firstName = firstNameRef.current?.value.trim();
     const lastName = lastNameRef.current?.value.trim();
-    const commentTrimmed = comment.trim();
 
     const isValid =
       firstName !== "" &&
       lastName !== "" &&
-      commentTrimmed !== "" &&
+      comment !== "" &&
       rating !== 0;
 
     let isValidString = "";
@@ -45,7 +44,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
         firstName.slice(1).toLowerCase() +
         " " +
         lastName.charAt(0).toUpperCase(),
-      comment: commentTrimmed,
+      comment: comment,
       rating,
     };
 

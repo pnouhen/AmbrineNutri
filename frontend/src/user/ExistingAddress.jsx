@@ -53,7 +53,6 @@ export function ExistingAddress({
 
   const deleteAddress = (deleteCoord, e) => {
     e.stopPropagation();
-    console
     fetchDataUserDelete(
       `${import.meta.env.VITE_BASE_API}/api/users/me/addresses/${
         deleteCoord._id
@@ -61,16 +60,16 @@ export function ExistingAddress({
     )
       .then(() => {
         if (deleteCoord.isDefault === true) setCoordDefault({});
+        setAddresses((prev) => prev.filter(addr => addr._id !== deleteCoord._id));
       })
       .catch((error) => {
         console.error("Erreur :", error);
       });
   };
-
   return (
     <>
-      {addresses.length > 0 || !addresses ? (
-        addresses.map((coord, index) => (
+      {!addresses || addresses.length > 0 ? (
+        addresses?.map((coord, index) => (
           <div
             key={index}
             className={`pr-5 pt-5 flex flex-col rounded-lg bg-yellow-50 cursor-pointer ${

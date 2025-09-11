@@ -7,6 +7,12 @@ exports.showReviews = (req, res) => {
 };
 
 exports.createReviews = async (req, res) => {
+  const comment = req.body.comment
+  const enterCount = (comment.split("\n") || []).length * 49 + 1
+  const checkCommentLength = 500 - comment.length - enterCount
+
+  if(checkCommentLength <= 0) return res.status(400).json({message: "Erreur lors de la sauvegarde"})
+
   try {
     delete req.body._id;
     const review = new Review({ ...req.body });

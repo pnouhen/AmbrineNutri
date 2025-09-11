@@ -1,9 +1,33 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
 
 const User = require("../models/Users");
 
 exports.signup = (req, res, next) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(req.body.email))
+    return res.status(400).json({ error: "Erreur dans le formulaire" });
+
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).+$/;
+
+  if (!passwordRegex.test(req.body.password)) {
+    return res
+      .status(460)
+      .json({
+        error:
+          "Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial",
+      });
+  }
+  if (req.body.password !== req.body.confirmPassword)
+    return res
+      .status(400)
+      .json({ error: "Les mots de passe doivent être identiques" });
+
+  if (req.body.password.length < 12)
+    return res.status(400).json({ error: "Erreur dans le formulaire" });
+
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -159,7 +183,7 @@ exports.addToAddress = async (req, res) => {
 exports.updateAddressById = async (req, res) => {
   try {
     const userId = req.userId;
-    const { id, newAddress } = req.body; 
+    const { id, newAddress } = req.body;
 
     if (!newAddress || !id) {
       return res.status(400).json({ message: "Adresse ou ID manquant" });

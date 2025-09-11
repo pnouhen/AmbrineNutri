@@ -30,7 +30,7 @@ export function BillingAddress({coordDefault, setCoordDefault}) {
           console.error("Erreur lors du chargement", error);
           setMessageNoData("Désolé, un problème est survenu.");
         });
-  }, [addresses]);
+  }, [addresses.length]);
 
   return (
     <div className="pb-6 border-panier relative flex flex-col gap-5">

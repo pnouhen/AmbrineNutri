@@ -76,7 +76,7 @@ export function ModalCoord({
               addresses.forEach((el) => (el.isDefault = false));
 
             // On ajoute la nouvelle adresse en début de tableau
-            setAddresses((prev) => [{ ...newCoord, isefault: true }, ...prev]);
+            setAddresses((prev) => [{ ...newCoord, isDefault: true }, ...prev]);
           })
           .catch(console.error);
       } else {

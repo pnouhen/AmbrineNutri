@@ -55,6 +55,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
           type="email"
           id="e-mailConnexion"
           ref={emailConnexionRef}
+          maxLength={160}
         />
         <LabelInput
           htmlFor="passwordConnexion"

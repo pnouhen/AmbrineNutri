@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { fetchDataPost } from "../services/fetchDataPost";
 
@@ -12,6 +12,28 @@ export default function SignInForm({ setCheckSubmit }) {
   const passwordSignInRef = useRef();
   const confirmPasswordSignInRef = useRef();
 
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [password, setPassword] = useState("false")
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handleChangeEmail = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailError(!emailRegex.test(value));
+  };
+
+const handleChangePassword = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    const passwordRegex =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).+$/;
+    setPasswordError(!passwordRegex.test(value));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,20 +41,22 @@ export default function SignInForm({ setCheckSubmit }) {
     const firstNameSign = firstNameSignInRef.current?.value.trim();
     const emailSignIn = emailSignInRef.current?.value.trim();
     const passwordSignIn = passwordSignInRef.current?.value.trim();
-    const confirmPasswordSign = confirmPasswordSignInRef.current?.value.trim();
+    const confirmPasswordSignIn =
+      confirmPasswordSignInRef.current?.value.trim();
 
     const isTextValid =
       lastnameSignIn &&
       firstNameSign &&
-      emailSignIn &&
       passwordSignIn &&
-      confirmPasswordSign != "";
-    const isPasswordValid = passwordSignIn.length >= 8;
-    const isConfirmPasswordValid = passwordSignIn === confirmPasswordSign;
+      confirmPasswordSignIn != "";
+    const isPasswordValid = passwordSignIn.length >= 12;
+    const isConfirmPasswordValid = passwordSignIn === confirmPasswordSignIn;
 
-    if (isTextValid) {
+    if (isTextValid && !emailError) {
       if (!isPasswordValid) {
         setCheckSubmit("passwordLength");
+      } else if(passwordError) {
+        setCheckSubmit("passwordContain")
       } else if (!isConfirmPasswordValid) {
         setCheckSubmit("ErrorPassword");
       } else {
@@ -41,7 +65,9 @@ export default function SignInForm({ setCheckSubmit }) {
           lastName: lastnameSignIn,
           email: emailSignIn,
           password: passwordSignIn,
+          confirmPassword: confirmPasswordSignIn,
         };
+
         try {
           const data = await fetchDataPost(
             `${import.meta.env.VITE_BASE_API}/api/users/signup`,
@@ -54,6 +80,8 @@ export default function SignInForm({ setCheckSubmit }) {
           emailSignInRef.current.value = "";
           passwordSignInRef.current.value = "";
           confirmPasswordSignInRef.current.value = "";
+          setEmail("");
+          setEmailError(true);
         } catch (error) {
           console.error("Erreur :", error);
           setCheckSubmit("ErrorInscription");
@@ -88,6 +116,8 @@ export default function SignInForm({ setCheckSubmit }) {
           type="email"
           id="email"
           ref={emailSignInRef}
+          maxLength={160}
+          onChange={handleChangeEmail}
         />
         <LabelInput
           htmlFor="password"
@@ -95,6 +125,7 @@ export default function SignInForm({ setCheckSubmit }) {
           type="password"
           id="password"
           ref={passwordSignInRef}
+          onChange={handleChangePassword}
         />
         <LabelInput
           htmlFor="confirmPassword"
@@ -103,7 +134,7 @@ export default function SignInForm({ setCheckSubmit }) {
           id="confirmPassword"
           ref={confirmPasswordSignInRef}
         />
-        <Button text="Se connecter" className="buttonSubmit" />
+        <Button text="S'inscrire" className="buttonSubmit" />
       </form>
     </div>
   );

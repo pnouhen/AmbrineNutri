@@ -18,7 +18,7 @@ export function PaymentForm({
 
   const submitPayement = (e) => {
     e.preventDefault();
-    console.log("clique");
+
     // Récupération des valeurs
     const carteName = carteNameRef.current?.value.trim();
     const cardNumber = cardNumberRef.current?.state.value.trim();
