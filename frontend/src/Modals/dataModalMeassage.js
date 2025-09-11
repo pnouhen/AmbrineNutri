@@ -16,7 +16,32 @@ export const dataModalMeassage = [
   },
 
   {
-    action: "noConnexion",
+    action: "noConnexionNumberPeople",
+    title: "Le bouton ne fonctionne pas",
+    message: `Étant donné le temps investi dans la création des recettes, je demande
+          une contribution de 1€ par recette.
+            <br />
+             Si cela vous intéresse, vous pouvez vous inscrire ou vous connecter`,
+  },
+
+  {
+    action: "noAddPanierNumberPeople",
+    title: "Le bouton ne fonctionne pas",
+    message: `Étant donné le temps investi dans la création des recettes, je demande
+          une contribution de 1€ par recette.
+            <br />
+             Cliquez sur « Ajouter au panier » pour la sélectionner.`,
+  },
+
+  {
+    action: "noBuyNumberPeople",
+    title: "Le bouton ne fonctionne pas",
+    message:
+      "Rendez-vous dans votre panier pour finaliser l’achat et profiter de votre recette.",
+  },
+
+  {
+    action: "noConnexionAuthPage",
     title: "La connexion a échoué",
     message: "Email/Mot de passe n'est pas valide",
   },
@@ -53,15 +78,15 @@ export const dataModalMeassage = [
   {
     action: "ErrorInscription",
     title: "Erreur d’inscription",
-  message: `Les informations saisies ne peuvent pas être utilisées.
+    message: `Les informations saisies ne peuvent pas être utilisées.
             <br />
-            Veuillez vérifier vos champs et réessayer.`
+            Veuillez vérifier vos champs et réessayer.`,
   },
 
   {
     action: "PaymentSuccessful",
     title: "Paiement réussi",
-    message:`Merci d'avoir acheté la ou les recettes
+    message: `Merci d'avoir acheté la ou les recettes
             <br />
             Vous trouverez votre facture dans votre espace personnel
             <br />

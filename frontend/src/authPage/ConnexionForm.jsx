@@ -40,7 +40,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
         });
       } catch (error) {
         console.error("Erreur:", error);
-        setCheckSubmit("noConnexion");
+        setCheckSubmit("noConnexionAuthPage");
       }
     }
   };

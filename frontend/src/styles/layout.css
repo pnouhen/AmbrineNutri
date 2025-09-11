@@ -53,7 +53,7 @@
   .inputButton {
     @apply rounded-xl shadow-inputButton;
   }
-  
+
   .insideInput {
     @apply lg:text-base md:text-sm text-xs bg-lightgray focus:outline-none;
   }
@@ -63,64 +63,64 @@
   }
 
   .buttonSubmit {
-  @apply text-white px-4 py-2;
-  background: linear-gradient(
-    0deg,
-    rgba(145, 113, 81, 1) 0%,
-    rgba(101, 75, 50, 1) 100%
-  );
-}
+    @apply text-white px-4 py-2;
+    background: linear-gradient(
+      0deg,
+      rgba(145, 113, 81, 1) 0%,
+      rgba(101, 75, 50, 1) 100%
+    );
+  }
 
-.modal {
-  @apply fixed left-0 top-0 w-full h-[100vh] flex justify-center items-center bg-black-90;
-}
+  .modal {
+    @apply fixed left-0 top-0 w-full h-[100vh] flex justify-center items-center bg-black-90;
+  }
 
-.modalContainer {
-  @apply relative p-5 rounded-lg bg-white;
-}
+  .modalContainer {
+    @apply relative p-5 rounded-lg bg-white;
+  }
 
-.displayFlex5px {
-  @apply flex gap-1.5;
-}
+  .displayFlex5px {
+    @apply flex gap-1.5;
+  }
 
-.recipeButton {
-  @apply p-2.5 w-52 max-md:w-24 max-md:h-20 rounded-lg shadow-recipeButton transition-all duration-400 ease-in-out font-medium cursor-pointer;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 230, 161, 1) 0%,
-    rgba(252, 186, 3, 1) 100%
-  );
-}
+  .recipeButton {
+    @apply p-2.5 w-52 max-md:w-24 max-md:h-20 rounded-lg shadow-recipeButton transition-all duration-400 ease-in-out font-medium cursor-pointer;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 230, 161, 1) 0%,
+      rgba(252, 186, 3, 1) 100%
+    );
+  }
 
-.recipeButtonActive {
-  @apply font-semibold shadow-recipeButtonActive;
-}
+  .recipeButtonActive {
+    @apply font-semibold shadow-recipeButtonActive;
+  }
 
-.useBadgeInfo {
-  @apply absolute z-10 w-auto py-1.5 px-2.5 bg-green-200 text-white-200 font-semibold;
-}
+  .useBadgeInfo {
+    @apply absolute z-10 w-auto py-1.5 px-2.5 bg-green-200 text-white-200 font-semibold;
+  }
 
-.duration {
-  @apply top-0 left-0 rounded-br-md;
-}
+  .duration {
+    @apply top-0 left-0 rounded-br-md;
+  }
 
-.regimeActive {
-  @apply bottom-0 right-0 rounded-tl-md;
-}
+  .regimeActive {
+    @apply bottom-0 right-0 rounded-tl-md;
+  }
 
-.imgRecipe {
-  @apply lg:w-80 w-52 lg:h-80 h-52;
-}
+  .imgRecipe {
+    @apply lg:w-80 w-52 lg:h-80 h-52;
+  }
 
-.authPageDiv {
-  @apply w-[28.125rem] flex flex-col items-center gap-5 rounded-2xl;
-}
+  .authPageDiv {
+    @apply w-[28.125rem] flex flex-col items-center gap-5 rounded-2xl;
+  }
 
-.authPageForm {
-  @apply md:w-80 w-full flex flex-col gap-5;
-}
+  .authPageForm {
+    @apply md:w-80 w-full flex flex-col gap-5;
+  }
 
-.border-panier {
-  @apply pt-5 border-t-2 border-gray-400;
-}
+  .border-panier {
+    @apply pt-5 border-t-2 border-gray-400;
+  }
 }

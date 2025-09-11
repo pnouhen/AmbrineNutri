@@ -37,12 +37,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes, messageNoData}) {
                       >
                         <RecipeCard
                           duration={duration}
-                          classNameRegime={
-                            vegetarian === "Oui"
-                              ? "text useBadgeInfo regimeActive"
-                              : "hidden"
-                          }
-                          textRegime={vegetarian === "Oui" ? "Végétarien" : ""}
+                          vegetarian={vegetarian}
                           title={title}
                           src={img}
                         />

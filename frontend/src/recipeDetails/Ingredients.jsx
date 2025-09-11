@@ -10,9 +10,9 @@ export function Ingredients({ recipeDetails, indexPeople, buy }) {
         {recipeDetails?.ingredients.map((ingredient, index) => (
           <p key={index} className="text text-white-200">
             {buy
-              ? (formatNumber(Number(ingredient.quantity) * (indexPeople + 1)))
+              ? (formatNumber(Number(ingredient.quantity) * indexPeople))
               : "***"}
-            {ingredient.quantity.length <= 2 ? "" : " "}
+            {ingredient.quantity?.length <= 2 ? "" : " "}
             {buy ? ingredient.quantity : ""} {ingredient.name}
           </p>
         ))}

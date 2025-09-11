@@ -1,16 +1,15 @@
 import React from "react";
 
-export default function RecipeCard({
-  duration,
-  classNameRegime,
-  textRegime,
-  src,
-  title,
-}) {
+export default function RecipeCard({ duration, vegetarian, src, title }) {
   return (
     <div className="relative">
       <p className="text useBadgeInfo duration">{duration}</p>
-      <p className={classNameRegime}>{textRegime}</p>
+      {vegetarian === "Oui" ? (
+        <p className="text useBadgeInfo regimeActive">Végétarien</p>
+      ) : (
+        ""
+      )}
+
       <img
         className={`imgRecipe opacity-50`}
         src={src}
