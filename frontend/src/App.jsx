@@ -1,21 +1,31 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import PageTracker from "./components/PageTracker"; // Ajoutez ceci
+import PageTracker from "./components/PageTracker";
 import Home from "./pages/Home";
+import Error404 from "./pages/Error404";
+import LegalNotices from "./pages/LegalNotices";
 import About from "./pages/About";
 import ConsultationTarifs from "./pages/ConsultationTarifs";
 import Recipes from "./pages/Recipes";
 import RecipeDetails from "./pages/RecipeDetails";
 import AuthPage from "./pages/AuthPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import "./styles/layout.css"
-import { AuthProvider } from "./contexts/AuthContext";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <PageTracker><Home /></PageTracker>,
+  },
+  {
+    path: "/*",
+    element: <Error404/>,
+  },
+  {
+    path: "/mentions-legales",
+    element: <PageTracker><LegalNotices/></PageTracker>,
   },
   {
     path: "/qui-suis-je",

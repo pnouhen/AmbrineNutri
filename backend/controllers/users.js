@@ -13,7 +13,7 @@ exports.signup = (req, res, next) => {
 
   if (!passwordRegex.test(req.body.password)) {
     return res
-      .status(460)
+      .status(400)
       .json({
         error:
           "Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial",

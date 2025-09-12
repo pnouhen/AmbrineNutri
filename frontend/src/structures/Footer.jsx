@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -46,6 +47,9 @@ export default function Footer() {
           <img src="/assets/logo/instagram.webp" alt="Lien vers instagram"  className="w-14"/>
         </a>
       </article>
+      <div className="col-start-1 col-end-3 flex justify-center">
+      <NavLink to="/mentions-legales" className="text font-medium underline">Mentions Légales</NavLink>
+      </div>
     </footer>
   );
 }
