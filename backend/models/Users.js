@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Schema for the main schema : userSchema
 const addressSchema = new mongoose.Schema({
   lastName: { type: String, required: false },
   firstName: { type: String, required: false },

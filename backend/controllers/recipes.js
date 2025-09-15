@@ -6,7 +6,7 @@ exports.showRecipes = (req, res) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.showRecipeSelect = (req, res) => {
+exports.showRecipeSelectNoBuy = (req, res) => {
   const recipeId = req.params.id;
   if (!recipeId)
     return res.status(404).json({ message: "Recette non trouvée" });
@@ -15,5 +15,5 @@ exports.showRecipeSelect = (req, res) => {
     .select("-steps")
     .select("-ingredients.quantity")
     .then((recipeSelect) => res.status(200).json(recipeSelect))
-    .catch((error) => res.status(400).json({error}))
+    .catch((error) => res.status(400).json({ error }));
 };

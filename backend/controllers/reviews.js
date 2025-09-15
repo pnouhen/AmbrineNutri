@@ -7,11 +7,19 @@ exports.showReviews = (req, res) => {
 };
 
 exports.createReviews = async (req, res) => {
-  const comment = req.body.comment
-  const enterCount = (comment.split("\n") || []).length * 49 + 1
-  const checkCommentLength = 500 - comment.length - enterCount
+  // Enter count corresponds to a number of characters
+  const comment = req.body.comment;
 
-  if(checkCommentLength <= 0) return res.status(400).json({message: "Erreur lors de la sauvegarde"})
+  // Normalize line breaks so all OS use "\n" (Windows = \r\n, old Mac = \r)
+  const normalized = comment.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  // Count characters excluding line breaks, then add 50 for each line break
+  const used =
+    normalized.replace(/\n/g, "").length +
+    (normalized.split("\n").length - 1) * 50;
+  const checkCommentLength = Math.max(0, 450 - used);
+
+  if (checkCommentLength <= 0 || checkCommentLength > 450)
+    return res.status(400).json({ message: "Erreur lors de la sauvegarde" });
 
   try {
     delete req.body._id;

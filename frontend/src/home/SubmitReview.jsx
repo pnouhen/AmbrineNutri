@@ -13,8 +13,13 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
 
-  const enterCount = comment.split("\n").length * 49 + 1;
-  const maxCommentLength = 500 - enterCount;
+  // Normalize line breaks so all OS use "\n" (Windows = \r\n, old Mac = \r)
+  const normalized = comment.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  // Count characters excluding line breaks, then add 50 for each line break
+  const used =
+    normalized.replace(/\n/g, "").length +
+    (normalized.split("\n").length - 1) * 50;
+  const maxCommentLength = Math.max(0, 450 - used);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,10 +28,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
     const lastName = lastNameRef.current?.value.trim();
 
     const isValid =
-      firstName !== "" &&
-      lastName !== "" &&
-      comment !== "" &&
-      rating !== 0;
+      firstName !== "" && lastName !== "" && comment !== "" && rating !== 0;
 
     let isValidString = "";
 
@@ -102,7 +104,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
 
         <div className="h-80 w-full py-5 px-5 inputButton insideInput flex flex-col gap-2">
           <span className="text-xs italic text-end">
-            Nombre de caractères restants : {maxCommentLength - comment.length}
+            Nombre de caractères restants : {maxCommentLength}
           </span>
           <label htmlFor="comment" className="h-0 w-0"></label>
           <textarea
@@ -113,8 +115,8 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             maxLength={maxCommentLength}
             value={comment}
             onKeyDown={(e) => {
-              if (e.key === "Enter" &maxCommentLength - comment.length < 50) {
-                e.preventDefault()
+              if ((e.key === "Enter") & (maxCommentLength < 50)) {
+                e.preventDefault();
               }
             }}
           />
