@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
 
 export const AuthContext = createContext();
 
@@ -22,6 +23,13 @@ export function AuthProvider({ children }) {
     setToken(null);
     setUserInfo(null);
   };
+
+  useEffect(() => {
+    if (token)
+      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+        .then((userInfo) => setUserInfo(userInfo))
+        .catch((error) => console.error("Erreur lors du chargement", error));
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, userInfo, login, logout, setUserInfo }}>

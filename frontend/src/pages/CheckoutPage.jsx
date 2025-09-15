@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 import Header from "../structures/Header";
@@ -18,7 +17,7 @@ import Footer from "../structures/Footer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export function CheckoutPage() {
-  const { token, userInfo, setUserInfo } = useContext(AuthContext);
+  const { token, userInfo } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -43,15 +42,10 @@ export function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (token)
-      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then((userId) => {
-          const searchRecipeInPanier = recipes.filter((recipe) =>
-            userId.panier.includes(recipe._id)
-          );
-          setRecipesPanier(searchRecipeInPanier);
-        })
-        .catch((error) => console.error("Erreur lors du chargement", error));
+    const searchRecipeInPanier = recipes.filter((recipe) =>
+      userInfo.panier.includes(recipe._id)
+    );
+    setRecipesPanier(searchRecipeInPanier);
   }, [recipes]);
 
   const deleteRecipe = (id) => {
@@ -83,7 +77,10 @@ export function CheckoutPage() {
             deleteRecipe={deleteRecipe}
           />
 
-          <BillingAddress coordDefault={coordDefault} setCoordDefault={setCoordDefault}/>
+          <BillingAddress
+            coordDefault={coordDefault}
+            setCoordDefault={setCoordDefault}
+          />
 
           <PaymentForm
             recipesPanier={recipesPanier}

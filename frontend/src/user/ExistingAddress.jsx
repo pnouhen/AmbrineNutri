@@ -60,7 +60,9 @@ export function ExistingAddress({
     )
       .then(() => {
         if (deleteCoord.isDefault === true) setCoordDefault({});
-        setAddresses((prev) => prev.filter(addr => addr._id !== deleteCoord._id));
+        setAddresses((prev) =>
+          prev.filter((addr) => addr._id !== deleteCoord._id)
+        );
       })
       .catch((error) => {
         console.error("Erreur :", error);

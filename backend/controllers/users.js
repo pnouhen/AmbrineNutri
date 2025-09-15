@@ -72,6 +72,9 @@ exports.login = (req, res, next) => {
                 lastName: user.lastName,
                 email: user.email,
                 role: user.role,
+                panier: user.panier,
+                purchases: user.purchases,
+                addresses: user.addresses
               },
               // Generate a token for user with secret key for the server to verify that it has not been tampered with
               // TODO Changer le token toutes les X minutes

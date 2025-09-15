@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 import { fetchDataGet } from "../services/fetchDataGet";
-import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
 import Header from "../structures/Header";
@@ -42,16 +41,9 @@ export default function RecipeDetails() {
 
   // Vérifie si la recette est dans le panier dès que token ou recette change
   useEffect(() => {
-    if (token && recipeDetails) {
-      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then((user) => {
-          setInPanier(user.panier.includes(recipeDetails._id));
-        })
-        .catch(console.error);
-    } else {
-      setInPanier(false);
-    }
-  }, [token, recipeDetails, setUserInfo]);
+    if(userInfo)
+    setInPanier(userInfo?.panier.includes(recipeDetails?._id));
+  }, [token, userInfo, recipeDetails]);
 
   // Ajouter la recette au panier
   const handleAddPanier = () => {
@@ -139,6 +131,7 @@ export default function RecipeDetails() {
                         buy={buy}
                         handleAddPanier={handleAddPanier}
                         recipeDetails={recipeDetails}
+                        userInfo={userInfo}
                       />
                     </div>
                   </article>

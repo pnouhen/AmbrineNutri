@@ -1,10 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 
-import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { AuthContext } from "../contexts/AuthContext";
 
 import NavItem from "../header/NavItem";
@@ -14,8 +12,6 @@ export default function Header() {
   const [compteActive, setCompteActive] = useState(false);
 
   const { token, userInfo, logout } = useContext(AuthContext);
-
-  const [user, setUser] = useState("");
 
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
@@ -37,13 +33,6 @@ export default function Header() {
   } else {
     document.body.style.overflow = "auto";
   }
-
-  useEffect(() => {
-    if (token)
-      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then((user) => setUser(user))
-        .catch((error) => console.error("Erreur lors du chargement", error));
-  }, [token]);
 
   const handleLogout = () => {
     logout(); 
@@ -134,7 +123,7 @@ export default function Header() {
                   className="navItem-padding relative w-full z-10 flex justify-center gap-2 cursor-pointer "
                   onClick={onClickCompte}
                 >
-                  {user?.firstName}
+                  {userInfo?.firstName}
                   <i
                     className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                       compteActive ? "rotate-180 mt-1" : "rotate-360"
