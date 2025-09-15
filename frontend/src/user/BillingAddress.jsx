@@ -2,26 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
+
 import Button from "../components/Button";
 import { ModalCoord } from "./ModalCoord";
 import { ExistingAddress } from "./ExistingAddress";
 
 export function BillingAddress({ coordDefault, setCoordDefault }) {
-  const { token, userInfo } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const [addresses, setAddresses] = useState([]);
-  const [messageNoData, setMessageNoData] = useState(
-    "Aucune adresse n'est disponible"
-  );
   const [isOpen, setIsOpen] = useState(false);
   const [updateCoord, setUpdateCoord] = useState({});
 
+  // Obligatoire pour gérer les adresses
   useEffect(() => {
-    setAddresses(userInfo?.addresses);
-    setCoordDefault(
-      userInfo?.addresses.filter((adress) => adress.isDefault === true)
-    );
-  }, [addresses?.length, userInfo]);
+    if (token)
+      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+        .then((usr) => {
+          setAddresses(usr.addresses);
+          setCoordDefault(
+            usr.addresses.filter((adress) => adress.isDefault === true)
+          );
+        })
+        .catch((error) => {
+          console.error("Erreur lors du chargement", error);
+          setMessageNoData("Désolé, un problème est survenu.");
+        });
+  }, [addresses.length]);
 
   return (
     <div className="pb-6 border-panier relative flex flex-col gap-5">
@@ -31,7 +39,6 @@ export function BillingAddress({ coordDefault, setCoordDefault }) {
         setAddresses={setAddresses}
         setIsOpen={setIsOpen}
         setUpdateCoord={setUpdateCoord}
-        messageNoData={messageNoData}
         setCoordDefault={setCoordDefault}
       />
 

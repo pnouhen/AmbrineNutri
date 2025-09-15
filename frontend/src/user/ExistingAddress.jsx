@@ -9,7 +9,6 @@ export function ExistingAddress({
   setAddresses,
   setIsOpen,
   setUpdateCoord,
-  messageNoData,
   setCoordDefault,
 }) {
   const updateAddress = (coord, e) => {
@@ -109,7 +108,7 @@ export function ExistingAddress({
           </div>
         ))
       ) : (
-        <MessageNoData text={messageNoData} />
+        <MessageNoData text="Aucune adresse n'est disponible" />
       )}
     </>
   );
