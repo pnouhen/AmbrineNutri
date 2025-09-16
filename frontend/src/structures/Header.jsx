@@ -35,7 +35,7 @@ export default function Header() {
   }
 
   const handleLogout = () => {
-    logout(); 
+    logout();
   };
 
   return (
@@ -120,10 +120,10 @@ export default function Header() {
                 onMouseLeave={onMouseLeaveCompte}
               >
                 <div
-                  className="navItem-padding relative w-full z-10 flex justify-center gap-2 cursor-pointer "
+                  className="navItem-padding relative w-full z-10 cursor-pointer "
                   onClick={onClickCompte}
                 >
-                  {userInfo?.firstName}
+                  <p className="text-center truncate max-w-20">{userInfo.firstName}</p>
                   <i
                     className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                       compteActive ? "rotate-180 mt-1" : "rotate-360"

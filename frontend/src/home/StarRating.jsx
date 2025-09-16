@@ -24,7 +24,7 @@ export default function StarRating({
       {[...Array(5)].map((_, i) => (
         <li key={i}>
           <i
-          className={`fa-solid fa-star text-xl pr-2 ${
+          className={`fa-solid fa-star text pr-2 ${
             i < current ? "text-green-100" : "text-gray"
           }`}
           onClick={editable ? () => setRating(i + 1) : undefined}

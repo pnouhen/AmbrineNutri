@@ -41,11 +41,10 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
 
     const newReview = {
       date: new Date().toISOString(),
-      name:
+       firstName:
         firstName.charAt(0).toUpperCase() +
-        firstName.slice(1).toLowerCase() +
-        " " +
-        lastName.charAt(0).toUpperCase(),
+        firstName.slice(1).toLowerCase(),
+        lastName : lastName.charAt(0).toUpperCase(),
       comment: comment,
       rating,
     };
@@ -112,7 +111,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             className="h-full resize-none overflow-auto focus:outline-none text-black text-bold"
             placeholder="Écrivez votre commentaire ici..."
             onChange={(e) => setComment(e.target.value)}
-            maxLength={maxCommentLength}
+            maxLength={450}
             value={comment}
             onKeyDown={(e) => {
               if ((e.key === "Enter") & (maxCommentLength < 50)) {

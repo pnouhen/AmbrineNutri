@@ -1,16 +1,21 @@
 import React from "react";
 import StarRating from "./StarRating";
 
-export default function ReviewsCard({ name, rating, comment }) {
+export default function ReviewsCard({ review }) {
+  console.log(review)
   return (
     <>
       <div className="w-full flex justify-between">
-        <p className="text font-semibold">{name}</p>
+        <div className="flex gap-1">
+          <p className="text font-semibold truncate max-w-24">{review.firstName}</p>
+          <p className="text font-semibold">{review.lastName}</p>
+        </div>
         
-        <StarRating rating={Number(rating)} showLabel={false} />
+        
+        <StarRating rating={Number(review.rating)} showLabel={false} />
       </div>
 
-      <p className="text mt-8">{comment}</p>
+      <p className="text mt-8 break-words">{review.comment}</p>
     </>
   );
 }

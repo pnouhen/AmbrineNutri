@@ -14,9 +14,7 @@ export default function ReviewsSlideShow({
         {reviews.map((review, index) => (
           <div key={index} className="lg:w-[32%] w-full ml-4 flex-shrink-0">
             <ReviewsCard
-              name={review.name}
-              rating={review.rating}
-              comment={review.comment}
+              review={review}
             />
           </div>
         ))}

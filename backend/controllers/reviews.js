@@ -23,7 +23,18 @@ exports.createReviews = async (req, res) => {
 
   try {
     delete req.body._id;
-    const review = new Review({ ...req.body });
+    const review = new Review({
+      date: req.body.date,
+      firstName:
+        req.body.firstName.charAt(0).toUpperCase() +
+        req.body.firstName.slice(1).toLowerCase(),
+      lastName:
+        req.body.lastName.charAt(0).toUpperCase() +
+        req.body.lastName.slice(1).toLowerCase(),
+      comment: req.body.comment.charAt(0).toUpperCase() + req.body.comment.slice(1),
+      rating: req.body.rating,
+    });
+
     const savedReview = await review.save();
     res.status(201).json(savedReview);
   } catch (error) {
