@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useContext } from "react";
@@ -9,12 +9,19 @@ import NavItem from "../header/NavItem";
 
 export default function Header() {
   const [menuBurger, setMenuBurger] = useState(false);
+  const [showButtonConnexion, setShowButtonConnexion] = useState(false);
   const [compteActive, setCompteActive] = useState(false);
 
   const { token, userInfo, logout } = useContext(AuthContext);
 
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
+
+  useEffect(() => {
+    if (token) {
+      setShowButtonConnexion(true);
+    }
+  }, [token]);
 
   const onClickCompte = () => {
     setCompteActive(!compteActive);
@@ -38,8 +45,66 @@ export default function Header() {
     logout();
   };
 
+  // Rendu conditionnel simplifié
+  const renderAuthElements = () => {
+    if (token) {
+      return (
+        <li
+          className={`navItem relative lg:w-[8.75rem] navItem-rounded ${
+            panierActive ? "bg-mustard" : "bg-green-100"
+          }`}
+          onMouseEnter={onMouseEnterCompte}
+          onMouseLeave={onMouseLeaveCompte}
+        >
+          <div
+            className="navItem-padding relative w-full z-10 cursor-pointer"
+            onClick={onClickCompte}
+          >
+            <p
+              className={`text-center truncate w-20 transition-opacity duration-200 ease-in ${
+                userInfo ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {userInfo?.firstName}
+            </p>
+            <i
+              className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
+                compteActive ? "rotate-180 mt-1" : "rotate-360"
+              }`}
+            ></i>
+          </div>
+
+          <ul
+            className={`absolute w-full transition-all ${
+              compteActive ? "z-10 -bottom-22" : "-z-10 bottom-0 opacity-0"
+            }`}
+          >
+            <NavItem to="panier" className="navItem-padding" text="Panier" />
+
+            <li>
+              <button
+                className="navItem navLi navItem-padding w-full rounded-b-[1.25rem] bg-green-100 cursor-pointer"
+                onClick={handleLogout}
+              >
+                Déconnexion
+              </button>
+            </li>
+          </ul>
+        </li>
+      );
+    }
+
+    return (
+      <NavItem
+        to="se-connecter"
+        className="navItem-padding navItem-rounded"
+        text="Se connecter"
+      />
+    );
+  };
+
   return (
-    <header className="relative flex gap-4 px-8 py-2.5 bg-white-300">
+    <header className="relative flex gap-4 px-8 py-2.5 bg-white-300-100">
       <img
         src="/assets/logo/logo.webp"
         alt="Logo de Laura Diététique"
@@ -62,15 +127,19 @@ export default function Header() {
               : "max-lg:h-[100vh] max-lg:w-[100vw] max-lg:bg-white"
           } max-lg:absolute max-lg:right-1/2 max-lg:left-0 max-lg:z-50 max-lg:px-8 md:mx-2.5 max-lg:w-full  max-lg:flex max-lg:flex-col max-lg:items-end max-lg:gap-14`}
         >
-          {" "}
-          <div className="lg:hidden absolute right-4 top-0 translate-y-1/2 w-6 flex justify-center">
-            <i
-              className={`fa-solid ${
-                menuBurger === true ? "fa-xmark" : "fa-bars "
-              } text-2xl cursor-pointer text-end`}
-              onClick={() => setMenuBurger(!menuBurger)}
-            ></i>
-          </div>
+          {window.innerWidth <= 1024 ? (
+            <div className="absolute md:right-8 right-4 top-0 translate-y-1/2 w-6 flex justify-center">
+              <i
+                className={`fa-solid ${
+                  menuBurger === true ? "fa-xmark" : "fa-bars "
+                } text-2xl cursor-pointer text-end`}
+                onClick={() => setMenuBurger(!menuBurger)}
+              ></i>
+            </div>
+          ) : (
+            ""
+          )}
+
           <ul
             className={`max-lg:absolute left-0 right-0 top-16 max-lg:px-5 flex md:justify-end md:gap-1 gap-4 list-none ${
               menuBurger === false ? "max-lg:hidden" : "w-full flex flex-col"
@@ -99,7 +168,7 @@ export default function Header() {
                 className="navItem navItem-padding navItem-rounded bg-green-100"
                 href="https://user.clicrdv.com/Laura-Gentes"
                 target="_blank"
-                rel="nomenuBurgerer noreferrer"
+                rel="noopener noreferrer"
               >
                 Prendre rendez-vous
               </a>
@@ -111,56 +180,7 @@ export default function Header() {
               text="Recettes"
             />
 
-            {token ? (
-              <li
-                className={`navItem relative min-w-[8.75rem] ${
-                  compteActive ? "rounded-t-[1.25rem]" : "navItem-rounded"
-                } ${panierActive ? "bg-mustard" : "bg-green-100"}`}
-                onMouseEnter={onMouseEnterCompte}
-                onMouseLeave={onMouseLeaveCompte}
-              >
-                <div
-                  className="navItem-padding relative w-full z-10 cursor-pointer "
-                  onClick={onClickCompte}
-                >
-                  <p className="text-center truncate max-w-20">{userInfo.firstName}</p>
-                  <i
-                    className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
-                      compteActive ? "rotate-180 mt-1" : "rotate-360"
-                    }`}
-                  ></i>
-                </div>
-
-                <ul
-                  className={`absolute w-full transition-all ${
-                    compteActive
-                      ? "z-10 -bottom-22"
-                      : "-z-10 bottom-0 opacity-0"
-                  }`}
-                >
-                  <NavItem
-                    to="panier"
-                    className="navItem-padding"
-                    text="Panier"
-                  />
-
-                  <li>
-                    <button
-                      className="navItem navLi navItem-padding w-full rounded-b-[1.25rem] bg-green-100 cursor-pointer"
-                      onClick={handleLogout}
-                    >
-                      Deconnexion
-                    </button>
-                  </li>
-                </ul>
-              </li>
-            ) : (
-              <NavItem
-                to="se-connecter"
-                className="navItem-padding navItem-rounded"
-                text="Se connecter"
-              />
-            )}
+            {renderAuthElements()}
           </ul>
         </nav>
       </div>

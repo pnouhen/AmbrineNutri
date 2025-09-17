@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { NavLink } from "react-router-dom";
+import { useSetTimeout } from "../hooks/useSetTimeout";
+import { NumberDivInvisible } from "../components/NumberDivInvisible";
 
 import RecipeCard from "./RecipeCard";
-import { NumberDivInvisible } from "../components/NumberDivInvisible";
 import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
-export function RecipeSlideShow({ recipePages, numberRecipes, messageNoData}) {
+export function RecipeSlideShow({ recipes, recipePages, numberRecipes }) {
+  const [showSlideShow, setShowSlideShow] = useState(false);
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
+
+  useSetTimeout(() => setShowSlideShow(true), 500, [recipes]);
 
   let numberDivInvisible = 0;
 
@@ -18,12 +22,12 @@ export function RecipeSlideShow({ recipePages, numberRecipes, messageNoData}) {
   }
 
   return (
-    <section className="section pb-5 px-5 flex flex-col gap-5">
+    <section className={`section fadeIn2 pb-5 px-5 flex flex-col gap-5 transitionData ${showSlideShow ? "transitionDataTrue" : "opacity-0"}`}>
       <h2 className="h2">Les recettes</h2>
 
       {recipePages.length > 0 ? (
         <>
-          <div className="overflow-hidden"ref={emblaRef}>
+          <div className={`overflow-hidden `} ref={emblaRef}>
             <div className="embla_container flex">
               {recipePages.map((page, index) => (
                 <div className="embla__slide shrink-0 w-full" key={index}>
@@ -57,7 +61,10 @@ export function RecipeSlideShow({ recipePages, numberRecipes, messageNoData}) {
           <RecipePagination emblaApi={emblaApi} numberRecipes={numberRecipes} />
         </>
       ) : (
-        <MessageNoData className="lg:col-start-1 lg:col-end-4" text={messageNoData}/>
+        <MessageNoData
+          className="lg:col-start-1 lg:col-end-4"
+          text="Aucune recette n'est disponible."
+        />
       )}
     </section>
   );

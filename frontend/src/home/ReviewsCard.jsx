@@ -2,7 +2,6 @@ import React from "react";
 import StarRating from "./StarRating";
 
 export default function ReviewsCard({ review }) {
-  console.log(review)
   return (
     <>
       <div className="w-full flex justify-between">

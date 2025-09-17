@@ -18,7 +18,7 @@ import Error404 from "./Error404";
 
 export default function RecipeDetails() {
   const { id } = useParams();
-  const { token, userInfo, setUserInfo } = useContext(AuthContext);
+  const { token, userInfo } = useContext(AuthContext);
 
   const [recipeDetails, setRecipeDetails] = useState();
   const [error404, setError404] = useState(false);
@@ -72,7 +72,12 @@ export default function RecipeDetails() {
 
   if (error404) {
     return <Error404 />;
-  } else {
+  } 
+  
+  if (!recipeDetails) {
+  return null;
+}
+
     return (
       <>
         <Header />
@@ -152,4 +157,4 @@ export default function RecipeDetails() {
       </>
     );
   }
-}
+

@@ -15,7 +15,7 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
-
+// TODO Enlever les animations et mettre un loader 
 export function CheckoutPage() {
   const { token, userInfo } = useContext(AuthContext);
 
@@ -43,7 +43,7 @@ export function CheckoutPage() {
 
   useEffect(() => {
     const searchRecipeInPanier = recipes.filter((recipe) =>
-      userInfo.panier.includes(recipe._id)
+      userInfo?.panier.includes(recipe._id)
     );
     setRecipesPanier(searchRecipeInPanier);
   }, [recipes]);

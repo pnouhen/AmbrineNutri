@@ -39,7 +39,7 @@
   }
 
   .section {
-    @apply bg-white-300 border-2 border-white pt-5;
+    @apply bg-white-300-90 border-2 border-white pt-5;
   }
 
   .font18-600 {
@@ -52,6 +52,14 @@
 
   .label {
     @apply ml-2.5;
+  }
+
+  .transitionData {
+    @apply transition-all duration-400;
+  }
+
+  .transitionDataTrue {
+    @apply opacity-100 transform-none;
   }
 
   .inputButton {

@@ -4,7 +4,8 @@
 
 @theme {
   --color-white-200: #d6d6d6;
-  --color-white-300: rgba(253, 253, 253, 0.9);
+  --color-white-300-90: rgba(253, 253, 253, 0.9);
+  --color-white-300-100: rgba(253, 253, 253);
   --color-green-50: #dbe4c6;
   --color-green-100: #85aa84;
   --color-green-200: #30672e;

@@ -12,45 +12,77 @@ import AuthPage from "./pages/AuthPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { AuthProvider } from "./contexts/AuthContext";
 
-import "./styles/layout.css"
+import "./styles/layout.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PageTracker><Home /></PageTracker>,
+    element: (
+      <PageTracker>
+        <Home />
+      </PageTracker>
+    ),
   },
   {
     path: "/*",
-    element: <Error404/>,
+    element: <Error404 />,
   },
   {
     path: "/mentions-legales",
-    element: <PageTracker><LegalNotices/></PageTracker>,
+    element: (
+      <PageTracker>
+        <LegalNotices />
+      </PageTracker>
+    ),
   },
   {
     path: "/qui-suis-je",
-    element: <PageTracker><About /></PageTracker>,
+    element: (
+      <PageTracker>
+        <About />
+      </PageTracker>
+    ),
   },
   {
     path: "/consultations-et-tarifs",
-    element: <PageTracker><ConsultationTarifs /></PageTracker>,
+    element: (
+      <PageTracker>
+        <ConsultationTarifs />
+      </PageTracker>
+    ),
   },
   {
     path: "/recettes",
-    element: <PageTracker><Recipes /></PageTracker>,
+    element: (
+      <PageTracker>
+        <Recipes />
+      </PageTracker>
+    ),
   },
   {
     path: "/recettes/:id",
-    element: <PageTracker><RecipeDetails /></PageTracker>,
+    element: (
+      <PageTracker>
+        <RecipeDetails />
+      </PageTracker>
+    ),
   },
   {
     path: "/se-connecter",
-    element: <PageTracker><AuthPage /></PageTracker>,
+    element: (
+      <PageTracker>
+        <AuthPage />
+      </PageTracker>
+    ),
   },
   {
     path: "/panier",
-    element: <PageTracker><CheckoutPage /></PageTracker>,
-  }
+    element: (
+      <PageTracker>
+        <CheckoutPage />
+      </PageTracker>
+    ),
+  },
 ]);
 
 function App() {

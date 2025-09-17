@@ -4,13 +4,11 @@ import { fetchDataUserGet } from "../services/fetchDataUserGet";
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(null);
+  // Initialisation synchrone pour éviter le décalage
+  const [token, setToken] = useState(() => {
+    return sessionStorage.getItem("token");
+  });
   const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const savedToken = sessionStorage.getItem("token");
-    if (savedToken) setToken(savedToken);
-  }, []);
 
   const login = (newToken, user) => {
     sessionStorage.setItem("token", newToken);
@@ -25,10 +23,11 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    if (token)
+    if (token) {
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then((userInfo) => setUserInfo(userInfo))
         .catch((error) => console.error("Erreur lors du chargement", error));
+    }
   }, [token]);
 
   return (

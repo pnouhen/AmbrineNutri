@@ -7,28 +7,23 @@ import BackgroundImg from "../components/BackgroundImg";
 import Footer from "../structures/Footer";
 import { RecipeFilter } from "../recipes/RecipeFilter";
 import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
+import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 
 export default function Recipes() {
-  const [infoAddRecipe, setInfoAddRecipe] = useState([]);
   const [categoriesRecipe, setCategoriesRecipe] = useState([]);
   const [filter, setFilter] = useState("Tous");
   const [recipes, setRecipes] = useState([]);
-  const [messageNoData, setMessageNoData] = useState(
-    "Aucune recette n'est disponible."
-  );
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
-      .then((infoaddrecipes) => {
-        setInfoAddRecipe(infoaddrecipes);
+      .then((infoAddRecipes) => {
+        const categories = infoAddRecipes.filter(
+          (info) => info.type === "categories"
+        );
+        setCategoriesRecipe(["Tous", ...categories[0].values]);
       })
       .catch((error) => console.error("Erreur lors du chargement", error));
   }, []);
-
-  useEffect(() => {
-    const fetchedCategories = infoAddRecipe[0]?.values || [];
-    setCategoriesRecipe(["Tous", ...fetchedCategories]);
-  }, [infoAddRecipe]);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
@@ -37,7 +32,7 @@ export default function Recipes() {
         setRecipes(recipes);
       })
       .catch((error) => {
-        setMessageNoData("Désolé, un problème est survenu.")
+        setMessageNoData("Désolé, un problème est survenu.");
         console.error("Erreur lors du chargement", error);
       });
   }, []);
@@ -63,14 +58,12 @@ export default function Recipes() {
     recipePages.push(recipesFilter.slice(i, i + numberRecipes));
   }
 
+  // TODO Enlever les animations et mettre un loader 
   return (
     <>
       <Header />
-      <main className="relative py-5 flex flex-col gap-5">
-        <BackgroundImg
-          className="right-0 object-cover object-top"
-          url="/assets/img/background/background-recipes.webp"
-        />
+      <main className="h-[69.1875rem] relative py-5 flex flex-col gap-5">
+        <BackgroundImgCSS url="url(/assets/img/background/background-recipes.webp)" />
 
         <RecipeFilter
           data={categoriesRecipe}
@@ -79,9 +72,9 @@ export default function Recipes() {
         />
 
         <RecipeSlideShow
+          recipes={recipes}
           recipePages={recipePages}
           numberRecipes={numberRecipes}
-          messageNoData={messageNoData}
         />
       </main>
       <Footer />
