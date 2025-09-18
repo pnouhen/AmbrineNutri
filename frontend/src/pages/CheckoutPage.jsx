@@ -15,7 +15,7 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
-// TODO Enlever les animations et mettre un loader 
+
 export function CheckoutPage() {
   const { token, userInfo } = useContext(AuthContext);
 
@@ -46,7 +46,7 @@ export function CheckoutPage() {
       userInfo?.panier.includes(recipe._id)
     );
     setRecipesPanier(searchRecipeInPanier);
-  }, [recipes]);
+  }, [recipes, userInfo]);
 
   const deleteRecipe = (id) => {
     fetchDataUserDelete(
@@ -98,6 +98,7 @@ export function CheckoutPage() {
 
       <Footer />
 
+    {/* TODO Voir pour le faire en back-end afin de sécuriser */}
       {checkSubmit === "PaymentSuccessful" && (
         <PDFDownloadLink
           document={

@@ -10,15 +10,9 @@ import ReviewsDots from "./ReviewsDots";
 import MessageNoData from "../components/MessageNoData";
 
 export default function Reviews({ reviews }) {
-  const [showReviews, setShowReviews] = useState(false);
+  const [showReviews, setShowReviews] = useState(true);
   const options = { slidesToScroll: "auto", loop: true };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
-
-  useEffect(() => {
-    if (reviews.length) {
-      setShowReviews(true);
-    }
-  }, [reviews]);
 
   let reviewsLength = reviews.length;
   let numberDivInvisible = 0;
@@ -28,17 +22,10 @@ export default function Reviews({ reviews }) {
     numberDivInvisible = reviewsLength * 3 - reviews.length;
   }
 
-  return (
-    <section className="section pb-5 px-5 flex flex-col gap-5 overflow-hidden">
-      <h2 className="h2">Les avis :</h2>
-      {reviews.length > 1 ? (
-        <div
-          className={`transitionData ${
-            showReviews
-              ? "transitionDataTrue"
-              : "opacity-0 transform -translate-y-24"
-          }`}
-        >
+  const renderReviews = () => {
+    if(reviews.length > 0) {
+      return (
+        <>
           <div className="flex items-center gap-5">
             <ScrollPrev
               emblaApi={emblaApi}
@@ -55,10 +42,19 @@ export default function Reviews({ reviews }) {
             />
           </div>
           <ReviewsDots emblaApi={emblaApi} reviewsLength={reviewsLength} />
-        </div>
-      ) : (
-        <MessageNoData text="Désolé, un problème est survenu." />
-      )}
+        </>
+      )
+    }
+
+    return(
+      <p className="text text-center">Désolé, un problème est survenu.</p>
+    )
+  }
+
+  return (
+    <section className="section pb-5 px-5 flex flex-col gap-5 overflow-hidden">
+      <h2 className="h2">Les avis :</h2>
+     {renderReviews()}
     </section>
   );
 }

@@ -4,10 +4,11 @@ import { AuthContext } from "../contexts/AuthContext";
 
 import { fetchDataGet } from "../services/fetchDataGet";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
+import useScrollManuel from "../services/useScrollManuel";
 
+import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
-import BackgroundImg from "../components/BackgroundImg";
 import { Steps } from "../recipeDetails/Steps";
 import MessageNoData from "../components/MessageNoData";
 import RecipeCard from "../recipes/RecipeCard";
@@ -27,6 +28,8 @@ export default function RecipeDetails() {
   const [checkSubmit, setCheckSubmit] = useState("");
   const [indexPeople, setIndexPeople] = useState(1);
 
+  useScrollManuel();
+
   // Récupération de la recette
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
@@ -41,8 +44,7 @@ export default function RecipeDetails() {
 
   // Vérifie si la recette est dans le panier dès que token ou recette change
   useEffect(() => {
-    if(userInfo)
-    setInPanier(userInfo?.panier.includes(recipeDetails?._id));
+    if (userInfo) setInPanier(userInfo?.panier.includes(recipeDetails?._id));
   }, [token, userInfo, recipeDetails]);
 
   // Ajouter la recette au panier
@@ -72,89 +74,88 @@ export default function RecipeDetails() {
 
   if (error404) {
     return <Error404 />;
-  } 
-  
-  if (!recipeDetails) {
-  return null;
-}
-
-    return (
-      <>
-        <Header />
-
-        <main className="relative py-5">
-          <BackgroundImg url="/assets/img/background/background-recipes.webp" />
-
-          <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
-            {recipeDetails ? (
-              <>
-                <h2 className="h2 w-full">{recipeDetails.title}</h2>
-
-                <div className="flex max-md:flex-col gap-5">
-                  <article className="flex flex-col items-center gap-0.5">
-                    <RecipeCard
-                      duration={recipeDetails.duration}
-                      vegetarian={recipeDetails.vegetarian}
-                      src={recipeDetails.img}
-                    />
-
-                    <div className="p-5 lg:w-80 md:w-52 w-full flex flex-col gap-5 bg-green-200">
-                      <InputSelect
-                        indexPeople={indexPeople}
-                        setIndexPeople={setIndexPeople}
-                        notifyButtonInactive={notifyButtonInactive}
-                      />
-
-                      <div className="flex md:flex-col max-md:flex-wrap gap-2.5">
-                        <div className="flex md:flex-col justify-start gap-2.5">
-                          <h3 className="h3 text-white-200">Les ustensils :</h3>
-
-                          <div className="flex md:flex-col gap-1">
-                            {recipeDetails.ustensils.map((ustensil, index) => (
-                              <p key={index} className="text text-white-200">
-                                {ustensil}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
-
-                        <Ingredients
-                          recipeDetails={recipeDetails}
-                          indexPeople={indexPeople}
-                          buy={buy}
-                        />
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
-                    <h3 className="h3">Les étapes :</h3>
-                    <div className="text h-full flex flex-col items-center gap-2.5">
-                      <Steps
-                        token={token}
-                        inPanier={inPanier}
-                        buy={buy}
-                        handleAddPanier={handleAddPanier}
-                        recipeDetails={recipeDetails}
-                        userInfo={userInfo}
-                      />
-                    </div>
-                  </article>
-                </div>
-              </>
-            ) : (
-              <MessageNoData text="Désolé, un problème est survenu." />
-            )}
-          </section>
-        </main>
-
-        <Footer />
-
-        <ModalMessage
-          action={checkSubmit}
-          onClickClose={() => setCheckSubmit("")}
-        />
-      </>
-    );
   }
 
+  if (!recipeDetails) {
+    return null;
+  }
+
+  return (
+    <>
+      <BackgroundImgCSS url="url(/assets/img/background/background-recipes.webp)" />
+
+      <Header />
+
+      <main className="relative py-5">
+        <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
+          {recipeDetails ? (
+            <>
+              <h2 className="h2 w-full">{recipeDetails.title}</h2>
+
+              <div className="flex max-md:flex-col gap-5">
+                <article className="flex flex-col items-center gap-0.5">
+                  <RecipeCard
+                    duration={recipeDetails.duration}
+                    vegetarian={recipeDetails.vegetarian}
+                    src={recipeDetails.img}
+                  />
+
+                  <div className="p-5 lg:w-80 md:w-52 w-full flex flex-col gap-5 bg-green-200">
+                    <InputSelect
+                      indexPeople={indexPeople}
+                      setIndexPeople={setIndexPeople}
+                      notifyButtonInactive={notifyButtonInactive}
+                    />
+
+                    <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">
+                      <div className="max-md:mx-auto flex flex-col justify-start gap-2.5">
+                        <h3 className="h3 text-white-200">Les ustensils :</h3>
+
+                        <div className="flex flex-col gap-1">
+                          {recipeDetails.ustensils.map((ustensil, index) => (
+                            <p key={index} className="text text-white-200">
+                              {ustensil}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+
+                      <Ingredients
+                        recipeDetails={recipeDetails}
+                        indexPeople={indexPeople}
+                        buy={buy}
+                      />
+                    </div>
+                  </div>
+                </article>
+
+                <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
+                  <h3 className="h3">Les étapes :</h3>
+                  <div className="text h-full flex flex-col items-center gap-2.5">
+                    <Steps
+                      token={token}
+                      inPanier={inPanier}
+                      buy={buy}
+                      handleAddPanier={handleAddPanier}
+                      recipeDetails={recipeDetails}
+                      userInfo={userInfo}
+                    />
+                  </div>
+                </article>
+              </div>
+            </>
+          ) : (
+            <MessageNoData text="Désolé, un problème est survenu." />
+          )}
+        </section>
+      </main>
+
+      <Footer />
+
+      <ModalMessage
+        action={checkSubmit}
+        onClickClose={() => setCheckSubmit("")}
+      />
+    </>
+  );
+}

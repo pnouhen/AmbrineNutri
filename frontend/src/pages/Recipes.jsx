@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 
+import useScrollManuel from "../services/useScrollManuel";
 import { fetchDataGet } from "../services/fetchDataGet";
 
+import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 import Header from "../structures/Header";
-import BackgroundImg from "../components/BackgroundImg";
 import Footer from "../structures/Footer";
 import { RecipeFilter } from "../recipes/RecipeFilter";
 import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
-import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 
 export default function Recipes() {
   const [categoriesRecipe, setCategoriesRecipe] = useState([]);
   const [filter, setFilter] = useState("Tous");
   const [recipes, setRecipes] = useState([]);
+
+  // useScrollManuel()
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
@@ -58,7 +60,6 @@ export default function Recipes() {
     recipePages.push(recipesFilter.slice(i, i + numberRecipes));
   }
 
-  // TODO Enlever les animations et mettre un loader 
   return (
     <>
       <Header />

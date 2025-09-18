@@ -1,21 +1,24 @@
 import React, { useState, useEffect, useMemo } from "react";
 
+import useScrollManuel from "../services/useScrollManuel";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { stopOverflow } from "../services/stopOverflow";
 
 import { dataCardsObjectif } from "../home/dataCardObjectif";
 
+import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 import Header from "../structures/Header";
 import CardObjectif from "../home/CardObjectif";
 import Reviews from "../home/Reviews";
 import Footer from "../structures/Footer";
 import SubmitReview from "../home/SubmitReview";
 import ModalMessage from "../Modals/MessageModal";
-import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 
 export default function Home() {
   const [reviews, setReviews] = useState([]);
   const [checkSubmit, setCheckSubmit] = useState("");
+
+  useScrollManuel()
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`)
@@ -35,7 +38,9 @@ export default function Home() {
 
   return (
     <>
-      <BackgroundImgCSS url={"url(/assets/img/background/background-home.webp)"}/>
+      <BackgroundImgCSS
+        url={"url(/assets/img/background/background-home.webp)"}
+      />
 
       <Header />
 
@@ -50,7 +55,7 @@ export default function Home() {
           ))}
         </section>
 
-        <Reviews reviews={sortedReviews}/>
+        <Reviews reviews={sortedReviews} />
 
         <SubmitReview setCheckSubmit={setCheckSubmit} setReviews={setReviews} />
       </main>

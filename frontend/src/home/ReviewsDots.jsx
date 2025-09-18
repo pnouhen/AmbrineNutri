@@ -18,7 +18,7 @@ export default function ReviewsDots({
       }, [emblaApi, onSelect]);
     
   return (
-    <div className="mt-5 w-ful flex justify-center">
+    <div className="w-ful flex justify-center">
       <ul className="w-full flex justify-center gap-4">
         {[...Array(Math.round(reviewsLength))].map((_, index) => (
           <li

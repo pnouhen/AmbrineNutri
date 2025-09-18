@@ -7,7 +7,7 @@ export function InputSelect({indexPeople, setIndexPeople, notifyButtonInactive})
   }
 
   return (
-    <div className="inputButton insideInput mx-auto w-52 py-2.5 px-3 flex justify-between"onClick={notifyButtonInactive}>
+    <div className="inputButton insideInput mx-auto lg:w-52 md:w-full w-40 py-2.5 px-3 flex justify-between"onClick={notifyButtonInactive}>
       <button title="Diminuer" className="cursor-pointer" onClick={lessPeople}>
         <i className="fa-solid fa-minus"></i>
       </button>

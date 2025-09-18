@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import useScrollManuel from "../services/useScrollManuel";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { dataCardsConsultTarif } from "../consultationTarifs/dataConsultationTarifs";
 
@@ -11,6 +12,8 @@ import Footer from "../structures/Footer";
 export default function ConsultationTarifs() {
   const [firstConsult, setFirstConsult] = useState(0);
   const [followUpConsult, setFollowUpConsult] = useState(0);
+
+  useScrollManuel()
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`)

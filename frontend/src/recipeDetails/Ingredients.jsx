@@ -3,7 +3,7 @@ import { formatNumber } from "../components/formatNumber";
 
 export function Ingredients({ recipeDetails, indexPeople, buy }) {
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="max-md:mx-auto flex flex-col gap-2.5">
       <h3 className="h3 text-white-200">Les ingrédients :</h3>
 
       <div className="flex flex-col gap-1">

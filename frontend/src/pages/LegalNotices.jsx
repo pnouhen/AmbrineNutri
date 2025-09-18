@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
+
+import useScrollAuto from "../services/useScrollAuto";
+
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
 
 export default function LegalNotices() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useScrollAuto();
 
   return (
     <>

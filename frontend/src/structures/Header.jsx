@@ -35,11 +35,18 @@ export default function Header() {
     setCompteActive(false);
   };
 
+  useEffect(() => {
   if (menuBurger) {
     document.body.style.overflow = "hidden";
   } else {
     document.body.style.overflow = "auto";
   }
+  
+  // Cleanup pour éviter les conflits
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [menuBurger]);
 
   const handleLogout = () => {
     logout();

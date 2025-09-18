@@ -1,9 +1,14 @@
 import React from "react";
+
+import useScrollManuel from "../services/useScrollManuel";
+
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
 import Footer from "../structures/Footer";
 
 export default function About() {
+  useScrollManuel();
+
   return (
     <>
       <Header />

@@ -22,7 +22,7 @@ export function RecipeSlideShow({ recipes, recipePages, numberRecipes }) {
   }
 
   return (
-    <section className={`section fadeIn2 pb-5 px-5 flex flex-col gap-5 transitionData ${showSlideShow ? "transitionDataTrue" : "opacity-0"}`}>
+    <section className={`section pb-5 px-5 flex flex-col gap-5 transitionData ${showSlideShow ? "transitionDataTrue" : "opacity-0"}`}>
       <h2 className="h2">Les recettes</h2>
 
       {recipePages.length > 0 ? (
