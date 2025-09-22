@@ -28,18 +28,30 @@ export default function Header() {
     setCompteActive(false);
   };
 
-  useEffect(() => {
-  if (menuBurger) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-  
-  // Cleanup pour éviter les conflits
-  return () => {
-    document.body.style.overflow = "auto";
+  const enterCompte = (e) => {
+    if (e.key === "Enter" || e.key === "Tab") setCompteActive(true);
+    if (e.key === "Escape") setCompteActive(false);
   };
-}, [menuBurger]);
+
+  const escapeCompte = (e) => {
+    if (e.key === "Escape" || e.key === "Tab") {
+      e.stopPropagation();
+      setCompteActive(false);
+    }
+  };
+
+  useEffect(() => {
+    if (menuBurger) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    // Cleanup pour éviter les conflits
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [menuBurger]);
 
   const handleLogout = () => {
     logout();
@@ -50,21 +62,17 @@ export default function Header() {
     if (token) {
       return (
         <li
+          tabIndex={0}
           className={`navItem relative lg:w-[8.75rem] navItem-rounded ${
             panierActive ? "bg-mustard" : "bg-green-100"
           }`}
+          onClick={onClickCompte}
           onMouseEnter={onMouseEnterCompte}
           onMouseLeave={onMouseLeaveCompte}
+          onKeyDown={(e) => enterCompte(e)}
         >
-          <div
-            className="navItem-padding relative w-full z-10 cursor-pointer"
-            onClick={onClickCompte}
-          >
-            <p
-              className="text-center truncate w-20"
-            >
-              {userInfo?.firstName}
-            </p>
+          <div className="navItem-padding relative w-full z-10 cursor-pointer">
+            <p className="text-center truncate w-20">{userInfo?.firstName}</p>
             <i
               className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                 compteActive ? "rotate-180 mt-1" : "rotate-360"
@@ -83,6 +91,7 @@ export default function Header() {
               <button
                 className="navItem navLi navItem-padding w-full rounded-b-[1.25rem] bg-green-100 cursor-pointer"
                 onClick={handleLogout}
+                onKeyDown={(e) => escapeCompte(e)}
               >
                 Déconnexion
               </button>

@@ -41,10 +41,9 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
 
     const newReview = {
       date: new Date().toISOString(),
-       firstName:
-        firstName.charAt(0).toUpperCase() +
-        firstName.slice(1).toLowerCase(),
-        lastName : lastName.charAt(0).toUpperCase(),
+      firstName:
+        firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase(),
+      lastName: lastName.charAt(0).toUpperCase(),
       comment: comment,
       rating,
     };
@@ -53,7 +52,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
       setReviews((prevReviews) => [...prevReviews, newReview]);
 
       try {
-        const data = await fetchDataPost(
+        await fetchDataPost(
           `${import.meta.env.VITE_BASE_API}/api/reviews`,
           newReview
         );

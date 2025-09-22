@@ -67,11 +67,16 @@ export function ExistingAddress({
       });
   };
 
+  const onEnterAddresses = (e, coord) => {
+    if (e.key === "Enter") updateCoordDefault(coord);
+  };
+
   return (
     <>
       {!addresses || addresses.length > 0 ? (
         addresses?.map((coord, index) => (
           <div
+            tabIndex={0}
             key={index}
             className={`pr-5 pt-5 flex flex-col rounded-lg bg-yellow-50 cursor-pointer ${
               coord._id === coordDefault?._id
@@ -79,6 +84,7 @@ export function ExistingAddress({
                 : "shadow-recipeButton"
             }`}
             onClick={() => updateCoordDefault(coord)}
+            onKeyDown={(e) => (onEnterAddresses(e, coord))}
           >
             <div className="pl-5">
               <p className="h3">

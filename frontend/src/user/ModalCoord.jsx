@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
@@ -17,6 +17,8 @@ export function ModalCoord({
   setCoordDefault,
   setMessageModal,
 }) {
+    const modalRef = useRef(null);
+    const lastFocusedRef = useRef(null);
   const lastNameRef = useRef();
   const firstNameRef = useRef();
   const addressRef = useRef();
@@ -31,6 +33,25 @@ export function ModalCoord({
     setEmptyInput(false);
     setUpdateCoord({});
   };
+  
+  useEffect(() => {
+      if (isOpen) {
+        // sauvegarder l'élément qui avait le focus
+        lastFocusedRef.current = document.activeElement;
+        // focus sur la modal
+        modalRef.current?.focus();
+      } else {
+        // restaurer le focus à l'élément précédent
+        lastFocusedRef.current?.focus();
+      }
+    }, [isOpen]);
+  
+  const onEscapeClose = (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -128,6 +149,8 @@ export function ModalCoord({
   return (
     <div onClick={() => closeModal()} className="modal max-md:px-5">
       <div
+       tabIndex={-1}
+      ref={modalRef} onKeyDown={(e) => onEscapeClose(e)} 
         className={`modalContainer w-full ${
           window.innerWidth > 1440 ? "md:w-[45rem]" : "md:w-1/2"
         }`}

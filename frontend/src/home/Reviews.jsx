@@ -23,7 +23,7 @@ export default function Reviews({ reviews }) {
   }
 
   const renderReviews = () => {
-    if(reviews?.length > 0) {
+    if (reviews?.length > 0) {
       return (
         <>
           <div className="flex items-center gap-5">
@@ -43,18 +43,16 @@ export default function Reviews({ reviews }) {
           </div>
           <ReviewsDots emblaApi={emblaApi} reviewsLength={reviewsLength} />
         </>
-      )
+      );
     }
 
-    return(
-      <p className="text text-center">Désolé, un problème est survenu.</p>
-    )
-  }
+    return <p className="text text-center">Désolé, un problème est survenu.</p>;
+  };
 
   return (
     <section className="section pb-5 px-5 flex flex-col gap-5 overflow-hidden">
       <h2 className="h2">Les avis :</h2>
-     {renderReviews()}
+      {renderReviews()}
     </section>
   );
 }
