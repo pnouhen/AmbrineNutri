@@ -89,7 +89,7 @@ export function CheckoutPage() {
     return null;
   }
   if (userInfo?.panier.length > 1 && recipesPanier.length === 0) return null;
-
+   
   return (
     <>
       <Header />

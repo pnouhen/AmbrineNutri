@@ -17,4 +17,7 @@ router.post("/me/addresses", auth, userCtrl.addToAddress);
 router.put("/me/addresses", auth, userCtrl.updateAddressById);
 router.delete("/me/addresses/:addressId", auth, userCtrl.removeToAddress);
 
+// Router for buy
+router.post("/me/buyRecipes", auth, userCtrl.purchasedRecipes)
+
 module.exports = router;

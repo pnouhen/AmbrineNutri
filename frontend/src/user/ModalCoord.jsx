@@ -60,13 +60,58 @@ export function ModalCoord({
     const city = cityRef.current?.value.trim();
     const country = countryRef.current?.value.trim();
 
+    // Check firstName
+    const isValidFirstName =
+      firstName != null &&
+      typeof firstName === "string" &&
+      firstName.trim().length >= 2 &&
+      firstName.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(firstName.trim());
+
+    // Check lastName
+    const isValidLastName =
+      lastName != null &&
+      typeof lastName === "string" &&
+      lastName.trim().length >= 2 &&
+      lastName.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
+
+    // CheckAddress
+    const isValidAddress =
+      address != null &&
+      typeof address === "string" &&
+      address.trim().length >= 5 &&
+      address.trim().length <= 100 &&
+      /^[0-9A-Za-zÀ-ÖØ-öø-ÿ\s,.'-]+$/.test(address.trim());
+
+    // Check postal code
+    const isValidPostalCode =
+      typeof postalCode === "number" &&
+      /^[A-Za-z0-9\s-]{3,10}$/.test(postalCode.trim());
+
+    //Check city
+    const isValidCity =
+      city != null &&
+      typeof city === "string" &&
+      city.trim().length >= 2 &&
+      city.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(city.trim());
+
+    // Check country
+    const isValidCountry =
+      country != null &&
+      typeof country === "string" &&
+      country.trim().length >= 2 &&
+      country.trim().length <= 56 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(country.trim());
+
     const isValid =
-      lastName !== "" &&
-      firstName !== "" &&
-      address !== "" &&
-      postalCode !== "" &&
-      city !== "" &&
-      country !== "";
+      !isValidFirstName ||
+      !isValidLastName ||
+      !isValidPostalCode ||
+      !isValidAddress ||
+      !isValidCity ||
+      !isValidCountry;
 
     if (isValid && token) {
       const newCoord = {
@@ -226,7 +271,7 @@ export function ModalCoord({
                 : "hidden"
             }
           >
-            Tous les champs doivent être remplis
+            Certains champs sont pas remplis correctement
           </p>
 
           <div className="lg:col-start-3 lg:col-end-5 mt-5 w-full flex justify-center">

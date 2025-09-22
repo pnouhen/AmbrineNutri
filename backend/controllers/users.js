@@ -74,7 +74,7 @@ exports.login = (req, res, next) => {
                 role: user.role,
                 panier: user.panier,
                 purchases: user.purchases,
-                addresses: user.addresses
+                addresses: user.addresses,
               },
               // Generate a token for user with secret key for the server to verify that it has not been tampered with
               // TODO Changer le token toutes les X minutes
@@ -107,23 +107,23 @@ exports.addToPanier = async (req, res) => {
   try {
     const { recipeId } = req.body;
 
-    if (!recipeId) {
+    if (!recipeId)
       return res
         .status(400)
         .json({ message: "L'id de la recette est manquant" });
+
+    const userId = req.userId;
+    // Add recipeId in user panier if new element
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { panier: recipeId } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     } else {
-      const userId = req.userId;
-      // Add recipeId in user panier if new element
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        { $addToSet: { panier: recipeId } },
-        { new: true }
-      );
-      if (!updatedUser) {
-        return res.status(404).json({ message: "Utilisateur non trouvé" });
-      } else {
-        res.status(200).json({ success: true, panier: updatedUser.panier });
-      }
+      res.status(200).json({ success: true, panier: updatedUser.panier });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -134,61 +134,121 @@ exports.removeToPanier = async (req, res) => {
   try {
     // His id is in params beacause it is specfied in the front-end
     const { recipeId } = req.params;
-    if (!recipeId) {
+    if (!recipeId)
       return res.status(400).json({ message: "recipeId manquant" });
-    } else {
-      const userId = req.userId;
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: "Utilisateur non trouvé" });
-      }
-      // Delete the id by filtering out those that are different
-      if (user.panier.includes(recipeId)) {
-        user.panier = user.panier.filter((r) => r !== recipeId);
-        await user.save();
-      }
+    const userId = req.userId;
+    const user = await User.findById(userId);
 
-      res.status(200).json({ success: true, panier: user.panier });
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
+
+    // Delete the id by filtering out those that are different
+    if (user.panier.includes(recipeId)) {
+      user.panier = user.panier.filter((r) => r !== recipeId);
+      await user.save();
+    }
+
+    res.status(200).json({ success: true, panier: user.panier });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// TODO : Achat : Adresse par default via le backend pour generer la facture, vider le panier, déplacer vers le buy
-
 exports.addToAddress = async (req, res) => {
   try {
-    const { address } = req.body;
-    if (!address) {
+    const { newAddress } = req.body;
+    if (!newAddress)
       return res.status(400).json({ message: "address manquant" });
+
+    const userId = req.userId;
+    await User.findByIdAndUpdate(
+      userId,
+      // All old addresses aren't by default
+      { $set: { "addresses.$[].isDefault": false } },
+      { new: true }
+    );
+
+    const addressWithDefault = {
+      ...address,
+      isDefault: true,
+    };
+
+    // Check firstName
+    const firstName = newAddress.firstName;
+    const isValidFirstName =
+      firstName != null &&
+      typeof firstName === "string" &&
+      firstName.trim().length >= 2 &&
+      firstName.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(firstName.trim());
+
+    // Check lastName
+    const lastName = newAddress.lastName;
+    const isValidLastName =
+      lastName != null &&
+      typeof lastName === "string" &&
+      lastName.trim().length >= 2 &&
+      lastName.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
+
+    // CheckAddress
+    const address = newAddress.lastName;
+    const isValidAddress =
+      address != null &&
+      typeof address === "string" &&
+      address.trim().length >= 5 &&
+      address.trim().length <= 100 &&
+      /^[0-9A-Za-zÀ-ÖØ-öø-ÿ\s,.'-]+$/.test(address.trim());
+
+    // Check postal code
+    const postalCode = newAddress.postalCode;
+    const isValidPostalCode =
+      typeof postalCode === "number" &&
+      /^[A-Za-z0-9\s-]{3,10}$/.test(postalCode.trim());
+
+    //Check city
+    const city = newAddress.city;
+    const isValidCity =
+      city != null &&
+      typeof city === "string" &&
+      city.trim().length >= 2 &&
+      city.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(city.trim());
+
+    // Check country
+    const country = newAddress.country;
+    const isValidCountry =
+      country != null &&
+      typeof country === "string" &&
+      country.trim().length >= 2 &&
+      country.trim().length <= 56 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(country.trim());
+
+    // Check all the elements
+    if (
+      !isValidFirstName ||
+      !isValidLastName ||
+      !isValidPostalCode ||
+      !isValidAddress ||
+      !isValidCity ||
+      !isValidCountry
+    )
+      return res
+        .status(400)
+        .json({ message: "Certains champs sont pas remplis correctement" });
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      // Position 0 for the front-end
+      { $push: { addresses: { $each: [addressWithDefault], $position: 0 } } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     } else {
-      const userId = req.userId;
-      await User.findByIdAndUpdate(
-        userId,
-        // All old addresses aren't by default
-        { $set: { "addresses.$[].isDefault": false } },
-        { new: true }
-      );
-
-      const addressWithDefault = {
-        ...address,
-        isDefault: true,
-      };
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        // Position 0 for the front-end
-        { $push: { addresses: { $each: [addressWithDefault], $position: 0 } } },
-        { new: true }
-      );
-
-      if (!updatedUser) {
-        return res.status(404).json({ message: "Utilisateur non trouvé" });
-      } else {
-        res
-          .status(200)
-          .json({ success: true, addresses: updatedUser.addresses });
-      }
+      res.status(200).json({ success: true, addresses: updatedUser.addresses });
     }
   } catch (err) {
     console.error(err);
@@ -198,47 +258,109 @@ exports.addToAddress = async (req, res) => {
 
 exports.updateAddressById = async (req, res) => {
   try {
-    const { id, newAddress } = req.body;
+    const { id, updateAddress } = req.body;
 
-    if (!newAddress || !id) {
+    if (!updateAddress || !id)
       return res.status(400).json({ message: "Adresse ou ID manquant" });
-    } else {
-      const userId = req.userId;
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: "Utilisateur non trouvé" });
-      } else {
-        // Put all addresses in "false"
-        user.addresses.forEach((addr) => {
-          addr.isDefault = false;
-        });
 
-        // Find the id
-        const index = user.addresses.findIndex(
-          (addr) => String(addr.id) === String(id)
-        );
-        if (index === -1) {
-          return res.status(404).json({ message: "Adresse non trouvée" });
-        }
+    const userId = req.userId;
+    const user = await User.findById(userId);
+    if (!user)
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
 
-        // Get update adress
-        const updatedAddress = {
-          ...user.addresses[index]._doc,
-          ...newAddress,
-          isDefault: true,
-        };
+    // Check firstName
+    const firstName = updateAddress.firstName;
+    const isValidFirstName =
+      firstName != null &&
+      typeof firstName === "string" &&
+      firstName.trim().length >= 2 &&
+      firstName.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(firstName.trim());
 
-        // Delete old position
-        user.addresses.splice(index, 1);
+    // Check lastName
+    const lastName = updateAddress.lastName;
+    const isValidLastName =
+      lastName != null &&
+      typeof lastName === "string" &&
+      lastName.trim().length >= 2 &&
+      lastName.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
 
-        // Reinsert at the beginning of the table
-        user.addresses.unshift(updatedAddress);
+    // CheckAddress
+    const address = updateAddress.lastName;
+    const isValidAddress =
+      address != null &&
+      typeof address === "string" &&
+      address.trim().length >= 5 &&
+      address.trim().length <= 100 &&
+      /^[0-9A-Za-zÀ-ÖØ-öø-ÿ\s,.'-]+$/.test(address.trim());
 
-        await user.save();
+    // Check postal code
+    const postalCode = updateAddress.postalCode;
+    const isValidPostalCode =
+      typeof postalCode === "number" &&
+      /^[A-Za-z0-9\s-]{3,10}$/.test(postalCode.trim());
 
-        res.status(200).json({ success: true, addresses: user.addresses });
-      }
+    //Check city
+    const city = updateAddress.city;
+    const isValidCity =
+      city != null &&
+      typeof city === "string" &&
+      city.trim().length >= 2 &&
+      city.trim().length <= 50 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(city.trim());
+
+    // Check country
+    const country = updateAddress.country;
+    const isValidCountry =
+      country != null &&
+      typeof country === "string" &&
+      country.trim().length >= 2 &&
+      country.trim().length <= 56 &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(country.trim());
+
+    // Check all the elements
+    if (
+      !isValidFirstName ||
+      !isValidLastName ||
+      !isValidPostalCode ||
+      !isValidAddress ||
+      !isValidCity ||
+      !isValidCountry
+    )
+      return res
+        .status(400)
+        .json({ message: "Certains champs sont pas remplis correctement" });
+
+    // Put all addresses in "false"
+    user.addresses.forEach((addr) => {
+      addr.isDefault = false;
+    });
+
+    // Find the id
+    const index = user.addresses.findIndex(
+      (addr) => String(addr.id) === String(id)
+    );
+    if (index === -1) {
+      return res.status(404).json({ message: "Adresse non trouvée" });
     }
+
+    // Get update adress
+    const updatedAddress = {
+      ...user.addresses[index]._doc,
+      ...updateAddress,
+      isDefault: true,
+    };
+
+    // Delete old position
+    user.addresses.splice(index, 1);
+
+    // Reinsert at the beginning of the table
+    user.addresses.unshift(updatedAddress);
+
+    await user.save();
+
+    res.status(200).json({ success: true, addresses: user.addresses });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -249,24 +371,67 @@ exports.removeToAddress = async (req, res) => {
   try {
     const addressId = req.params.addressId;
 
-    if (!addressId) {
+    if (!addressId)
       return res.status(400).json({ message: "address manquant" });
-    } else {
-      const userId = req.userId;
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: "Utilisateur non trouvé" });
-      } else {
-        // Delete the address by filtering out those that are different
-        user.addresses = user.addresses.filter(
-          (address) => String(address._id) !== String(addressId)
-        );
 
-        await user.save();
+    const userId = req.userId;
+    const user = await User.findById(userId);
+    if (!user)
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
 
-        res.status(200).json({ success: true, addresses: user.addresses });
-      }
-    }
+    // Delete the address by filtering out those that are different
+    user.addresses = user.addresses.filter(
+      (address) => String(address._id) !== String(addressId)
+    );
+
+    if (user.addresses.length === 1) user.addresses[0].isDefault = true;
+
+    await user.save();
+
+    res.status(200).json({ success: true, addresses: user.addresses });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.purchasedRecipes = async (req, res) => {
+  try {
+    const infoPurchasedRecipes = req.body;
+
+    const userId = req.userId;
+    const user = await User.findById(userId);
+
+    if (!user)
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+
+    if (infoPurchasedRecipes.panier < 0)
+      return res.status(400).json({ message: "panier vide" });
+
+    // Recipes doesn't already purchased
+    const alreadyPurchased = infoPurchasedRecipes.panier.forEach((idPanier) => {
+      user.purchases.find((idPurchased) => idPurchased === idPanier);
+    });
+    if (alreadyPurchased)
+      return res
+        .status(400)
+        .json({ message: "Au moins une recette est déjà acheté" });
+
+    // Check one address is défault
+    const addressIsDefault = user.addresses.find(
+      (address) => address.isDefault === true
+    );
+    if (!infoPurchasedRecipes.address.isDefault && addressIsDefault)
+      return res
+        .status(400)
+        .json({ message: "Aucune adresse n'est sélectionnée" });
+
+    // Check all the elements of paiement
+    const paiement = infoPurchasedRecipes.paiement;
+    const isValidPaiement =
+      paiement != null &&
+      typeof paiement.name === "string" &&
+      paiement.name.trim() !== "" &&
+      /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/.test(paiement.name.trim());
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
