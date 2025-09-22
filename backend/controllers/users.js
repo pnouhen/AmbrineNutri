@@ -155,7 +155,7 @@ exports.removeToPanier = async (req, res) => {
   }
 };
 
-// TODO :  Ajouter removeAllPanier via un put en mettant une limite pour un length > 0
+// TODO : Achat : Adresse par default via le backend pour generer la facture, vider le panier, déplacer vers le buy
 
 exports.addToAddress = async (req, res) => {
   try {

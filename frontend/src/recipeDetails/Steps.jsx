@@ -17,7 +17,9 @@ export function Steps({ token, inPanier, buy, handleAddPanier, recipeDetails }) 
         </NavLink>
       </>
     );
-  } else if (!inPanier && !buy) {
+  } 
+  
+  if (token && inPanier === false && !buy) {
     return (
       <>
         <p className="text">

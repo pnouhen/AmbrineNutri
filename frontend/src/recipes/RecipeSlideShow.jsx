@@ -8,7 +8,7 @@ import RecipeCard from "./RecipeCard";
 import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
-export function RecipeSlideShow({ recipes, recipePages, numberRecipes }) {
+export function RecipeSlideShow({ recipes, recipePages, numberRecipes, noRecipes }) {
   const [showSlideShow, setShowSlideShow] = useState(false);
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
@@ -22,7 +22,7 @@ export function RecipeSlideShow({ recipes, recipePages, numberRecipes }) {
   }
 
   return (
-    <section className={`section pb-5 px-5 flex flex-col gap-5 transitionData ${showSlideShow ? "transitionDataTrue" : "opacity-0"}`}>
+    <section className="section pb-5 px-5 flex flex-col gap-5">
       <h2 className="h2">Les recettes</h2>
 
       {recipePages.length > 0 ? (
@@ -63,7 +63,7 @@ export function RecipeSlideShow({ recipes, recipePages, numberRecipes }) {
       ) : (
         <MessageNoData
           className="lg:col-start-1 lg:col-end-4"
-          text="Aucune recette n'est disponible."
+          text={noRecipes}
         />
       )}
     </section>

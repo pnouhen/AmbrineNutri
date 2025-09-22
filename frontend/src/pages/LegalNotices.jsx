@@ -1,13 +1,9 @@
 import React from "react";
 
-import useScrollAuto from "../services/useScrollAuto";
-
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
 
 export default function LegalNotices() {
-  useScrollAuto();
-
   return (
     <>
       <Header />

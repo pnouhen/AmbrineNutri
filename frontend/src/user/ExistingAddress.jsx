@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 import { fetchDataUserPut } from "../services/fetchDataUserPut";
@@ -6,13 +6,14 @@ import MessageNoData from "../components/MessageNoData";
 
 export function ExistingAddress({
   addresses,
-  setAddresses,
+  setUserInfo,
   setIsOpen,
   setUpdateCoord,
+  coordDefault,
   setCoordDefault,
+  setMessageModal,
 }) {
-  const updateAddress = (coord, e) => {
-    e.stopPropagation();
+  const updateAddress = (coord) => {
     setIsOpen(true);
 
     setUpdateCoord({
@@ -32,26 +33,20 @@ export function ExistingAddress({
       id: coord._id,
       newAddress: coord,
     };
-
     fetchDataUserPut(
       `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
       body
     )
       .then(() => {
         setCoordDefault(coord);
-        setAddresses((prev) =>
-          prev.map((adr) =>
-            String(adr._id) === String(coord._id)
-              ? { ...coord, isDefault: true }
-              : { ...adr, isDefault: false }
-          )
-        );
       })
-      .catch(console.error);
+      .catch((error) => {
+        if (!coord.isDefault) setMessageModal("NoUpdateAddress");
+        console.error("Erreur :", error);
+      });
   };
 
-  const deleteAddress = (deleteCoord, e) => {
-    e.stopPropagation();
+  const deleteAddress = (deleteCoord) => {
     fetchDataUserDelete(
       `${import.meta.env.VITE_BASE_API}/api/users/me/addresses/${
         deleteCoord._id
@@ -59,14 +54,19 @@ export function ExistingAddress({
     )
       .then(() => {
         if (deleteCoord.isDefault === true) setCoordDefault({});
-        setAddresses((prev) =>
-          prev.filter((addr) => addr._id !== deleteCoord._id)
-        );
+        setUserInfo((prev) => ({
+          ...prev,
+          addresses: prev.addresses.filter(
+            (address) => address._id !== deleteCoord._id
+          ),
+        }));
       })
       .catch((error) => {
+        setMessageModal("NoDelete");
         console.error("Erreur :", error);
       });
   };
+
   return (
     <>
       {!addresses || addresses.length > 0 ? (
@@ -74,7 +74,7 @@ export function ExistingAddress({
           <div
             key={index}
             className={`pr-5 pt-5 flex flex-col rounded-lg bg-yellow-50 cursor-pointer ${
-              coord.isDefault
+              coord._id === coordDefault?._id
                 ? "shadow-recipeButtonActive"
                 : "shadow-recipeButton"
             }`}
@@ -93,14 +93,22 @@ export function ExistingAddress({
             <div className="flex gap-4">
               <button
                 className="p-5 font-semibold cursor-pointer"
-                onClick={(e) => updateAddress(coord, e)}
+                onClick={(e) => {
+                  e.preventDefault(); // empêche la redirection
+                  e.stopPropagation(); // empêche la propagation
+                  updateAddress(coord);
+                }}
               >
                 Modifier
               </button>
 
               <button
                 className="p-5 font-semibold cursor-pointer"
-                onClick={(e) => deleteAddress(coord, e)}
+                onClick={(e) => {
+                  e.preventDefault(); // empêche la redirection
+                  e.stopPropagation(); // empêche la propagation
+                  deleteAddress(coord);
+                }}
               >
                 Supprimer
               </button>

@@ -90,6 +90,24 @@ export const dataModalMeassage = [
   },
 
   {
+    action: "NoAddAddress",
+    title: "Ajout non effectué",
+    message: "Désolé, l'adresse n'a pas pu être ajoutée.",
+  },
+
+  {
+    action: "NoUpdateAddress",
+    title: "Modification non effectué",
+    message: "Désolé, l'adresse n'a pas pu être modifié.",
+  },
+
+  {
+    action: "NoDelete",
+    title: "Suppression non effectué",
+    message: "Désolé, la suppression n'a pas pu se faire.",
+  },
+
+  {
     action: "PaymentSuccessful",
     title: "Paiement réussi",
     message: `Merci d'avoir acheté la ou les recettes

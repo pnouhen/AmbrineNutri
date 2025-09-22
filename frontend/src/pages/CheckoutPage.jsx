@@ -17,30 +17,35 @@ import Footer from "../structures/Footer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export function CheckoutPage() {
-  const { token, userInfo } = useContext(AuthContext);
+  const { token, userInfo, setUserInfo } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const [recipes, setRecipes] = useState([]);
+  const [isRecipes, setIsRecipes] = useState("Le panier est vide")
   const [recipesPanier, setRecipesPanier] = useState([]);
+  const [recipesPanierSaved, setRecipesPanierSaved] = useState(null);
   const [coordDefault, setCoordDefault] = useState();
-  const [recipesPanierSaved, setRecipesPanierSaved] = useState([]);
 
-  const [checkSubmit, setCheckSubmit] = useState("");
+  const [messageModal, setMessageModal] = useState("");
 
+  // Manage page if token
   useEffect(() => {
     if (!token) navigate("/se-connecter");
   }, [token]);
 
+  // Generate all recipes for display recipes in panier
   useEffect(() => {
-    if (token)
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
-        .then((recipes) => {
-          setRecipes(recipes);
-        })
-        .catch((error) => console.error("Erreur lors du chargement", error));
+    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
+      .then((recipes) => {
+        setRecipes(recipes);
+      })
+      .catch((error) => {
+        setIsRecipes("Désolé, un problème est survenu")
+        console.error("Erreur lors du chargement", error)});
   }, []);
 
+  // Display recipes in panier
   useEffect(() => {
     const searchRecipeInPanier = recipes.filter((recipe) =>
       userInfo?.panier.includes(recipe._id)
@@ -48,24 +53,41 @@ export function CheckoutPage() {
     setRecipesPanier(searchRecipeInPanier);
   }, [recipes, userInfo]);
 
+  // DeleteRecipe in front and back
   const deleteRecipe = (id) => {
     fetchDataUserDelete(
       `${import.meta.env.VITE_BASE_API}/api/users/me/panier/${id}`
     )
       .then(() => {
         setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
+        userInfo.panier = userInfo.panier.filter((panierId) => panierId !== id);
       })
       .catch((error) => {
+        setMessageModal("NoDelete")
         console.error("Erreur :", error);
       });
   };
 
+  // Clean recipesPanier
   useEffect(() => {
-    if (checkSubmit === "PaymentSuccessful") {
+    if (messageModal === "PaymentSuccessful") {
       setRecipesPanierSaved(recipesPanier);
       setRecipesPanier([]);
     }
-  }, [checkSubmit]);
+  }, [messageModal]);
+
+  // Display coordDefault
+  useEffect(() => {
+    setCoordDefault(
+      userInfo?.addresses.find((address) => address.isDefault === true)
+    );
+  }, [userInfo]);
+
+  // Shows page after generate all elements
+  if (!userInfo) {
+    return null;
+  }
+  if (userInfo?.panier.length > 1 && recipesPanier.length === 0) return null;
 
   return (
     <>
@@ -74,32 +96,35 @@ export function CheckoutPage() {
         <div className="mx-auto px-5 section md:w-1/2 rounded-2xl">
           <CartSummary
             recipesPanier={recipesPanier}
+            isRecipes={isRecipes}
             deleteRecipe={deleteRecipe}
           />
 
           <BillingAddress
+            addresses={userInfo?.addresses}
+            setUserInfo={setUserInfo}
             coordDefault={coordDefault}
             setCoordDefault={setCoordDefault}
+            setMessageModal={setMessageModal}
           />
 
           <PaymentForm
             recipesPanier={recipesPanier}
-            setCheckSubmit={setCheckSubmit}
+            setCheckSubmit={setMessageModal}
             setRecipesPanier={setRecipesPanier}
             coordDefault={coordDefault}
           />
         </div>
 
         <ModalMessage
-          action={checkSubmit}
-          onClickClose={() => setCheckSubmit("")}
+          action={messageModal}
+          onClickClose={() => setMessageModal("")}
         />
       </main>
 
       <Footer />
 
-    {/* TODO Voir pour le faire en back-end afin de sécuriser */}
-      {checkSubmit === "PaymentSuccessful" && (
+      {messageModal === "PaymentSuccessful" && (
         <PDFDownloadLink
           document={
             <GenerateFacture

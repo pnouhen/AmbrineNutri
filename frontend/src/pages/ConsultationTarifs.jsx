@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import useScrollManuel from "../services/useScrollManuel";
+import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { dataCardsConsultTarif } from "../consultationTarifs/dataConsultationTarifs";
 
@@ -10,10 +10,10 @@ import { ConsultationTarifsCard } from "../consultationTarifs/ConsultationTarifs
 import Footer from "../structures/Footer";
 
 export default function ConsultationTarifs() {
-  const [firstConsult, setFirstConsult] = useState(0);
-  const [followUpConsult, setFollowUpConsult] = useState(0);
+  const [firstConsult, setFirstConsult] = useState(null);
+  const [followUpConsult, setFollowUpConsult] = useState(null);
 
-  useScrollManuel()
+    const { token, userInfo } = useContext(AuthContext);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`)
@@ -21,8 +21,15 @@ export default function ConsultationTarifs() {
         setFirstConsult(data[0]);
         setFollowUpConsult(data[1]);
       })
-      .catch((error) => console.error("Erreur de chargement", error));
+      .catch((error) => {
+        setFirstConsult([])
+        setFollowUpConsult([])
+        console.error("Erreur de chargement", error)});
   }, []);
+
+   // Display page
+  if(token && !userInfo) return null
+  if(!firstConsult || !followUpConsult) return null
 
   return (
     <>

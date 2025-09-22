@@ -23,15 +23,19 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    if (token) {
-      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then((userInfo) => setUserInfo(userInfo))
-        .catch((error) => console.error("Erreur lors du chargement", error));
-    }
-  }, [token]);
+  if (token) {
+    fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
+      .then(async (userInfo) => {
+        setUserInfo(userInfo);
+      })
+      .catch((error) => console.error("Erreur lors du chargement", error));
+  }
+}, [token, userInfo?.addresses.length]);
 
   return (
-    <AuthContext.Provider value={{ token, userInfo, login, logout, setUserInfo }}>
+    <AuthContext.Provider
+      value={{ token, userInfo, login, logout, setUserInfo }}
+    >
       {children}
     </AuthContext.Provider>
   );

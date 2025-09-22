@@ -2,10 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
-import { fetchDataGet } from "../services/fetchDataGet";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
-import useScrollManuel from "../services/useScrollManuel";
 
+import Error404 from "./Error404";
 import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
@@ -15,36 +14,36 @@ import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
 import ModalMessage from "../Modals/MessageModal";
-import Error404 from "./Error404";
+import { fetchDataGet } from "../services/fetchDataGet";
 
 export default function RecipeDetails() {
   const { id } = useParams();
   const { token, userInfo } = useContext(AuthContext);
-
-  const [recipeDetails, setRecipeDetails] = useState();
+  const [recipeDetails, setRecipeDetails] = useState(null);
   const [error404, setError404] = useState(false);
-  const [inPanier, setInPanier] = useState(false);
+  const [inPanier, setInPanier] = useState(null);
   const [buy, setBuy] = useState(false);
   const [checkSubmit, setCheckSubmit] = useState("");
   const [indexPeople, setIndexPeople] = useState(1);
 
-  useScrollManuel();
-
   // Récupération de la recette
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
-      .then((recipe) => {
-        setRecipeDetails(recipe);
-      })
-      .catch((error) => {
-        setError404(true);
-        console.error("Erreur lors du chargement", error);
-      });
-  }, [id]);
+    try {
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`).then(
+        (recipe) => setRecipeDetails(recipe)
+      );
+    } catch {
+      (error) => {
+        setRecipeDetails([]);
+        console.error("Erreur:", error);
+      };
+    }
+  }, []);
 
   // Vérifie si la recette est dans le panier dès que token ou recette change
   useEffect(() => {
-    if (userInfo) setInPanier(userInfo?.panier.includes(recipeDetails?._id));
+    if (!userInfo || !recipeDetails) return; // attendre les 2
+    setInPanier(userInfo.panier.includes(recipeDetails._id));
   }, [token, userInfo, recipeDetails]);
 
   // Ajouter la recette au panier
@@ -55,7 +54,10 @@ export default function RecipeDetails() {
         `${import.meta.env.VITE_BASE_API}/api/users/me/panier`,
         body
       )
-        .then(() => setInPanier(true))
+        .then(() => {
+          setInPanier(true);
+          userInfo.panier.push(id);
+        })
         .catch(console.error);
     }
   };
@@ -76,9 +78,9 @@ export default function RecipeDetails() {
     return <Error404 />;
   }
 
-  if (!recipeDetails) {
-    return null;
-  }
+  // Display page
+  if (token && !userInfo) return null;
+  if (!recipeDetails) return null;
 
   return (
     <>
@@ -105,6 +107,7 @@ export default function RecipeDetails() {
                       indexPeople={indexPeople}
                       setIndexPeople={setIndexPeople}
                       notifyButtonInactive={notifyButtonInactive}
+                      buy={buy}
                     />
 
                     <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">

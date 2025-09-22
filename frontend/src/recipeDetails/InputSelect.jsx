@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import Cleave from "cleave.js/react";
 
-export function InputSelect({indexPeople, setIndexPeople, notifyButtonInactive}) {
+export function InputSelect({indexPeople, setIndexPeople, notifyButtonInactive, buy}) {
   const lessPeople = () => {
-    if(indexPeople > 1) setIndexPeople(indexPeople - 1)
+    if(indexPeople > 1 && buy) setIndexPeople(indexPeople - 1)
+  }
+
+  const morePeople = () => {
+    if(buy) setIndexPeople(indexPeople + 1)
   }
 
   return (
@@ -12,7 +16,7 @@ export function InputSelect({indexPeople, setIndexPeople, notifyButtonInactive})
         <i className="fa-solid fa-minus"></i>
       </button>
       <p>{indexPeople} {indexPeople === 1 ? "personne" : "personnes"}</p>
-      <button title="Augmenter" className="cursor-pointer" onClick={() => setIndexPeople(indexPeople + 1)}>
+      <button title="Augmenter" className="cursor-pointer" onClick={morePeople}>
         <i className="fa-solid fa-plus"></i>
       </button>
     </div>

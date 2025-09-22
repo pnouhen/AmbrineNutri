@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import useScrollManuel from "../services/useScrollManuel";
 import { fetchDataGet } from "../services/fetchDataGet";
 
+import { AuthContext } from "../contexts/AuthContext";
 import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
@@ -10,11 +10,12 @@ import { RecipeFilter } from "../recipes/RecipeFilter";
 import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
 
 export default function Recipes() {
-  const [categoriesRecipe, setCategoriesRecipe] = useState([]);
+  const [categoriesRecipe, setCategoriesRecipe] = useState(null);
   const [filter, setFilter] = useState("Tous");
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(null);
+  const [noRecipes, setNoRecipes] = useState("Aucune recette n'est disponible.")
 
-  // useScrollManuel()
+    const { token, userInfo } = useContext(AuthContext);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
@@ -24,7 +25,9 @@ export default function Recipes() {
         );
         setCategoriesRecipe(["Tous", ...categories[0].values]);
       })
-      .catch((error) => console.error("Erreur lors du chargement", error));
+      .catch((error) => {
+        setCategoriesRecipe(["Tous"]);
+        console.error("Erreur lors du chargement", error)});
   }, []);
 
   useEffect(() => {
@@ -34,7 +37,8 @@ export default function Recipes() {
         setRecipes(recipes);
       })
       .catch((error) => {
-        setMessageNoData("Désolé, un problème est survenu.");
+        setNoRecipes("Désolé, un problème est survenu.")
+        setRecipes([])
         console.error("Erreur lors du chargement", error);
       });
   }, []);
@@ -56,9 +60,13 @@ export default function Recipes() {
   }
 
   let recipePages = [];
-  for (let i = 0; i < recipesFilter.length; i += numberRecipes) {
+  for (let i = 0; i < recipesFilter?.length; i += numberRecipes) {
     recipePages.push(recipesFilter.slice(i, i + numberRecipes));
   }
+
+  // Display page
+  if(token && !userInfo) return null
+  if(!categoriesRecipe || !recipes) return null
 
   return (
     <>
@@ -76,6 +84,7 @@ export default function Recipes() {
           recipes={recipes}
           recipePages={recipePages}
           numberRecipes={numberRecipes}
+          noRecipes={noRecipes}
         />
       </main>
       <Footer />

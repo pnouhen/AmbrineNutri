@@ -9,19 +9,12 @@ import NavItem from "../header/NavItem";
 
 export default function Header() {
   const [menuBurger, setMenuBurger] = useState(false);
-  const [showButtonConnexion, setShowButtonConnexion] = useState(false);
   const [compteActive, setCompteActive] = useState(false);
 
   const { token, userInfo, logout } = useContext(AuthContext);
 
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
-
-  useEffect(() => {
-    if (token) {
-      setShowButtonConnexion(true);
-    }
-  }, [token]);
 
   const onClickCompte = () => {
     setCompteActive(!compteActive);
@@ -68,9 +61,7 @@ export default function Header() {
             onClick={onClickCompte}
           >
             <p
-              className={`text-center truncate w-20 transition-opacity duration-200 ease-in ${
-                userInfo ? "opacity-100" : "opacity-0"
-              }`}
+              className="text-center truncate w-20"
             >
               {userInfo?.firstName}
             </p>

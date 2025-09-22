@@ -14,16 +14,16 @@ export default function Reviews({ reviews }) {
   const options = { slidesToScroll: "auto", loop: true };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-  let reviewsLength = reviews.length;
+  let reviewsLength = reviews?.length;
   let numberDivInvisible = 0;
 
   if (window.innerWidth >= 1024) {
-    reviewsLength = Math.ceil(reviews.length / 3);
-    numberDivInvisible = reviewsLength * 3 - reviews.length;
+    reviewsLength = Math.ceil(reviews?.length / 3);
+    numberDivInvisible = reviewsLength * 3 - reviews?.length;
   }
 
   const renderReviews = () => {
-    if(reviews.length > 0) {
+    if(reviews?.length > 0) {
       return (
         <>
           <div className="flex items-center gap-5">

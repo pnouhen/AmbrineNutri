@@ -9,12 +9,13 @@ import { fetchDataUserPut } from "../services/fetchDataUserPut";
 export function ModalCoord({
   token,
   addresses,
-  setAddresses,
+  setUserInfo,
   isOpen,
   setIsOpen,
   updateCoord,
   setUpdateCoord,
   setCoordDefault,
+  setMessageModal,
 }) {
   const lastNameRef = useRef();
   const firstNameRef = useRef();
@@ -76,9 +77,15 @@ export function ModalCoord({
               addresses.forEach((el) => (el.isDefault = false));
 
             // On ajoute la nouvelle adresse en début de tableau
-            setAddresses((prev) => [{ ...newCoord, isDefault: true }, ...prev]);
+            setUserInfo((prev) => ({
+              ...prev,
+              addresses: [newCoord, ...prev.addresses],
+            }));
           })
-          .catch(console.error);
+          .catch((error) => {
+        setMessageModal("NoAddAddress");
+        console.error("Erreur :", error);
+      });
       } else {
         const id = updateCoord.id;
 
@@ -88,20 +95,24 @@ export function ModalCoord({
         };
 
         fetchDataUserPut(
-          `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
+          `${import.meta.env.VITE_BASE_API}/api/users/me/addresse`,
           body
         )
           .then(() => {
             newCoord._id = id;
-            setAddresses((prev) =>
-              prev.map((adr) =>
+            setUserInfo((prev) => ({
+              ...prev,
+              addresses: prev.addresses.map((adr) =>
                 String(adr._id) === String(id)
-                  ? { ...newCoord, isDefault: true}
+                  ? { ...adr, ...newCoord, isDefault: true }
                   : { ...adr, isDefault: false }
-              )
-            );
+              ),
+            }));
           })
-          .catch(console.error);
+          .catch((error) => {
+            setMessageModal("NoUpdateAddress");
+            console.error("Erreur :", error);
+          });
       }
 
       setUpdateCoord({});
@@ -117,7 +128,9 @@ export function ModalCoord({
   return (
     <div onClick={() => closeModal()} className="modal max-md:px-5">
       <div
-        className="modalContainer md:w-1/2 w-full"
+        className={`modalContainer w-full ${
+          window.innerWidth > 1440 ? "md:w-[45rem]" : "md:w-1/2"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <ModalClose onClick={() => closeModal()} />

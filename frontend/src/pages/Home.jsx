@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 
-import useScrollManuel from "../services/useScrollManuel";
+import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { stopOverflow } from "../services/stopOverflow";
 
@@ -15,10 +15,10 @@ import SubmitReview from "../home/SubmitReview";
 import ModalMessage from "../Modals/MessageModal";
 
 export default function Home() {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState(null);
   const [checkSubmit, setCheckSubmit] = useState("");
 
-  useScrollManuel()
+  const { token, userInfo } = useContext(AuthContext);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`)
@@ -26,15 +26,21 @@ export default function Home() {
         setReviews(data);
       })
       .catch((error) => {
+        setReviews([])
         console.error("Erreur de chargement", error);
       });
   }, []);
 
   const sortedReviews = React.useMemo(() => {
+    if(reviews)
     return [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [reviews]);
 
   stopOverflow(checkSubmit);
+
+  // Display page
+  if(token && !userInfo) return null
+  if(!reviews) return null
 
   return (
     <>
