@@ -13,7 +13,8 @@ export default function ConsultationTarifs() {
   const [firstConsult, setFirstConsult] = useState(null);
   const [followUpConsult, setFollowUpConsult] = useState(null);
 
-    const { token, userInfo } = useContext(AuthContext);
+  // To display the header at once if the user is logged in
+  const { token, userInfo } = useContext(AuthContext);
 
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`)
@@ -22,14 +23,16 @@ export default function ConsultationTarifs() {
         setFollowUpConsult(data[1]);
       })
       .catch((error) => {
-        setFirstConsult([])
-        setFollowUpConsult([])
-        console.error("Erreur de chargement", error)});
+        // If firstConsult && followUpConsult = null, the page doesn't display
+        setFirstConsult([]);
+        setFollowUpConsult([]);
+        console.error("Erreur de chargement", error);
+      });
   }, []);
 
-   // Display page
-  if(token && !userInfo) return null
-  if(!firstConsult || !followUpConsult) return null
+  // Display page
+  if (token && !userInfo) return null;
+  if (!firstConsult || !followUpConsult) return null;
 
   return (
     <>
@@ -39,6 +42,7 @@ export default function ConsultationTarifs() {
           url="/assets/img/background/background-methodRate.webp"
           className="object-right"
         />
+        {/* Stockage in file.js */}
         {dataCardsConsultTarif.map(
           ({
             data,

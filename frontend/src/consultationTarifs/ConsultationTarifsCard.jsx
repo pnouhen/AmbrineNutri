@@ -9,39 +9,48 @@ export function ConsultationTarifsCard({
   tarifs,
   priceCondition,
 }) {
-  // Unité de prix
+  // Price unit
   const euroNote = "€*";
 
   return (
     <article className="lg:w-7/12 md:w-10/12 w-full section p-5 flex flex-col gap-5 rounded-2xl">
       <h2 className="h2">{title}</h2>
 
-      {/* Les conditions permettent d'adapter la carte en fonction des elements souhaités */}
+      {/* The condition allow you to adapt the map according to the desired elements */}
       {duration != "" && (
         <div className="displayFlex5px  items-center">
           <h3 className="h3">{duration == "" ? "" : "Durée :"}</h3>
+
           <p className="text">{duration}</p>
         </div>
       )}
+
       <div>
         <h3 className="h3">Description :</h3>
-        <p className="text"
+
+        <p
+          className="text"
           dangerouslySetInnerHTML={{
             __html: description,
           }}
         />
       </div>
+
+      {/* The condition allow you to adapt the map according to the desired elements */}
       {tarifs === true && (
         <>
           <div className="displayFlex5px items-center">
             <h3 className="h3">Tarif :</h3>
+
             <p className="text">
               {price ? price : " - "}
               {euroNote}
             </p>
           </div>
+
           <div className="displayFlex5px items-center">
             <h3 className="h3">Tarif en couple :</h3>
+
             <p className="text">
               {coupleRate ? coupleRate : " - "}
               {euroNote}
@@ -49,6 +58,8 @@ export function ConsultationTarifsCard({
           </div>
         </>
       )}
+
+      {/* The condition allow you to adapt the map according to the desired elements */}
       {priceCondition === true && (
         <p className="text font-medium italic">
           *Modes de règlement: Chèques, virements ou espèces. De plus, certaines

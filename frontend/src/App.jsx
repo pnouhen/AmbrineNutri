@@ -23,10 +23,12 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+
   {
     path: "/*",
     element: <Error404 />,
   },
+
   {
     path: "/mentions-legales",
     element: (
@@ -35,6 +37,7 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+
   {
     path: "/qui-suis-je",
     element: (
@@ -43,6 +46,7 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+
   {
     path: "/consultations-et-tarifs",
     element: (
@@ -51,6 +55,7 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+
   {
     path: "/recettes",
     element: (
@@ -59,6 +64,7 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+
   {
     path: "/recettes/:id",
     element: (
@@ -67,6 +73,7 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+
   {
     path: "/se-connecter",
     element: (
@@ -75,6 +82,7 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
+  
   {
     path: "/panier",
     element: (

@@ -22,7 +22,7 @@ export function CheckoutPage() {
   const navigate = useNavigate();
 
   const [recipes, setRecipes] = useState([]);
-  const [isRecipes, setIsRecipes] = useState("Le panier est vide")
+  const [isRecipes, setIsRecipes] = useState("Le panier est vide");
   const [recipesPanier, setRecipesPanier] = useState([]);
   const [recipesPanierSaved, setRecipesPanierSaved] = useState(null);
   const [coordDefault, setCoordDefault] = useState();
@@ -41,8 +41,9 @@ export function CheckoutPage() {
         setRecipes(recipes);
       })
       .catch((error) => {
-        setIsRecipes("Désolé, un problème est survenu")
-        console.error("Erreur lors du chargement", error)});
+        setIsRecipes("Désolé, un problème est survenu");
+        console.error("Erreur lors du chargement", error);
+      });
   }, []);
 
   // Display recipes in panier
@@ -63,7 +64,7 @@ export function CheckoutPage() {
         userInfo.panier = userInfo.panier.filter((panierId) => panierId !== id);
       })
       .catch((error) => {
-        setMessageModal("NoDelete")
+        setMessageModal("NoDelete");
         console.error("Erreur :", error);
       });
   };
@@ -92,6 +93,7 @@ export function CheckoutPage() {
   return (
     <>
       <Header />
+
       <main className="py-5 bg-gradient-to-r from-[#dbe4c6] to-[#fff6cc]">
         <div className="mx-auto px-5 section md:w-1/2 rounded-2xl">
           <CartSummary
@@ -124,6 +126,7 @@ export function CheckoutPage() {
 
       <Footer />
 
+      {/* TODO Voir pour le generer en back-end */}
       {messageModal === "PaymentSuccessful" && (
         <PDFDownloadLink
           document={

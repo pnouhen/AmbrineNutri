@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function ScrollNext({ emblaApi, className, text }) {
+  // Embla Carousel React function
   const scrollNext = () => {
     emblaApi.scrollNext();
   };

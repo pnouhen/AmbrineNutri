@@ -1,22 +1,21 @@
 import React, { useCallback, useState, useEffect } from "react";
 
-export default function ReviewsDots({
-    emblaApi,
-  reviewsLength,
-}) {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+export default function ReviewsDots({ emblaApi, reviewsLength }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-     const onSelect = useCallback((emblaApi) => {
-        setSelectedIndex(emblaApi.selectedScrollSnap());
-      }, []);
-    
-      useEffect(() => {
-        if (!emblaApi) return;
-    
-        onSelect(emblaApi);
-        emblaApi.on("reInit", onSelect).on("select", onSelect);
-      }, [emblaApi, onSelect]);
-    
+  // Memorizes a function so that it's reference does not change on each render
+  const onSelect = useCallback((emblaApi) => {
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, []);
+
+  // Recovery of value concerning dots
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    onSelect(emblaApi);
+    emblaApi.on("reInit", onSelect).on("select", onSelect);
+  }, [emblaApi, onSelect]);
+
   return (
     <div className="w-ful flex justify-center">
       <ul className="w-full flex justify-center gap-4">

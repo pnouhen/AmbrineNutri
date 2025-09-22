@@ -11,9 +11,11 @@ export default function ConnexionForm({ setCheckSubmit }) {
   const emailConnexionRef = useRef();
   const passwordConnexionRef = useRef();
 
+  const { login } = useContext(AuthContext);
+
+  // Redirection after connexion
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +50,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
   return (
     <div className="section pb-5 px-5 authPageDiv">
       <h2 className="h2">Connexion</h2>
+
       <form className="authPageForm" onSubmit={handleSubmit}>
         <LabelInput
           htmlFor="e-mailConnexion"
@@ -57,6 +60,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
           ref={emailConnexionRef}
           maxLength={160}
         />
+
         <LabelInput
           htmlFor="passwordConnexion"
           label="Mot de passe :"
@@ -65,6 +69,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
           ref={passwordConnexionRef}
           autoComplete={"off"}
         />
+        
         <Button text="Se connecter" className="buttonSubmit" />
       </form>
     </div>

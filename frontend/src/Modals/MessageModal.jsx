@@ -8,29 +8,30 @@ export default function ModalMessage({
   classNameValidation,
   onClickValidate,
 }) {
+  // For the controle with keydown
   const modalRef = useRef(null);
   const lastFocusedRef = useRef(null);
-
   useEffect(() => {
     if (action) {
-      // sauvegarder l'élément qui avait le focus
+      // Save the element that had focus
       lastFocusedRef.current = document.activeElement;
-      // focus sur la modal
+      // Focus in the modal
       modalRef.current?.focus();
     } else {
-      // restaurer le focus à l'élément précédent
+      // Restore focus to the previous element
       lastFocusedRef.current?.focus();
     }
   }, [action]);
-
   const onEscapeClose = (e) => {
     if (e.key === "Escape") {
       onClickClose();
     }
   };
 
+  // Action is the message to display
   if (!action) return null;
 
+  // All the messages are stocked in files.js
   const messageModal = dataModalMeassage.filter(
     (message) => message.action === action
   );
@@ -38,7 +39,7 @@ export default function ModalMessage({
   return (
     <div
       ref={modalRef}
-      tabIndex={-1} // focusable uniquement par JS
+      tabIndex={-1} // Give priority to the modal
       onClick={onClickClose}
       onKeyDown={onEscapeClose}
       className="z-10 modal"
@@ -49,6 +50,8 @@ export default function ModalMessage({
       >
         <ModalClose onClick={onClickClose} />
         <h3 className="h3 text-center">{messageModal[0].title}</h3>
+
+        {/* To display line breaks */}
         {typeof messageModal[0].message === "string" &&
         messageModal[0].message.includes("<") ? (
           <p
@@ -58,6 +61,8 @@ export default function ModalMessage({
         ) : (
           <p className="text text-center">{messageModal[0].message}</p>
         )}
+
+        {/* For confirm the delete in back-end */}
         <div
           className={
             classNameValidation === true ? "flex justify-around" : "hidden"
@@ -69,6 +74,7 @@ export default function ModalMessage({
           >
             Oui
           </button>
+
           <button
             className="w-24 cursor-pointer p-2.5 buttonSubmit"
             onClick={onClickClose}

@@ -7,11 +7,11 @@ export function RecipePagination({ emblaApi }) {
   const [selectedSnap, setSelectedSnap] = useState(0);
   const [snapCount, setSnapCount] = useState(0);
 
+  // For display and updated number of page(s)
   const updateScrollSnapState = useCallback((emblaApi) => {
     setSnapCount(emblaApi.scrollSnapList().length);
     setSelectedSnap(emblaApi.selectedScrollSnap());
   }, []);
-
   useEffect(() => {
     if (!emblaApi) return;
 
@@ -29,10 +29,12 @@ export function RecipePagination({ emblaApi }) {
         }`}
         text="Page Pré."
       />
+
       <p className="text m-auto">
         {" "}
         {selectedSnap + 1} / {snapCount}
       </p>
+
       <ScrollNext
         emblaApi={emblaApi}
         className={`text ${

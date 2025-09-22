@@ -1,12 +1,12 @@
-import React from "react"
+import React from "react";
 
-export default function BackgroundImg({url, className}){
-    return(
-        <img
-          src={url}
-          alt="Arrière plan de la page"
-          className={`absolute top-0 -z-20 w-full h-full object-cover ${className}`}
-          loading="eager"
-        />
-    )
+export default function BackgroundImg({ url, className }) {
+  return (
+    <img
+      src={url}
+      alt="Arrière plan de la page"
+      className={`absolute top-0 -z-20 w-full h-full object-cover ${className}`}
+      loading="eager"
+    />
+  );
 }

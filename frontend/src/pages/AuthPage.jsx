@@ -11,12 +11,13 @@ import Footer from "../structures/Footer";
 import ModalMessage from "../Modals/MessageModal";
 
 export default function AuthPage() {
-  const [checkSubmit, setCheckSubmit] = useState("")
+  const [checkSubmit, setCheckSubmit] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const { token } = useContext(AuthContext);
 
-useEffect(() => {
+  // Redirect if already logged in
+  useEffect(() => {
     if (token) {
       redirectAfterLogin(navigate, location);
     }
@@ -25,16 +26,24 @@ useEffect(() => {
   return (
     <>
       <Header />
+
       <main className="relative p-5 flex flex-wrap justify-around items-center gap-5">
         <BackgroundImg
           url="/assets/img/background/background-connexion.webp"
           className="object-center"
         />
-        <ConnexionForm setCheckSubmit={setCheckSubmit}/>
-        <SignInForm setCheckSubmit={setCheckSubmit}/>
+
+        <ConnexionForm setCheckSubmit={setCheckSubmit} />
+
+        <SignInForm setCheckSubmit={setCheckSubmit} />
       </main>
+
       <Footer />
-      <ModalMessage action={checkSubmit} onClickClose={() => setCheckSubmit("")} />
+
+      <ModalMessage
+        action={checkSubmit}
+        onClickClose={() => setCheckSubmit("")}
+      />
     </>
   );
 }

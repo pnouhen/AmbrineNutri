@@ -10,15 +10,14 @@ export function ModalCoord({
   token,
   addresses,
   setUserInfo,
-  isOpen,
-  setIsOpen,
+  isOpenModal,
+  setIsOpenModal,
   updateCoord,
-  setUpdateCoord,
   setCoordDefault,
   setMessageModal,
 }) {
-    const modalRef = useRef(null);
-    const lastFocusedRef = useRef(null);
+  const modalRef = useRef(null);
+  const lastFocusedRef = useRef(null);
   const lastNameRef = useRef();
   const firstNameRef = useRef();
   const addressRef = useRef();
@@ -29,23 +28,22 @@ export function ModalCoord({
   const [emptyInput, setEmptyInput] = useState(false);
 
   const closeModal = () => {
-    setIsOpen(false);
+    setIsOpenModal(false);
     setEmptyInput(false);
-    setUpdateCoord({});
   };
-  
+
+  // For the controle with keydown
   useEffect(() => {
-      if (isOpen) {
-        // sauvegarder l'élément qui avait le focus
-        lastFocusedRef.current = document.activeElement;
-        // focus sur la modal
-        modalRef.current?.focus();
-      } else {
-        // restaurer le focus à l'élément précédent
-        lastFocusedRef.current?.focus();
-      }
-    }, [isOpen]);
-  
+    if (isOpenModal) {
+      // Save the element that had focus
+      lastFocusedRef.current = document.activeElement;
+      // Focus in the modal
+      modalRef.current?.focus();
+    } else {
+      // Restore focus to the previous element
+      lastFocusedRef.current?.focus();
+    }
+  }, [isOpenModal]);
   const onEscapeClose = (e) => {
     if (e.key === "Escape") {
       closeModal();
@@ -71,8 +69,6 @@ export function ModalCoord({
       country !== "";
 
     if (isValid && token) {
-      setEmptyInput(false);
-
       const newCoord = {
         lastName: lastName,
         firstName: firstName,
@@ -93,20 +89,20 @@ export function ModalCoord({
           body
         )
           .then((res) => {
-            // On décoche les adresses précédentes par défaut
+            // Uncheck previous default addresses
             if (addresses.length > 0)
               addresses.forEach((el) => (el.isDefault = false));
 
-            // On ajoute la nouvelle adresse en début de tableau
+            // Add the new address at the beginning of the table
             setUserInfo((prev) => ({
               ...prev,
               addresses: [newCoord, ...prev.addresses],
             }));
           })
           .catch((error) => {
-        setMessageModal("NoAddAddress");
-        console.error("Erreur :", error);
-      });
+            setMessageModal("NoAddAddress");
+            console.error("Erreur :", error);
+          });
       } else {
         const id = updateCoord.id;
 
@@ -121,6 +117,7 @@ export function ModalCoord({
         )
           .then(() => {
             newCoord._id = id;
+            // Change isDefult for each address
             setUserInfo((prev) => ({
               ...prev,
               addresses: prev.addresses.map((adr) =>
@@ -136,21 +133,22 @@ export function ModalCoord({
           });
       }
 
-      setUpdateCoord({});
-      setIsOpen(!isOpen);
+      setIsOpenModal(!isOpenModal);
       setCoordDefault(newCoord);
     } else {
       setEmptyInput(true);
     }
   };
 
-  if (!isOpen) return null;
+  // Display Modal
+  if (!isOpenModal) return null;
 
   return (
     <div onClick={() => closeModal()} className="modal max-md:px-5">
       <div
-       tabIndex={-1}
-      ref={modalRef} onKeyDown={(e) => onEscapeClose(e)} 
+        tabIndex={-1} // Give priority to the modal
+        ref={modalRef}
+        onKeyDown={(e) => onEscapeClose(e)}
         className={`modalContainer w-full ${
           window.innerWidth > 1440 ? "md:w-[45rem]" : "md:w-1/2"
         }`}
@@ -161,71 +159,65 @@ export function ModalCoord({
           onSubmit={handleSubmit}
           className="p-2.5 lg:grid lg:grid-cols-6 flex flex-wrap justify-center gap-y-3 gap-x-5"
         >
-          <div className="lg:col-start-1 lg:col-end-4">
-            <LabelInput
-              htmlFor={"lastName"}
-              label="Nom"
-              type={"text"}
-              id={"lastName"}
-              value={updateCoord.lastName}
-              ref={lastNameRef}
-            />
-          </div>
+          <LabelInput
+            classNameLabelInput="lg:col-start-1 lg:col-end-4"
+            htmlFor={"lastName"}
+            label="Nom"
+            type={"text"}
+            id={"lastName"}
+            value={updateCoord.lastName}
+            ref={lastNameRef}
+          />
 
-          <div className="lg:col-start-4 lg:col-end-7">
-            <LabelInput
-              htmlFor={"firstName"}
-              label="Prénom"
-              type={"text"}
-              id={"firstName"}
-              value={updateCoord.firstName}
-              ref={firstNameRef}
-            />
-          </div>
+          <LabelInput
+            classNameLabelInput="lg:col-start-4 lg:col-end-7"
+            htmlFor={"firstName"}
+            label="Prénom"
+            type={"text"}
+            id={"firstName"}
+            value={updateCoord.firstName}
+            ref={firstNameRef}
+          />
 
-          <div className="lg:col-start-1 lg:col-end-7">
-            <LabelInput
-              htmlFor={"address"}
-              label="Adresse"
-              type={"text"}
-              id={"address"}
-              value={updateCoord.address}
-              ref={addressRef}
-            />
-          </div>
+          <LabelInput
+            classNameLabelInput="lg:col-start-1 lg:col-end-7"
+            htmlFor={"address"}
+            label="Adresse"
+            type={"text"}
+            id={"address"}
+            value={updateCoord.address}
+            ref={addressRef}
+          />
 
-          <div className="lg:col-start-1 lg:col-end-3">
-            <LabelInput
-              htmlFor={"postalCode"}
-              label="Code postal"
-              type={"number"}
-              id={"postalCode"}
-              value={updateCoord.postalCode}
-              ref={postalCodeRef}
-            />
-          </div>
+          <LabelInput
+            classNameLabelInput="lg:col-start-1 lg:col-end-3"
+            htmlFor={"postalCode"}
+            label="Code postal"
+            type={"number"}
+            id={"postalCode"}
+            value={updateCoord.postalCode}
+            ref={postalCodeRef}
+          />
 
-          <div className="lg:col-start-3 lg:col-end-7">
-            <LabelInput
-              htmlFor={"city"}
-              label="Ville"
-              type={"text"}
-              id={"city"}
-              value={updateCoord.city}
-              ref={cityRef}
-            />
-          </div>
+          <LabelInput
+            classNameLabelInput="lg:col-start-3 lg:col-end-7"
+            htmlFor={"city"}
+            label="Ville"
+            type={"text"}
+            id={"city"}
+            value={updateCoord.city}
+            ref={cityRef}
+          />
 
-          <div className="lg:col-start-1 lg:col-end-4">
-            <LabelInput
-              htmlFor={"country"}
-              label="Pays"
-              type={"text"}
-              id={"country"}
-              value={updateCoord.country}
-              ref={countryRef}
-            />
-          </div>
+          <LabelInput
+            classNameLabelInput="lg:col-start-1 lg:col-end-4"
+            htmlFor={"country"}
+            label="Pays"
+            type={"text"}
+            id={"country"}
+            value={updateCoord.country}
+            ref={countryRef}
+          />
 
           <p
             className={

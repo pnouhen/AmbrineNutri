@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 import MessageNoData from "../components/MessageNoData";
-import { useSetTimeout } from "../hooks/useSetTimeout";
 
 export function RecipeFilter({ data, filter, setFilter }) {
-  const [showFilter, setShowFilter] = useState(false);
-
-  useSetTimeout(() => setShowFilter(true), 100, [data]);
-
   return (
     <section className="section pb-5 px-5">
       <h2 className="h2 mb-5">Catégories</h2>
+
+      {/* Display list if categoriesRecipes generate */}
       {data?.length > 1 ? (
-        <ul
-          className="m-auto lg:grid lg:grid-cols-3 flex flex-wrap justify-center lg:gap-2.5 gap-8"
-        >
+        <ul className="m-auto lg:grid lg:grid-cols-3 flex flex-wrap justify-center lg:gap-2.5 gap-8">
           {data.map((categorie, index) => (
             <li key={index} className="lg:mx-auto">
               <button

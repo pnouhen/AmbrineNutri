@@ -2,51 +2,45 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
+import { fetchDataGet } from "../services/fetchDataGet";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
-import Error404 from "./Error404";
-import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
 import Header from "../structures/Header";
-import Footer from "../structures/Footer";
-import { Steps } from "../recipeDetails/Steps";
-import MessageNoData from "../components/MessageNoData";
+import BackgroundImg from "../components/BackgroundImg";
 import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
+import { Steps } from "../recipeDetails/Steps";
+import MessageNoData from "../components/MessageNoData";
 import ModalMessage from "../Modals/MessageModal";
-import { fetchDataGet } from "../services/fetchDataGet";
+import Footer from "../structures/Footer";
 
 export default function RecipeDetails() {
   const { id } = useParams();
   const { token, userInfo } = useContext(AuthContext);
   const [recipeDetails, setRecipeDetails] = useState(null);
-  const [error404, setError404] = useState(false);
   const [inPanier, setInPanier] = useState(null);
   const [buy, setBuy] = useState(false);
   const [checkSubmit, setCheckSubmit] = useState("");
   const [indexPeople, setIndexPeople] = useState(1);
 
-  // Récupération de la recette
+  // Recipe recovery
   useEffect(() => {
-    try {
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`).then(
-        (recipe) => setRecipeDetails(recipe)
-      );
-    } catch {
-      (error) => {
+    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
+      .then((recipe) => setRecipeDetails(recipe))
+      .catch((error) => {
         setRecipeDetails([]);
         console.error("Erreur:", error);
-      };
-    }
+      });
   }, []);
 
-  // Vérifie si la recette est dans le panier dès que token ou recette change
+  // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {
     if (!userInfo || !recipeDetails) return; // attendre les 2
     setInPanier(userInfo.panier.includes(recipeDetails._id));
   }, [token, userInfo, recipeDetails]);
 
-  // Ajouter la recette au panier
+  // Add recipe to cart
   const handleAddPanier = () => {
     if (token && recipeDetails) {
       const body = { recipeId: recipeDetails._id };
@@ -74,23 +68,19 @@ export default function RecipeDetails() {
     }
   };
 
-  if (error404) {
-    return <Error404 />;
-  }
-
   // Display page
   if (token && !userInfo) return null;
   if (!recipeDetails) return null;
 
   return (
     <>
-      <BackgroundImgCSS url="url(/assets/img/background/background-recipes.webp)" />
-
       <Header />
 
       <main className="relative py-5">
+        <BackgroundImg url="/assets/img/background/background-recipes.webp" />
+
         <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
-          {recipeDetails ? (
+          {recipeDetails !== null ? (
             <>
               <h2 className="h2 w-full">{recipeDetails.title}</h2>
 
@@ -134,6 +124,7 @@ export default function RecipeDetails() {
 
                 <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
                   <h3 className="h3">Les étapes :</h3>
+
                   <div className="text h-full flex flex-col items-center gap-2.5">
                     <Steps
                       token={token}

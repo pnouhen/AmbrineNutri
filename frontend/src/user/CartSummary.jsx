@@ -10,6 +10,8 @@ export function CartSummary({ recipesPanier, isRecipes, deleteRecipe }) {
       <div className="border-panier pb-5">
         <div className="flex flex-col gap-5">
           <h3 className="h3"> Les recettes</h3>
+
+          {/* Display depending on panier.length */}
           {recipesPanier?.length > 0 ? (
             recipesPanier.map((recipe) => (
               <NavLink
@@ -30,8 +32,8 @@ export function CartSummary({ recipesPanier, isRecipes, deleteRecipe }) {
                   <button
                     className="text text-left font-semibold cursor-pointer"
                     onClick={(e) => {
-                      e.preventDefault(); // empêche la redirection
-                      e.stopPropagation(); // empêche la propagation
+                      e.preventDefault();
+                      e.stopPropagation();
                       deleteRecipe(recipe._id);
                     }}
                   >
@@ -47,6 +49,7 @@ export function CartSummary({ recipesPanier, isRecipes, deleteRecipe }) {
 
         <div className="mt-5 flex flex-col gap-2.5">
           <p className="h3">Total : {recipesPanier?.length}€ </p>
+
           <p className="text">
             Dont TVA :{" "}
             {Number.parseFloat(recipesPanier?.length * 0.17).toFixed(2)}€

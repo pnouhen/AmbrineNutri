@@ -1,5 +1,6 @@
 import React from "react";
 
+// So that the parent can directly control some internal DOM elements.
 const LabelInput = React.forwardRef(
   (
     {
@@ -12,7 +13,7 @@ const LabelInput = React.forwardRef(
       classNameInput,
       onChange,
       maxLength,
-      autoComplete
+      autoComplete,
     },
     ref
   ) => {

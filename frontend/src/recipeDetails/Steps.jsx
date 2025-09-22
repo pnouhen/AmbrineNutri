@@ -1,7 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export function Steps({ token, inPanier, buy, handleAddPanier, recipeDetails }) {
+export function Steps({
+  token,
+  inPanier,
+  buy,
+  handleAddPanier,
+  recipeDetails,
+}) {
   if (!token) {
     return (
       <>
@@ -12,13 +18,14 @@ export function Steps({ token, inPanier, buy, handleAddPanier, recipeDetails }) 
           Si cela vous intéresse, vous pouvez vous inscrire ou vous connecter en
           cliquant ici :
         </p>
+
         <NavLink to="/se-connecter" className="font-semibold underline">
           Connexion / Inscription
         </NavLink>
       </>
     );
-  } 
-  
+  }
+
   if (token && inPanier === false && !buy) {
     return (
       <>
@@ -29,6 +36,7 @@ export function Steps({ token, inPanier, buy, handleAddPanier, recipeDetails }) 
           Si cela vous intéresse, vous pouvez l'ajouter au panier en cliquant
           ici :
         </p>
+
         <button
           className="font-semibold underline cursor-pointer"
           onClick={handleAddPanier}
@@ -45,6 +53,7 @@ export function Steps({ token, inPanier, buy, handleAddPanier, recipeDetails }) 
         <p className="text">
           Recette ajoutée à votre panier ! Cliquez ici pour le consulter :
         </p>
+
         <NavLink to="/panier" className="font-semibold underline">
           Accéder au panier
         </NavLink>

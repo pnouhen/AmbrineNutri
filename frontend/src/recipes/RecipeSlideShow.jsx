@@ -1,22 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
+
 import { NavLink } from "react-router-dom";
-import { useSetTimeout } from "../hooks/useSetTimeout";
 import { NumberDivInvisible } from "../components/NumberDivInvisible";
 
 import RecipeCard from "./RecipeCard";
 import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
-export function RecipeSlideShow({ recipes, recipePages, numberRecipes, noRecipes }) {
-  const [showSlideShow, setShowSlideShow] = useState(false);
+export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
+   // For slide show width Embla Carousel React
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-  useSetTimeout(() => setShowSlideShow(true), 500, [recipes]);
-
+  // Display second row if number recipes <= 3
   let numberDivInvisible = 0;
-
   if (recipePages.length === 1) {
     numberDivInvisible = numberRecipes - recipePages[0].length;
   }
@@ -24,7 +22,7 @@ export function RecipeSlideShow({ recipes, recipePages, numberRecipes, noRecipes
   return (
     <section className="section pb-5 px-5 flex flex-col gap-5">
       <h2 className="h2">Les recettes</h2>
-
+      
       {recipePages.length > 0 ? (
         <>
           <div className={`overflow-hidden `} ref={emblaRef}>

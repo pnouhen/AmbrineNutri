@@ -15,6 +15,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
 
   // Normalize line breaks so all OS use "\n" (Windows = \r\n, old Mac = \r)
   const normalized = comment.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
   // Count characters excluding line breaks, then add 50 for each line break
   const used =
     normalized.replace(/\n/g, "").length +
@@ -32,6 +33,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
 
     let isValidString = "";
 
+    // For display message in ModalMessage
     if (isValid) {
       isValidString = "reviewsTrue";
     } else {
@@ -39,6 +41,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
     }
     setCheckSubmit(isValidString);
 
+    // Create review in post
     const newReview = {
       date: new Date().toISOString(),
       firstName:
@@ -113,6 +116,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
             maxLength={450}
             value={comment}
             onKeyDown={(e) => {
+              // Control the enter key
               if ((e.key === "Enter") & (maxCommentLength < 50)) {
                 e.preventDefault();
               }

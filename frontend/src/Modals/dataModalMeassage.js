@@ -72,7 +72,8 @@ export const dataModalMeassage = [
   {
     action: "passwordContain",
     title: "Erreur dans le formulaire",
-    message: "Le mot de passe doit contenir au moins une majuscule, une miniscule, un nombre et un caractères spécial",
+    message:
+      "Le mot de passe doit contenir au moins une majuscule, une miniscule, un nombre et un caractères spécial",
   },
 
   {

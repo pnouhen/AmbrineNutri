@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { fetchDataGet } from "../services/fetchDataGet";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { BackgroundImgCSS } from "../components/BackgroundImgCSS";
+import  BackgroundImg  from "../components/BackgroundImg";
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
 import { RecipeFilter } from "../recipes/RecipeFilter";
@@ -13,10 +13,14 @@ export default function Recipes() {
   const [categoriesRecipe, setCategoriesRecipe] = useState(null);
   const [filter, setFilter] = useState("Tous");
   const [recipes, setRecipes] = useState(null);
-  const [noRecipes, setNoRecipes] = useState("Aucune recette n'est disponible.")
+  const [noRecipes, setNoRecipes] = useState(
+    "Aucune recette n'est disponible."
+  );
 
-    const { token, userInfo } = useContext(AuthContext);
+  // To display the header at once if the user is logged in
+  const { token, userInfo } = useContext(AuthContext);
 
+  // Get categoriesRecipes here for link the recipes
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
       .then((infoAddRecipes) => {
@@ -27,9 +31,11 @@ export default function Recipes() {
       })
       .catch((error) => {
         setCategoriesRecipe(["Tous"]);
-        console.error("Erreur lors du chargement", error)});
+        console.error("Erreur lors du chargement", error);
+      });
   }, []);
 
+  // Get recipes here for link the categoriesRecipes
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
       .then((recipes) => {
@@ -37,8 +43,8 @@ export default function Recipes() {
         setRecipes(recipes);
       })
       .catch((error) => {
-        setNoRecipes("Désolé, un problème est survenu.")
-        setRecipes([])
+        setNoRecipes("Désolé, un problème est survenu.");
+        setRecipes([]);
         console.error("Erreur lors du chargement", error);
       });
   }, []);
@@ -58,21 +64,21 @@ export default function Recipes() {
   if (window.innerWidth < 768) {
     numberRecipes = 2;
   }
-
   let recipePages = [];
   for (let i = 0; i < recipesFilter?.length; i += numberRecipes) {
     recipePages.push(recipesFilter.slice(i, i + numberRecipes));
   }
 
   // Display page
-  if(token && !userInfo) return null
-  if(!categoriesRecipe || !recipes) return null
+  if (token && !userInfo) return null;
+  if (!categoriesRecipe || !recipes) return null;
 
   return (
     <>
       <Header />
+
       <main className="h-[69.1875rem] relative py-5 flex flex-col gap-5">
-        <BackgroundImgCSS url="url(/assets/img/background/background-recipes.webp)" />
+        <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
         <RecipeFilter
           data={categoriesRecipe}
@@ -81,12 +87,12 @@ export default function Recipes() {
         />
 
         <RecipeSlideShow
-          recipes={recipes}
           recipePages={recipePages}
           numberRecipes={numberRecipes}
           noRecipes={noRecipes}
         />
       </main>
+
       <Footer />
     </>
   );

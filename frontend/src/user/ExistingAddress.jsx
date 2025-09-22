@@ -7,14 +7,14 @@ import MessageNoData from "../components/MessageNoData";
 export function ExistingAddress({
   addresses,
   setUserInfo,
-  setIsOpen,
+  setIsOpenModal,
   setUpdateCoord,
   coordDefault,
   setCoordDefault,
   setMessageModal,
 }) {
   const updateAddress = (coord) => {
-    setIsOpen(true);
+    setIsOpenModal(true);
 
     setUpdateCoord({
       id: coord._id,
@@ -73,8 +73,9 @@ export function ExistingAddress({
 
   return (
     <>
+      {/* If addresses === null, the page doesn't display */}
       {!addresses || addresses.length > 0 ? (
-        addresses?.map((coord, index) => (
+        addresses.map((coord, index) => (
           <div
             tabIndex={0}
             key={index}
@@ -100,8 +101,8 @@ export function ExistingAddress({
               <button
                 className="p-5 font-semibold cursor-pointer"
                 onClick={(e) => {
-                  e.preventDefault(); // empêche la redirection
-                  e.stopPropagation(); // empêche la propagation
+                  e.preventDefault();
+                  e.stopPropagation();
                   updateAddress(coord);
                 }}
               >
@@ -111,8 +112,8 @@ export function ExistingAddress({
               <button
                 className="p-5 font-semibold cursor-pointer"
                 onClick={(e) => {
-                  e.preventDefault(); // empêche la redirection
-                  e.stopPropagation(); // empêche la propagation
+                  e.preventDefault();
+                  e.stopPropagation();
                   deleteAddress(coord);
                 }}
               >

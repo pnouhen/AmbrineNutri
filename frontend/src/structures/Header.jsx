@@ -11,28 +11,27 @@ export default function Header() {
   const [menuBurger, setMenuBurger] = useState(false);
   const [compteActive, setCompteActive] = useState(false);
 
+  // Recover token, userInfo and logout put into context
   const { token, userInfo, logout } = useContext(AuthContext);
 
+  // Change account Navlink background color 
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
 
+  // Display account menu
   const onClickCompte = () => {
     setCompteActive(!compteActive);
   };
-
   const onMouseEnterCompte = () => {
     setCompteActive(true);
   };
-
   const onMouseLeaveCompte = () => {
     setCompteActive(false);
   };
-
   const enterCompte = (e) => {
     if (e.key === "Enter" || e.key === "Tab") setCompteActive(true);
     if (e.key === "Escape") setCompteActive(false);
   };
-
   const escapeCompte = (e) => {
     if (e.key === "Escape" || e.key === "Tab") {
       e.stopPropagation();
@@ -40,6 +39,7 @@ export default function Header() {
     }
   };
 
+  // Stop overflow in tablet and mobile
   useEffect(() => {
     if (menuBurger) {
       document.body.style.overflow = "hidden";
@@ -47,7 +47,7 @@ export default function Header() {
       document.body.style.overflow = "auto";
     }
 
-    // Cleanup pour éviter les conflits
+    // Cleanup to avoid conflicts
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -57,7 +57,7 @@ export default function Header() {
     logout();
   };
 
-  // Rendu conditionnel simplifié
+  // Rendering depending on the connection
   const renderAuthElements = () => {
     if (token) {
       return (
@@ -134,6 +134,7 @@ export default function Header() {
               : "max-lg:h-[100vh] max-lg:w-[100vw] max-lg:bg-white"
           } max-lg:absolute max-lg:right-1/2 max-lg:left-0 max-lg:z-50 max-lg:px-8 md:mx-2.5 max-lg:w-full  max-lg:flex max-lg:flex-col max-lg:items-end max-lg:gap-14`}
         >
+          {/* Responvie display  */}
           {window.innerWidth <= 1024 ? (
             <div className="absolute md:right-8 right-4 top-0 translate-y-1/2 w-6 flex justify-center">
               <i

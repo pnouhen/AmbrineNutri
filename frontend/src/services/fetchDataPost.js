@@ -7,6 +7,7 @@ export async function fetchDataPost(url, playload) {
       },
       body: JSON.stringify(playload),
     });
+
     if (!response.ok) {
       throw new Error(`Erreur HTTP : ${response.status}`);
     }

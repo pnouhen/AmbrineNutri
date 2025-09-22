@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function ScrollPrev({ emblaApi, className, text }) {
+  // Embla Carousel React function
   const scrollPrev = () => {
     emblaApi.scrollPrev();
   };

@@ -15,7 +15,7 @@ export function BillingAddress({
 }) {
   const { token } = useContext(AuthContext);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [updateCoord, setUpdateCoord] = useState({});
 
   return (
@@ -24,7 +24,7 @@ export function BillingAddress({
       <ExistingAddress
         addresses={addresses}
         setUserInfo={setUserInfo}
-        setIsOpen={setIsOpen}
+        setIsOpenModal={setIsOpenModal}
         setUpdateCoord={setUpdateCoord}
         coordDefault={coordDefault}
         setCoordDefault={setCoordDefault}
@@ -34,17 +34,16 @@ export function BillingAddress({
       <Button
         text="+ Ajouter une adresse"
         className="mt-2.5 bg-green-100"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpenModal(!isOpenModal)}
       />
 
       <ModalCoord
         token={token}
         addresses={addresses}
         setUserInfo={setUserInfo}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
         updateCoord={updateCoord}
-        setUpdateCoord={setUpdateCoord}
         coordDefault={coordDefault}
         setCoordDefault={setCoordDefault}
         setMessageModal={setMessageModal}

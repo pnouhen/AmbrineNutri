@@ -13,6 +13,7 @@ export const dataCardsConsultTarif = [
     type: "firstConsult",
     priceCondition: true,
   },
+
   {
     title: "Consultation de suivi :",
     duration: "30 minutes",
@@ -31,6 +32,7 @@ export const dataCardsConsultTarif = [
     type: "followUpConsult",
     priceCondition: true,
   },
+
   {
     title: "Consultation à distance :",
     duration: "",

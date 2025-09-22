@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 import ScrollPrev from "../scrolls/ScrollPrev";
@@ -7,24 +7,25 @@ import ScrollNext from "../scrolls/ScrollNext";
 import ReviewsSlideShow from "./ReviewsSlideShow";
 import ReviewsDots from "./ReviewsDots";
 
-import MessageNoData from "../components/MessageNoData";
-
 export default function Reviews({ reviews }) {
-  const [showReviews, setShowReviews] = useState(true);
+  // For slide show width Embla Carousel React
   const options = { slidesToScroll: "auto", loop: true };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
+  // Display function responsive and number reviews
   let reviewsLength = reviews?.length;
   let numberDivInvisible = 0;
-
   if (window.innerWidth >= 1024) {
     reviewsLength = Math.ceil(reviews?.length / 3);
+    // If the number of reviews is not a multiple of three, create two invisible divs to maintain a consistent display
     numberDivInvisible = reviewsLength * 3 - reviews?.length;
   }
 
-  const renderReviews = () => {
-    if (reviews?.length > 0) {
-      return (
+  return (
+    <section className="section pb-5 px-5 flex flex-col gap-5 overflow-hidden">
+      <h2 className="h2">Les avis :</h2>
+      {/* Display according to reviews*/}
+      {reviews?.length > 0 ? (
         <>
           <div className="flex items-center gap-5">
             <ScrollPrev
@@ -43,16 +44,9 @@ export default function Reviews({ reviews }) {
           </div>
           <ReviewsDots emblaApi={emblaApi} reviewsLength={reviewsLength} />
         </>
-      );
-    }
-
-    return <p className="text text-center">Désolé, un problème est survenu.</p>;
-  };
-
-  return (
-    <section className="section pb-5 px-5 flex flex-col gap-5 overflow-hidden">
-      <h2 className="h2">Les avis :</h2>
-      {renderReviews()}
+      ) : (
+        <p className="text text-center">Désolé, un problème est survenu.</p>
+      )}
     </section>
   );
 }

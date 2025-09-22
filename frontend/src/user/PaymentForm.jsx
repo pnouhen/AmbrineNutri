@@ -18,18 +18,19 @@ export function PaymentForm({
 
   const submitPayement = (e) => {
     e.preventDefault();
-    // Récupération des valeurs
+    
+    // Retrieving values
     const carteName = carteNameRef.current?.value.trim();
     const cardNumber = cardNumberRef.current?.state.value.trim();
     const cryptogram = cryptogramRef.current?.value.trim();
 
-    // Gestion de la date d'expiration
+    // Expiration date management
     const expiryInput = expiryDateRef.current?.state.value.trim(); // "MM/YY"
     let expiryDate = "";
     const [monthStr, yearStr] = expiryInput.split("/");
     expiryDate = yearStr + monthStr;
 
-    // Date actuelle en YYMM
+    // Current date in YYMM
     const now = new Date();
     const monthNow = String(now.getMonth() + 1).padStart(2, "0");
     const yearNow = String(now.getFullYear()).slice(-2);
@@ -46,8 +47,7 @@ export function PaymentForm({
       setCheckSubmit("PaymentSuccessful");
       setRecipesPanier([]);
 
-      // Vider le panier via du back-end et un put
-
+      // Empty the panier using the backend and a put
       carteNameRef.current.value = "";
       cardNumberRef.current.state.value = "";
       cryptogramRef.current.value = "";

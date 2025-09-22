@@ -12,26 +12,20 @@ export default function SignInForm({ setCheckSubmit }) {
   const passwordSignInRef = useRef();
   const confirmPasswordSignInRef = useRef();
 
-  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
-  const [password, setPassword] = useState("false")
   const [passwordError, setPasswordError] = useState(false);
 
+  // Check email
   const handleChangeEmail = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setEmailError(!emailRegex.test(value));
+    setEmailError(!emailRegex.test(e.target.value));
   };
 
-const handleChangePassword = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-
+  // Check password
+  const handleChangePassword = (e) => {
     const passwordRegex =
-    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).+$/;
-    setPasswordError(!passwordRegex.test(value));
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).+$/;
+    setPasswordError(!passwordRegex.test(e.target.value));
   };
 
   const handleSubmit = async (e) => {
@@ -55,8 +49,8 @@ const handleChangePassword = (e) => {
     if (isTextValid && !emailError) {
       if (!isPasswordValid) {
         setCheckSubmit("passwordLength");
-      } else if(passwordError) {
-        setCheckSubmit("passwordContain")
+      } else if (passwordError) {
+        setCheckSubmit("passwordContain");
       } else if (!isConfirmPasswordValid) {
         setCheckSubmit("ErrorPassword");
       } else {
@@ -80,7 +74,6 @@ const handleChangePassword = (e) => {
           emailSignInRef.current.value = "";
           passwordSignInRef.current.value = "";
           confirmPasswordSignInRef.current.value = "";
-          setEmail("");
           setEmailError(true);
         } catch (error) {
           console.error("Erreur :", error);
@@ -95,6 +88,7 @@ const handleChangePassword = (e) => {
   return (
     <div className="section pb-5 px-5 authPageDiv">
       <h2 className="h2">Inscription</h2>
+
       <form className="authPageForm" onSubmit={handleSubmit}>
         <LabelInput
           htmlFor="name"
@@ -103,6 +97,7 @@ const handleChangePassword = (e) => {
           id="name"
           ref={lastnameSignInRef}
         />
+
         <LabelInput
           htmlFor="firstName"
           label="Prénom :"
@@ -110,6 +105,7 @@ const handleChangePassword = (e) => {
           id="firstName"
           ref={firstNameSignInRef}
         />
+
         <LabelInput
           htmlFor="email"
           label="Email :"
@@ -119,6 +115,7 @@ const handleChangePassword = (e) => {
           maxLength={160}
           onChange={handleChangeEmail}
         />
+
         <LabelInput
           htmlFor="password"
           label="Mot de passe :"
@@ -127,6 +124,7 @@ const handleChangePassword = (e) => {
           ref={passwordSignInRef}
           onChange={handleChangePassword}
         />
+
         <LabelInput
           htmlFor="confirmPassword"
           label="Confirmer votre mot de passe :"
@@ -134,6 +132,7 @@ const handleChangePassword = (e) => {
           id="confirmPassword"
           ref={confirmPasswordSignInRef}
         />
+
         <Button text="S'inscrire" className="buttonSubmit" />
       </form>
     </div>
