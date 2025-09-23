@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/Users");
 
+const { isValidAddress } = require("../utils/isValidAddress");
+const { isValidPaiement } = require("../utils/isValidPaiement");
+
 exports.signup = (req, res, next) => {
   // Check the email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -159,7 +162,9 @@ exports.addToAddress = async (req, res) => {
   try {
     const { newAddress } = req.body;
     if (!newAddress)
-      return res.status(400).json({ message: "address manquant" });
+      return res
+        .status(400)
+        .json({ message: "L'addresse n'est pas envoyé correctement" });
 
     const userId = req.userId;
     await User.findByIdAndUpdate(
@@ -170,70 +175,11 @@ exports.addToAddress = async (req, res) => {
     );
 
     const addressWithDefault = {
-      ...address,
+      ...newAddress,
       isDefault: true,
     };
 
-    // Check firstName
-    const firstName = newAddress.firstName;
-    const isValidFirstName =
-      firstName != null &&
-      typeof firstName === "string" &&
-      firstName.trim().length >= 2 &&
-      firstName.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(firstName.trim());
-
-    // Check lastName
-    const lastName = newAddress.lastName;
-    const isValidLastName =
-      lastName != null &&
-      typeof lastName === "string" &&
-      lastName.trim().length >= 2 &&
-      lastName.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
-
-    // CheckAddress
-    const address = newAddress.lastName;
-    const isValidAddress =
-      address != null &&
-      typeof address === "string" &&
-      address.trim().length >= 5 &&
-      address.trim().length <= 100 &&
-      /^[0-9A-Za-zÀ-ÖØ-öø-ÿ\s,.'-]+$/.test(address.trim());
-
-    // Check postal code
-    const postalCode = newAddress.postalCode;
-    const isValidPostalCode =
-      typeof postalCode === "number" &&
-      /^[A-Za-z0-9\s-]{3,10}$/.test(postalCode.trim());
-
-    //Check city
-    const city = newAddress.city;
-    const isValidCity =
-      city != null &&
-      typeof city === "string" &&
-      city.trim().length >= 2 &&
-      city.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(city.trim());
-
-    // Check country
-    const country = newAddress.country;
-    const isValidCountry =
-      country != null &&
-      typeof country === "string" &&
-      country.trim().length >= 2 &&
-      country.trim().length <= 56 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(country.trim());
-
-    // Check all the elements
-    if (
-      !isValidFirstName ||
-      !isValidLastName ||
-      !isValidPostalCode ||
-      !isValidAddress ||
-      !isValidCity ||
-      !isValidCountry
-    )
+    if (!isValidAddress(newAddress))
       return res
         .status(400)
         .json({ message: "Certains champs sont pas remplis correctement" });
@@ -268,66 +214,7 @@ exports.updateAddressById = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé" });
 
-    // Check firstName
-    const firstName = updateAddress.firstName;
-    const isValidFirstName =
-      firstName != null &&
-      typeof firstName === "string" &&
-      firstName.trim().length >= 2 &&
-      firstName.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(firstName.trim());
-
-    // Check lastName
-    const lastName = updateAddress.lastName;
-    const isValidLastName =
-      lastName != null &&
-      typeof lastName === "string" &&
-      lastName.trim().length >= 2 &&
-      lastName.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
-
-    // CheckAddress
-    const address = updateAddress.lastName;
-    const isValidAddress =
-      address != null &&
-      typeof address === "string" &&
-      address.trim().length >= 5 &&
-      address.trim().length <= 100 &&
-      /^[0-9A-Za-zÀ-ÖØ-öø-ÿ\s,.'-]+$/.test(address.trim());
-
-    // Check postal code
-    const postalCode = updateAddress.postalCode;
-    const isValidPostalCode =
-      typeof postalCode === "number" &&
-      /^[A-Za-z0-9\s-]{3,10}$/.test(postalCode.trim());
-
-    //Check city
-    const city = updateAddress.city;
-    const isValidCity =
-      city != null &&
-      typeof city === "string" &&
-      city.trim().length >= 2 &&
-      city.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(city.trim());
-
-    // Check country
-    const country = updateAddress.country;
-    const isValidCountry =
-      country != null &&
-      typeof country === "string" &&
-      country.trim().length >= 2 &&
-      country.trim().length <= 56 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(country.trim());
-
-    // Check all the elements
-    if (
-      !isValidFirstName ||
-      !isValidLastName ||
-      !isValidPostalCode ||
-      !isValidAddress ||
-      !isValidCity ||
-      !isValidCountry
-    )
+    if (!isValidAddress(updateAddress))
       return res
         .status(400)
         .json({ message: "Certains champs sont pas remplis correctement" });
@@ -396,7 +283,7 @@ exports.removeToAddress = async (req, res) => {
 
 exports.purchasedRecipes = async (req, res) => {
   try {
-    const infoPurchasedRecipes = req.body;
+    const { infoPurchasedRecipes } = req.body;
 
     const userId = req.userId;
     const user = await User.findById(userId);
@@ -404,34 +291,43 @@ exports.purchasedRecipes = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé" });
 
-    if (infoPurchasedRecipes.panier < 0)
+    if (infoPurchasedRecipes.panier.length === 0)
       return res.status(400).json({ message: "panier vide" });
 
     // Recipes doesn't already purchased
-    const alreadyPurchased = infoPurchasedRecipes.panier.forEach((idPanier) => {
-      user.purchases.find((idPurchased) => idPurchased === idPanier);
-    });
+    const alreadyPurchased = infoPurchasedRecipes.panier.some((idPanier) =>
+      user.purchases.includes(idPanier)
+    );
     if (alreadyPurchased)
       return res
         .status(400)
         .json({ message: "Au moins une recette est déjà acheté" });
 
     // Check one address is défault
-    const addressIsDefault = user.addresses.find(
+    const hasDefault = user.addresses.some(
       (address) => address.isDefault === true
     );
-    if (!infoPurchasedRecipes.address.isDefault && addressIsDefault)
+    if (!infoPurchasedRecipes.address?.isDefault && !hasDefault)
       return res
         .status(400)
         .json({ message: "Aucune adresse n'est sélectionnée" });
 
+    // Check address is good
+    if (!isValidAddress(infoPurchasedRecipes.address))
+      return res
+        .status(400)
+        .json({ message: "Certains champs sont pas remplis correctement" });
+
     // Check all the elements of paiement
-    const paiement = infoPurchasedRecipes.paiement;
-    const isValidPaiement =
-      paiement != null &&
-      typeof paiement.name === "string" &&
-      paiement.name.trim() !== "" &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/.test(paiement.name.trim());
+    if (!isValidPaiement(infoPurchasedRecipes))
+      return res
+        .status(400)
+        .json({ message: "Un des éléments du paiement est mal rempli" });
+
+    user.purchases = [...user.purchases, ...user.panier];
+    // Reset panier here for added safety
+    user.panier = [];
+    user.save();
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

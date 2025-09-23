@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { redirectAfterLogin } from "../components/redirectAfterLogin";
+import { redirectAfterLogin } from "../services/redirectAfterLogin";
 import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataPost } from "../services/fetchDataPost";
 

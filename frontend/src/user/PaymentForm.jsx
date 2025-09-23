@@ -1,64 +1,16 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import Cleave from "cleave.js/react";
 
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 
 export function PaymentForm({
-  recipesPanier,
-  setCheckSubmit,
-  setRecipesPanier,
-  coordDefault,
+  submitPayement,
+  carteNameRef,
+  cardNumberRef,
+  expiryDateRef,
+  cryptogramRef,
 }) {
-  const user = [];
-  const carteNameRef = useRef();
-  const cardNumberRef = useRef();
-  const expiryDateRef = useRef();
-  const cryptogramRef = useRef();
-
-  const submitPayement = (e) => {
-    e.preventDefault();
-    
-    // Retrieving values
-    const carteName = carteNameRef.current?.value.trim();
-    const cardNumber = cardNumberRef.current?.state.value.trim();
-    const cryptogram = cryptogramRef.current?.value.trim();
-
-    // Expiration date management
-    const expiryInput = expiryDateRef.current?.state.value.trim(); // "MM/YY"
-    let expiryDate = "";
-    const [monthStr, yearStr] = expiryInput.split("/");
-    expiryDate = yearStr + monthStr;
-
-    // Current date in YYMM
-    const now = new Date();
-    const monthNow = String(now.getMonth() + 1).padStart(2, "0");
-    const yearNow = String(now.getFullYear()).slice(-2);
-    const dateNow = yearNow + monthNow;
-
-    // Validation
-    const isValid =
-      carteName !== "" &&
-      cardNumber.length === 19 &&
-      expiryDate >= dateNow &&
-      cryptogram.length === 3;
-
-    if (isValid && coordDefault && recipesPanier.length > 0) {
-      setCheckSubmit("PaymentSuccessful");
-      setRecipesPanier([]);
-
-      // Empty the panier using the backend and a put
-      carteNameRef.current.value = "";
-      cardNumberRef.current.state.value = "";
-      cryptogramRef.current.value = "";
-      expiryDateRef.current.state.value = "";
-    }
-
-    if (!isValid) setCheckSubmit("ErrorSubmit");
-    if (!coordDefault) setCheckSubmit("EmptyCoord");
-    if (recipesPanier.length === 0) setCheckSubmit("EmptyPanier");
-  };
-
   return (
     <div className="border-panier pb-5 flex flex-col gap-5">
       <h3 className="h3">Payer en ligne</h3>

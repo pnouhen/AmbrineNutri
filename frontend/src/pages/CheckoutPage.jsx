@@ -15,6 +15,8 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useRef } from "react";
+import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
 export function CheckoutPage() {
   const { token, userInfo, setUserInfo } = useContext(AuthContext);
@@ -25,7 +27,14 @@ export function CheckoutPage() {
   const [isRecipes, setIsRecipes] = useState("Le panier est vide");
   const [recipesPanier, setRecipesPanier] = useState([]);
   const [recipesPanierSaved, setRecipesPanierSaved] = useState(null);
-  const [coordDefault, setCoordDefault] = useState();
+  const [coordDefault, setCoordDefault] = useState(() =>
+    userInfo?.addresses.filter((address) => address.isDefault)
+  );
+
+  const carteNameRef = useRef();
+  const cardNumberRef = useRef();
+  const expiryDateRef = useRef();
+  const cryptogramRef = useRef();
 
   const [messageModal, setMessageModal] = useState("");
 
@@ -84,12 +93,43 @@ export function CheckoutPage() {
     );
   }, [userInfo]);
 
+  // Submit paiement here if the payment form should be used
+  const submitPayement = (e) => {
+    e.preventDefault();
+
+    // Use getRawValue() for element generate by Cleave
+    const carteName = carteNameRef.current?.value.trim();
+    const cardNumber = cardNumberRef.current.getRawValue()?.trim();
+    const cryptograme = cryptogramRef.current?.value.trim();
+    const expiryDate = expiryDateRef.current?.getRawValue()?.trim();
+
+    const infoPurchasedRecipes = {
+      panier: userInfo.panier,
+      address: coordDefault,
+      carteName: carteName,
+      cardNumber: cardNumber,
+      cryptograme: cryptograme,
+      expiryDate: expiryDate,
+    };
+
+    const body = {
+      infoPurchasedRecipes: infoPurchasedRecipes,
+    };
+
+    fetchDataUserPost(
+      `${import.meta.env.VITE_BASE_API}/api/users/me/purchasedRecipes`,
+      body
+    )
+      .then(() => console.log("then"))
+      .catch((error) => console.error("Erreur", error));
+  };
+
   // Shows page after generate all elements
   if (!userInfo) {
     return null;
   }
   if (userInfo?.panier.length > 1 && recipesPanier.length === 0) return null;
-   
+
   return (
     <>
       <Header />
@@ -111,10 +151,11 @@ export function CheckoutPage() {
           />
 
           <PaymentForm
-            recipesPanier={recipesPanier}
-            setCheckSubmit={setMessageModal}
-            setRecipesPanier={setRecipesPanier}
-            coordDefault={coordDefault}
+            submitPayement={submitPayement}
+            carteNameRef={carteNameRef}
+            cardNumberRef={cardNumberRef}
+            expiryDateRef={expiryDateRef}
+            cryptogramRef={cryptogramRef}
           />
         </div>
 

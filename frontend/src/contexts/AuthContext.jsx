@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
         })
         .catch((error) => console.error("Erreur lors du chargement", error));
     }
-  }, [token, userInfo?.addresses.length]);
+  }, [token, userInfo?.addresses.length, userInfo?.panier.length]);
 
   // Export the context
   return (

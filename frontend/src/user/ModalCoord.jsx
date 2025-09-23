@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import ModalClose from "../Modals/ModalClose";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
 import { fetchDataUserPut } from "../services/fetchDataUserPut";
+import { isValidAddress } from "../../src/services/isValidAddress";
 
 export function ModalCoord({
   token,
@@ -60,61 +61,7 @@ export function ModalCoord({
     const city = cityRef.current?.value.trim();
     const country = countryRef.current?.value.trim();
 
-    // Check firstName
-    const isValidFirstName =
-      firstName != null &&
-      typeof firstName === "string" &&
-      firstName.trim().length >= 2 &&
-      firstName.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(firstName.trim());
-
-    // Check lastName
-    const isValidLastName =
-      lastName != null &&
-      typeof lastName === "string" &&
-      lastName.trim().length >= 2 &&
-      lastName.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
-
-    // CheckAddress
-    const isValidAddress =
-      address != null &&
-      typeof address === "string" &&
-      address.trim().length >= 5 &&
-      address.trim().length <= 100 &&
-      /^[0-9A-Za-zÀ-ÖØ-öø-ÿ\s,.'-]+$/.test(address.trim());
-
-    // Check postal code
-    const isValidPostalCode =
-      typeof postalCode === "number" &&
-      /^[A-Za-z0-9\s-]{3,10}$/.test(postalCode.trim());
-
-    //Check city
-    const isValidCity =
-      city != null &&
-      typeof city === "string" &&
-      city.trim().length >= 2 &&
-      city.trim().length <= 50 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(city.trim());
-
-    // Check country
-    const isValidCountry =
-      country != null &&
-      typeof country === "string" &&
-      country.trim().length >= 2 &&
-      country.trim().length <= 56 &&
-      /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(country.trim());
-
-    const isValid =
-      !isValidFirstName ||
-      !isValidLastName ||
-      !isValidPostalCode ||
-      !isValidAddress ||
-      !isValidCity ||
-      !isValidCountry;
-
-    if (isValid && token) {
-      const newCoord = {
+     const newCoord = {
         lastName: lastName,
         firstName: firstName,
         address: address,
@@ -124,16 +71,17 @@ export function ModalCoord({
         isDefault: true,
       };
 
+    if (isValidAddress(newCoord) && token) {
       if (!updateCoord.id) {
         const body = {
-          address: newCoord,
+          newAddress: newCoord,
         };
 
         fetchDataUserPost(
           `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
           body
         )
-          .then((res) => {
+          .then(() => {
             // Uncheck previous default addresses
             if (addresses.length > 0)
               addresses.forEach((el) => (el.isDefault = false));
@@ -153,11 +101,11 @@ export function ModalCoord({
 
         const body = {
           id: id,
-          newAddress: newCoord,
+          updateAddress: newCoord,
         };
 
         fetchDataUserPut(
-          `${import.meta.env.VITE_BASE_API}/api/users/me/addresse`,
+          `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
           body
         )
           .then(() => {
@@ -266,7 +214,7 @@ export function ModalCoord({
 
           <p
             className={
-              emptyInput
+              emptyInput || !isOpenModal
                 ? "lg:col-start-1 lg:col-end-7 text text-center text-red-400 font-semibold"
                 : "hidden"
             }

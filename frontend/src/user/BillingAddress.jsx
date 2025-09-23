@@ -34,7 +34,7 @@ export function BillingAddress({
       <Button
         text="+ Ajouter une adresse"
         className="mt-2.5 bg-green-100"
-        onClick={() => setIsOpenModal(!isOpenModal)}
+        onClick={() => setIsOpenModal(true)}
       />
 
       <ModalCoord

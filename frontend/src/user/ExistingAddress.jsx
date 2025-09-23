@@ -28,10 +28,10 @@ export function ExistingAddress({
   };
 
   const updateCoordDefault = (coord) => {
-    coord.isDefault === true;
+    const updatedCoord = { ...coord, isDefault: true };
     const body = {
       id: coord._id,
-      newAddress: coord,
+      updateAddress: updatedCoord,
     };
     fetchDataUserPut(
       `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
