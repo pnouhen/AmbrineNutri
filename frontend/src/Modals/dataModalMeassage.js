@@ -91,15 +91,9 @@ export const dataModalMeassage = [
   },
 
   {
-    action: "NoAddAddress",
-    title: "Ajout non effectué",
-    message: "Désolé, l'adresse n'a pas pu être ajoutée.",
-  },
-
-  {
-    action: "NoUpdateAddress",
-    title: "Modification non effectué",
-    message: "Désolé, l'adresse n'a pas pu être modifié.",
+    action: "InvalidAddress",
+    title: "Erreur adresse",
+    message: "L'adresse n'est pas valide",
   },
 
   {
@@ -109,8 +103,32 @@ export const dataModalMeassage = [
   },
 
   {
+    action: "NoRecipePanier",
+    title: "Panier vide",
+    message: "Le panier est vide",
+  },
+
+  {
+    action: "RecipeAlreadyPurchased",
+    title: "Recette(s) déjà achetée(s)",
+    message: "Au moins une recette est déjà achetée",
+  },
+
+  {
+    action: "NoAddressIsDefault",
+    title: "Adresse non sélectionnée",
+    message: "Aucune adresse n'est sélectionnée",
+  },
+
+  {
+    action: "FailPayment",
+    title: "Echec du paiement",
+    message: "Un des éléments du paiement est mal rempli",
+  },
+
+  {
     action: "PaymentSuccessful",
-    title: "Paiement réussi",
+    title: "Payment réussi",
     message: `Merci d'avoir acheté la ou les recettes
             <br />
             Vous trouverez votre facture dans votre espace personnel
@@ -118,17 +136,5 @@ export const dataModalMeassage = [
             <strong>
               Étant donné qu'il s'agit d'un site de démonstration, les données ne seront pas conservés
             </strong>`,
-  },
-
-  {
-    action: "EmptyCoord",
-    title: "Paiement non effectué",
-    message: "Veuillez ajouter une adresse pour la facturation",
-  },
-
-  {
-    action: "EmptyPanier",
-    title: "Paiement non effectué",
-    message: "Le panier est vide",
   },
 ];

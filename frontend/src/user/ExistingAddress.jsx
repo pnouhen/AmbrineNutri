@@ -41,7 +41,7 @@ export function ExistingAddress({
         setCoordDefault(coord);
       })
       .catch((error) => {
-        if (!coord.isDefault) setMessageModal("NoUpdateAddress");
+        if (!coord.isDefault) setMessageModal("InvalidAddress");
         console.error("Erreur :", error);
       });
   };

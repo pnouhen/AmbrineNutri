@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
+import { AuthContext } from "../contexts/AuthContext";
+import { fetchDataUserPost } from "../services/fetchDataUserPost";
+import { isValidAddress } from "../services/isValidAddress";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 import Header from "../structures/Header";
@@ -15,8 +18,8 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { useRef } from "react";
-import { fetchDataUserPost } from "../services/fetchDataUserPost";
+import { isValidPayment } from "../services/isValidPayment";
+
 
 export function CheckoutPage() {
   const { token, userInfo, setUserInfo } = useContext(AuthContext);
@@ -93,7 +96,7 @@ export function CheckoutPage() {
     );
   }, [userInfo]);
 
-  // Submit paiement here if the payment form should be used
+  // Submit Payment here if the payment form should be used
   const submitPayement = (e) => {
     e.preventDefault();
 
@@ -111,16 +114,39 @@ export function CheckoutPage() {
       cryptograme: cryptograme,
       expiryDate: expiryDate,
     };
-
     const body = {
       infoPurchasedRecipes: infoPurchasedRecipes,
     };
 
+    // Panier is empty
+    if(userInfo.panier.length === 0) setMessageModal("NoRecipePanier")
+    
+      // Recipes doesn't already purchased
+    const alreadyPurchased = userInfo.panier.some((idPanier) =>
+      userInfo.purchases.includes(idPanier)
+    );
+    if (alreadyPurchased) setMessageModal("RecipeAlreadyPurchased")
+
+      // Check one address is défault
+    const hasDefault = userInfo.addresses.some(
+      (address) => address.isDefault === true
+    );
+    if (!infoPurchasedRecipes.address?.isDefault && !hasDefault) setMessageModal("NoAddressIsDefault")
+    
+    // Check address is good
+    if (!isValidAddress(infoPurchasedRecipes.address)) setMessageModal("InvalidAddress")
+
+    // Check all the elements of Payment
+    if (!isValidPayment(infoPurchasedRecipes)) setMessageModal("FailPayment")
+    
     fetchDataUserPost(
       `${import.meta.env.VITE_BASE_API}/api/users/me/purchasedRecipes`,
       body
     )
-      .then(() => console.log("then"))
+      .then(() => {
+        userInfo.panier = []
+        setRecipesPanier([])
+      })
       .catch((error) => console.error("Erreur", error));
   };
 

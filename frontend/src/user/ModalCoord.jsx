@@ -71,7 +71,7 @@ export function ModalCoord({
         isDefault: true,
       };
 
-    if (isValidAddress(newCoord) && token) {
+    if (isValidAddress(newCoord)) {
       if (!updateCoord.id) {
         const body = {
           newAddress: newCoord,
@@ -93,7 +93,7 @@ export function ModalCoord({
             }));
           })
           .catch((error) => {
-            setMessageModal("NoAddAddress");
+            setMessageModal("InvalidAddress");
             console.error("Erreur :", error);
           });
       } else {
@@ -121,7 +121,7 @@ export function ModalCoord({
             }));
           })
           .catch((error) => {
-            setMessageModal("NoUpdateAddress");
+            setMessageModal("InvalidAddress");
             console.error("Erreur :", error);
           });
       }

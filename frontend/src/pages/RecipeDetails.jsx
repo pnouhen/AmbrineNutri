@@ -18,6 +18,7 @@ import Footer from "../structures/Footer";
 export default function RecipeDetails() {
   const { id } = useParams();
   const { token, userInfo } = useContext(AuthContext);
+
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [inPanier, setInPanier] = useState(null);
   const [buy, setBuy] = useState(false);
@@ -25,6 +26,8 @@ export default function RecipeDetails() {
   const [indexPeople, setIndexPeople] = useState(1);
 
   // Recipe recovery
+  if(userInfo?.purchases.includes(id)) console.log("achetée")
+    
   useEffect(() => {
     fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
       .then((recipe) => setRecipeDetails(recipe))

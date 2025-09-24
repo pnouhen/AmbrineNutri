@@ -121,7 +121,7 @@ export default function GenerateFacture({ coordDefault, recipesPanier }) {
           <Text>Facture n° : Fr-{Date.now()}</Text>
           <Text>Date d'émission : {dataFacture.date}</Text>
           <Text>Facture acquittée le {dataFacture.date}</Text>
-          <Text>Mode de paiement : Carte bancaire</Text>
+          <Text>Mode de Payment : Carte bancaire</Text>
         </View>
 
         {/* TABLEAU PRODUITS */}

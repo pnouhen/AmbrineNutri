@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/Users");
 
 const { isValidAddress } = require("../utils/isValidAddress");
-const { isValidPaiement } = require("../utils/isValidPaiement");
+const { isValidPayment } = require("../utils/isValidPayment");
 
 exports.signup = (req, res, next) => {
   // Check the email
@@ -284,10 +284,8 @@ exports.removeToAddress = async (req, res) => {
 exports.purchasedRecipes = async (req, res) => {
   try {
     const { infoPurchasedRecipes } = req.body;
-
     const userId = req.userId;
     const user = await User.findById(userId);
-
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé" });
 
@@ -301,7 +299,7 @@ exports.purchasedRecipes = async (req, res) => {
     if (alreadyPurchased)
       return res
         .status(400)
-        .json({ message: "Au moins une recette est déjà acheté" });
+        .json({ message: "Au moins une recette est déjà achetée" });
 
     // Check one address is défault
     const hasDefault = user.addresses.some(
@@ -318,8 +316,8 @@ exports.purchasedRecipes = async (req, res) => {
         .status(400)
         .json({ message: "Certains champs sont pas remplis correctement" });
 
-    // Check all the elements of paiement
-    if (!isValidPaiement(infoPurchasedRecipes))
+    // Check all the elements of payment
+    if (!isValidPayment(infoPurchasedRecipes))
       return res
         .status(400)
         .json({ message: "Un des éléments du paiement est mal rempli" });
@@ -327,7 +325,11 @@ exports.purchasedRecipes = async (req, res) => {
     user.purchases = [...user.purchases, ...user.panier];
     // Reset panier here for added safety
     user.panier = [];
-    user.save();
+    await user.save();
+
+    return res.status(200).json({
+      purchases: user.purchases,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
