@@ -6,6 +6,6 @@ const recipesCtrl = require("../controllers/recipes");
 router.get("/", recipesCtrl.showRecipes);
 
 // Routers for RecipeDetails
-router.get("/:id", recipesCtrl.showRecipeSelectNoBuy);
+router.get("/:id", recipesCtrl.showRecipeSelectNoPurchase);
 
 module.exports = router;

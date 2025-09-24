@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
 
@@ -21,21 +22,62 @@ export default function RecipeDetails() {
 
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [inPanier, setInPanier] = useState(null);
-  const [buy, setBuy] = useState(false);
+  const [purchase, setPurchase] = useState(undefined);
   const [checkSubmit, setCheckSubmit] = useState("");
   const [indexPeople, setIndexPeople] = useState(1);
 
   // Recipe recovery
-  if(userInfo?.purchases.includes(id)) console.log("achetée")
-    
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
-      .then((recipe) => setRecipeDetails(recipe))
-      .catch((error) => {
-        setRecipeDetails([]);
-        console.error("Erreur:", error);
-      });
-  }, []);
+    if (!token) {
+      // Recipe doesn't purchase
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
+        .then((recipe) => {
+          setPurchase(false)
+          setRecipeDetails(recipe)})
+        .catch((error) => {
+          setRecipeDetails([]);
+          console.error("Erreur:", error);
+        });
+    }
+
+    // Optimize display if recipe is purchased
+    if (
+      token &&
+      userInfo?.purchases !== undefined &&
+      !userInfo?.purchases.includes(id)
+    ) {
+      // Recipe doesn't purchase
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
+        .then((recipe) => {
+          setPurchase(false)
+          setRecipeDetails(recipe)})
+        .catch((error) => {
+          setRecipeDetails([]);
+          console.error("Erreur:", error);
+        });
+    }
+
+    if (
+      token &&
+      userInfo?.purchases !== undefined &&
+      userInfo?.purchases.includes(id)
+    ) {
+      // Recipe purchases
+      fetchDataUserGet(
+        `${
+          import.meta.env.VITE_BASE_API
+        }/api/users/me/showRecipeSelectPurchase/${id}`
+      )
+        .then((recipe) => {
+          setRecipeDetails(recipe);
+          setPurchase(true);
+        })
+        .catch((error) => {
+          setRecipeDetails([]);
+          console.error("Erreur:", error);
+        });
+    }
+  }, [userInfo?.purchases, token]);
 
   // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {
@@ -59,20 +101,20 @@ export default function RecipeDetails() {
     }
   };
 
-  // ModalMessage if the recipe is not buy
+  // ModalMessage if the recipe is not purchase
   const notifyButtonInactive = () => {
     if (!token) {
       setCheckSubmit("noConnexionNumberPeople");
-    } else if (!inPanier && !buy) {
+    } else if (!inPanier && !purchase) {
       setCheckSubmit("noAddPanierNumberPeople");
     }
-    if (token && inPanier && !buy) {
-      setCheckSubmit("noBuyNumberPeople");
+    if (token && inPanier && !purchase) {
+      setCheckSubmit("noPurchaseNumberPeople");
     }
   };
 
   // Display page
-  if (token && !userInfo) return null;
+  if (token && !userInfo?.panier) return null;
   if (!recipeDetails) return null;
 
   return (
@@ -100,7 +142,7 @@ export default function RecipeDetails() {
                       indexPeople={indexPeople}
                       setIndexPeople={setIndexPeople}
                       notifyButtonInactive={notifyButtonInactive}
-                      buy={buy}
+                      purchase={purchase}
                     />
 
                     <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">
@@ -119,7 +161,7 @@ export default function RecipeDetails() {
                       <Ingredients
                         recipeDetails={recipeDetails}
                         indexPeople={indexPeople}
-                        buy={buy}
+                        purchase={purchase}
                       />
                     </div>
                   </div>
@@ -128,11 +170,15 @@ export default function RecipeDetails() {
                 <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
                   <h3 className="h3">Les étapes :</h3>
 
-                  <div className="text h-full flex flex-col items-center gap-2.5">
+                  <div
+                    className={`text h-full flex flex-col ${
+                      purchase ? "items-start" : "items-center"
+                    } gap-2.5`}
+                  >
                     <Steps
                       token={token}
                       inPanier={inPanier}
-                      buy={buy}
+                      purchase={purchase}
                       handleAddPanier={handleAddPanier}
                       recipeDetails={recipeDetails}
                       userInfo={userInfo}

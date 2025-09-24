@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 export function Steps({
   token,
   inPanier,
-  buy,
+  purchase,
   handleAddPanier,
   recipeDetails,
 }) {
@@ -26,7 +26,7 @@ export function Steps({
     );
   }
 
-  if (token && inPanier === false && !buy) {
+  if (token && inPanier === false && !purchase) {
     return (
       <>
         <p className="text">
@@ -47,7 +47,7 @@ export function Steps({
     );
   }
 
-  if (token && inPanier && !buy) {
+  if (token && inPanier && !purchase) {
     return (
       <>
         <p className="text">
@@ -61,13 +61,15 @@ export function Steps({
     );
   }
 
-  if (token && buy) {
-    <ul className="ml-5 flex flex-col gap-4 list-decimal">
-      {recipeDetails.steps.map((step, index) => (
-        <li key={index} className="text">
-          {step}
-        </li>
-      ))}
-    </ul>;
+  if (token && purchase) {
+    return (
+      <ul className="ml-5 flex flex-col gap-4 list-decimal">
+        {recipeDetails.steps.map((step, index) => (
+          <li key={index} className="text">
+            {step}
+          </li>
+        ))}
+      </ul>
+    );
   }
 }

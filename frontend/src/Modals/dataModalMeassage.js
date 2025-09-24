@@ -34,7 +34,7 @@ export const dataModalMeassage = [
   },
 
   {
-    action: "noBuyNumberPeople",
+    action: "noPurchaseNumberPeople",
     title: "Le bouton ne fonctionne pas",
     message:
       "Rendez-vous dans votre panier pour finaliser l’achat et profiter de votre recette.",

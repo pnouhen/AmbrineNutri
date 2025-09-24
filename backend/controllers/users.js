@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/Users");
+const Recipes = require("../models/Recipes")
 
 const { isValidAddress } = require("../utils/isValidAddress");
 const { isValidPayment } = require("../utils/isValidPayment");
@@ -281,19 +282,19 @@ exports.removeToAddress = async (req, res) => {
   }
 };
 
-exports.purchasedRecipes = async (req, res) => {
+exports.purchasesRecipes = async (req, res) => {
   try {
-    const { infoPurchasedRecipes } = req.body;
+    const { infopurchasesRecipes } = req.body;
     const userId = req.userId;
     const user = await User.findById(userId);
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé" });
 
-    if (infoPurchasedRecipes.panier.length === 0)
+    if (infopurchasesRecipes.panier.length === 0)
       return res.status(400).json({ message: "panier vide" });
 
     // Recipes doesn't already purchased
-    const alreadyPurchased = infoPurchasedRecipes.panier.some((idPanier) =>
+    const alreadyPurchased = infopurchasesRecipes.panier.some((idPanier) =>
       user.purchases.includes(idPanier)
     );
     if (alreadyPurchased)
@@ -305,19 +306,19 @@ exports.purchasedRecipes = async (req, res) => {
     const hasDefault = user.addresses.some(
       (address) => address.isDefault === true
     );
-    if (!infoPurchasedRecipes.address?.isDefault && !hasDefault)
+    if (!infopurchasesRecipes.address?.isDefault && !hasDefault)
       return res
         .status(400)
         .json({ message: "Aucune adresse n'est sélectionnée" });
 
     // Check address is good
-    if (!isValidAddress(infoPurchasedRecipes.address))
+    if (!isValidAddress(infopurchasesRecipes.address))
       return res
         .status(400)
         .json({ message: "Certains champs sont pas remplis correctement" });
 
     // Check all the elements of payment
-    if (!isValidPayment(infoPurchasedRecipes))
+    if (!isValidPayment(infopurchasesRecipes))
       return res
         .status(400)
         .json({ message: "Un des éléments du paiement est mal rempli" });
@@ -332,5 +333,26 @@ exports.purchasedRecipes = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.showRecipeSelectPurchase = async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
+    if (!user)
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+
+    if (!user.purchases.includes(recipeId))
+      return res.status(400).json({ message: "Recette non acheté" });
+
+    Recipes.findById(recipeId)
+      .then((recipeSelect) => res.status(200).json(recipeSelect))
+      .catch((error) => res.status(400).json({ error }));
+  } catch (err) {
+  res.status(500).json({ message: err.message });
   }
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Ingredients({ recipeDetails, indexPeople, buy }) {
+export function Ingredients({ recipeDetails, indexPeople, purchase }) {
   const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
@@ -12,11 +12,12 @@ export function Ingredients({ recipeDetails, indexPeople, buy }) {
       <div className="flex flex-col gap-1">
         {recipeDetails?.ingredients.map((ingredient, index) => (
           <p key={index} className="text text-white-200">
-            {buy
+            {purchase
               ? formatNumber(Number(ingredient.quantity) * indexPeople)
               : "***"}
-            {ingredient.quantity?.length <= 2 ? "" : " "}
-            {buy ? ingredient.quantity : ""} {ingredient.name}
+            {/* Dosage arrangement according to it's type */}
+            {ingredient.dosage?.length <= 2 ? "" : " "}
+            {purchase ? ingredient.dosage : ""} {ingredient.name}
           </p>
         ))}
       </div>

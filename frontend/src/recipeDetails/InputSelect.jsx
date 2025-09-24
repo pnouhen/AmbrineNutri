@@ -5,14 +5,14 @@ export function InputSelect({
   indexPeople,
   setIndexPeople,
   notifyButtonInactive,
-  buy,
+  purchase,
 }) {
   const lessPeople = () => {
-    if (indexPeople > 1 && buy) setIndexPeople(indexPeople - 1);
+    if (indexPeople > 1 && purchase) setIndexPeople(indexPeople - 1);
   };
 
   const morePeople = () => {
-    if (buy) setIndexPeople(indexPeople + 1);
+    if (purchase) setIndexPeople(indexPeople + 1);
   };
 
   return (

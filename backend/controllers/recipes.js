@@ -8,7 +8,7 @@ exports.showRecipes = (req, res) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.showRecipeSelectNoBuy = (req, res) => {
+exports.showRecipeSelectNoPurchase = (req, res) => {
   const recipeId = req.params.id;
   if (!recipeId)
     return res.status(404).json({ message: "Recette non trouvée" });

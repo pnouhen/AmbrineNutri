@@ -9,7 +9,7 @@ const categorieSchema = new mongoose.Schema({
 const ingredientsSchema = new mongoose.Schema({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
-  dosage: { type: Number, required: true },
+  dosage: { type: String, required: true },
 });
 
 // Main Schema
