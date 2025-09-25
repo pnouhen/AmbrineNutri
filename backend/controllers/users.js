@@ -2,10 +2,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/Users");
-const Recipes = require("../models/Recipes")
+const Recipes = require("../models/Recipes");
 
 const { isValidAddress } = require("../utils/isValidAddress");
 const { isValidPayment } = require("../utils/isValidPayment");
+
+const { pdfBiiling } = require("./pdfController");
 
 exports.signup = (req, res, next) => {
   // Check the email
@@ -328,6 +330,12 @@ exports.purchasesRecipes = async (req, res) => {
     user.panier = [];
     await user.save();
 
+    // TODO préparer l'element a envoyé via l'object dans pdfController
+    
+
+    // Generate billing
+    pdfBiiling(infopurchasesRecipes);
+
     return res.status(200).json({
       purchases: user.purchases,
     });
@@ -353,6 +361,6 @@ exports.showRecipeSelectPurchase = async (req, res) => {
       .then((recipeSelect) => res.status(200).json(recipeSelect))
       .catch((error) => res.status(400).json({ error }));
   } catch (err) {
-  res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
