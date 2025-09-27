@@ -5,7 +5,6 @@ const open = require("open").default;
 
 function generatePDF(req, res) {
   const infopurchasesRecipes = {
-    recipesName: ["recette", "688         4c8433a48742cc682a55"],
     address: {
       address: "7 rue Benjamin Delessert",
       city: "Limoges",
@@ -16,6 +15,12 @@ function generatePDF(req, res) {
       postalCode: "87100",
     },
   };
+  const recipesName = [
+    "1 recette recette recette recette recette",
+    "2 recette recette repette recette recette recette recette recette recette recette recette recette recette recette recette recette",
+    "3 recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette",
+    "4 recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette",
+  ];
 
   // Chemin vers le dossier pdfs
   const pdfDir = path.join(__dirname, "../pdfs");
@@ -25,7 +30,7 @@ function generatePDF(req, res) {
     fs.mkdirSync(pdfDir);
   }
   const invoiceNumber = Date.now();
-  const filePath = path.join(pdfDir, `Facture-${invoiceNumber}.pdf`);
+  const filePath = path.join(pdfDir, `Facture-document.pdf`);
   const logoPath = path.join(__dirname, "../assets/logo-facture.jpg");
 
   const doc = new PDFDocument();
@@ -95,7 +100,7 @@ function generatePDF(req, res) {
     align: "left",
   });
 
-  // Invoice information
+  // INVOICE INFORMATION
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
   const month = String(today.getMonth() + 1).padStart(2, "0"); // les mois vont de 0 à 11
@@ -113,117 +118,311 @@ function generatePDF(req, res) {
     align: "left",
   });
 
-  //   Purchasing table
+  //   PURCHASING TABLE
+  // Calculates the text width of the last three columns using the header text
   doc.font(fontInitial).fontSize(fontSizeInitial);
   const purchasingTableHEADER_PRIX_HT = "Prix HT";
   const purchasingTableHEADER_TVA = "TVA (20%)";
   const purchasingTableHEADER_PRIX_TTC = "Prix TTC";
+
   const purchasingTableHEADER = [
     purchasingTableHEADER_PRIX_HT,
     purchasingTableHEADER_TVA,
     purchasingTableHEADER_PRIX_TTC,
   ];
-  const widthMaxPurchasingTableHEADER = Math.max(
+  const widthTextLastThreeColumnsPurchasedTable = Math.max(
     ...purchasingTableHEADER.map((h) => doc.widthOfString(h))
   );
 
-  const heightColomunPurchasingTable = doc.heightOfString("Prix TTC") + 10;
-  const marginPurchasingTableText = 10;
-  // TODO Créer que les lignes verticale et celle du haut sauf pour la dernière
-  // First row
-  const heightFirstRowPurchasingTable =
-    heightInVoiceInformation + heightInVoiceInformationText + margin;
+  const heightBowPurchasingTable = doc.heightOfString("Prix TTC");
 
-  // 0.5 so that there is a corner
-  doc
-    .moveTo(margin - 0.5, heightFirstRowPurchasingTable)
-    .lineTo(pageWidth - margin + 0.5, heightFirstRowPurchasingTable)
-    .stroke();
-  // First box
-  const heightFirstRowPurchasingTableText =
-    heightFirstRowPurchasingTable + marginPurchasingTableText;
-  // Left vertical line
-  const lengthPurchasingTableFistRows =
-    heightFirstRowPurchasingTable + heightColomunPurchasingTable;
-  doc
-    .moveTo(margin, heightFirstRowPurchasingTable)
-    .lineTo(margin, lengthPurchasingTableFistRows)
-    .stroke();
+  // Other sizes
+  const marginTextPurchasingTable = 10;
+  // Add an extra 5px because PDFKit remove internal padding
+  const singleVerticalLinePurchasedTable =
+    heightBowPurchasingTable + marginTextPurchasingTable + 5;
 
-  // Text
-  // Remove an extra 20px because PDFKit adds internal padding
-  const widthPurchasingTableFirstColomunText =
+  // Margin Text
+  const marginTextFirstColumnPurchasingTable =
+    margin + marginTextPurchasingTable;
+
+  const marginSecondColumnsPurchasedTable =
     pageWidth -
     margin -
-    marginPurchasingTableText * 2 -
-    (widthMaxPurchasingTableHEADER + marginPurchasingTableText * 2) * 3 - 20;
+    (widthTextLastThreeColumnsPurchasedTable + marginTextPurchasingTable * 2) *
+      3;
+
+  const marginTextSecondColumnPurchasingTable =
+    marginSecondColumnsPurchasedTable + marginTextPurchasingTable;
+
+  const marginTextThirdColumnPurchasingTable =
+    marginTextSecondColumnPurchasingTable +
+    widthTextLastThreeColumnsPurchasedTable +
+    marginTextPurchasingTable * 2;
+
+  const marginTextFourthColumnPurchasingTable =
+    marginTextThirdColumnPurchasingTable +
+    widthTextLastThreeColumnsPurchasedTable +
+    marginTextPurchasingTable * 2;
+
+  // Lines
+  const horizontalLinePurchasedTable = (height) => {
+    // 0.5 so that there is a corner
+    doc
+      .moveTo(margin - 0.5, height)
+      .lineTo(pageWidth - margin + 0.5, height)
+      .stroke();
+  };
+
+  const verticalLinesPurchasedTable = (firstHeight, secondHeight) => {
+    // First Verrtical Line
+    doc.moveTo(margin, firstHeight).lineTo(margin, secondHeight).stroke();
+
+    // Second Vertical Line
+    doc
+      .moveTo(marginSecondColumnsPurchasedTable, firstHeight)
+      .lineTo(marginSecondColumnsPurchasedTable, secondHeight)
+      .stroke();
+
+    // Last Three Vartical Line
+    let width =
+      marginSecondColumnsPurchasedTable +
+      widthTextLastThreeColumnsPurchasedTable +
+      marginTextPurchasingTable * 2;
+
+    [...Array(3)].forEach(() => {
+      doc.moveTo(width, firstHeight).lineTo(width, secondHeight).stroke();
+
+      width =
+        width +
+        widthTextLastThreeColumnsPurchasedTable +
+        marginTextPurchasingTable * 2;
+    });
+  };
+
+  // Header
+  const widthTextFirstColumnsPurchasedTable =
+    marginSecondColumnsPurchasedTable - marginTextPurchasingTable * 2 - margin;
+
+  const header = (heightInitial) => {
+    horizontalLinePurchasedTable(heightInitial);
+
+    verticalLinesPurchasedTable(
+      heightInitial,
+      heightInitial + singleVerticalLinePurchasedTable
+    );
+
+    const heightFirstRowPurchasedTable =
+      heightInitial + marginTextPurchasingTable;
+
+    doc.text(
+      "Produits",
+      marginTextFirstColumnPurchasingTable,
+      heightFirstRowPurchasedTable,
+      {
+        width: widthTextFirstColumnsPurchasedTable,
+        align: "center",
+      }
+    );
+
+    doc.text(
+      purchasingTableHEADER_PRIX_HT,
+      marginTextSecondColumnPurchasingTable,
+      heightFirstRowPurchasedTable,
+      {
+        width: widthTextLastThreeColumnsPurchasedTable,
+        align: "center",
+      }
+    );
+
+    doc.text(
+      purchasingTableHEADER_TVA,
+      marginTextThirdColumnPurchasingTable,
+      heightFirstRowPurchasedTable,
+      {
+        width: widthTextLastThreeColumnsPurchasedTable,
+        align: "center",
+      }
+    );
+
+    doc.text(
+      purchasingTableHEADER_PRIX_TTC,
+      marginTextFourthColumnPurchasingTable,
+      heightFirstRowPurchasedTable,
+      {
+        width: widthTextLastThreeColumnsPurchasedTable,
+        align: "center",
+      }
+    );
+  };
+
+  const heightFirstLinePurchasedTable =
+    heightInVoiceInformation + heightInVoiceInformationText + margin;
+  header(heightFirstLinePurchasedTable);
+
+  // Recipes Rows
+  const heightsecondVerticalLinePurchasedTable =
+    heightFirstLinePurchasedTable + singleVerticalLinePurchasedTable;
+  horizontalLinePurchasedTable(heightsecondVerticalLinePurchasedTable);
+
+  let heightLineRecipesPurchasedTable = heightsecondVerticalLinePurchasedTable;
+  let heightNextLineRecipesPurchasedTable = 0;
+
+  // Remove 2px = heightOfString - fontSize
+  const paddingVertical = marginTextPurchasingTable - 2;
+  const pageHeight = doc.page.height;
+  const bottomLimit = pageHeight - margin; // limite avant bas de page
+
+  recipesName.forEach((fullName) => {
+    const textHeightPurchasedTable = doc.heightOfString(fullName, {
+      width: widthTextFirstColumnsPurchasedTable,
+    });
+
+    // The text baseline visually falls in the center of the cell  with a factor of 1.5
+    const heightRecipeLinePurchasedTable =
+      textHeightPurchasedTable + paddingVertical * 1.5;
+
+    heightNextLineRecipesPurchasedTable =
+      heightLineRecipesPurchasedTable + heightRecipeLinePurchasedTable;
+
+    // Check if row exceeds the page
+    if (heightNextLineRecipesPurchasedTable > bottomLimit) {
+      doc.addPage();
+
+      // Reset Header
+      header(margin);
+
+      // Reset height
+      heightLineRecipesPurchasedTable =
+        margin + singleVerticalLinePurchasedTable;
+      heightNextLineRecipesPurchasedTable =
+        heightLineRecipesPurchasedTable + heightRecipeLinePurchasedTable;
+
+      horizontalLinePurchasedTable(heightLineRecipesPurchasedTable);
+
+      verticalLinesPurchasedTable(
+        heightLineRecipesPurchasedTable,
+        heightNextLineRecipesPurchasedTable
+      );
+    }
+
+    verticalLinesPurchasedTable(
+      heightLineRecipesPurchasedTable,
+      heightNextLineRecipesPurchasedTable
+    );
+
+    // Product text placement
+    const heightTextLineRecipesPurchasedTable =
+      heightLineRecipesPurchasedTable + paddingVertical;
+
+    doc.text(
+      fullName,
+      marginTextFirstColumnPurchasingTable,
+      heightTextLineRecipesPurchasedTable,
+      {
+        width: widthTextFirstColumnsPurchasedTable,
+        align: "left",
+      }
+    );
+
+    // Centered vertical alignment for the 3 price columns
+    const alignMiddleTextLastThreeColumnsPurchasedTable =
+      heightTextLineRecipesPurchasedTable +
+      (heightRecipeLinePurchasedTable - heightBowPurchasingTable) / 2 -
+      5;
+
+    doc.text(
+      "0.83€",
+      marginTextSecondColumnPurchasingTable,
+      alignMiddleTextLastThreeColumnsPurchasedTable,
+      {
+        width: widthTextLastThreeColumnsPurchasedTable,
+        align: "right",
+      }
+    );
+
+    doc.text(
+      "0.17€",
+      marginTextThirdColumnPurchasingTable,
+      alignMiddleTextLastThreeColumnsPurchasedTable,
+      {
+        width: widthTextLastThreeColumnsPurchasedTable,
+        align: "right",
+      }
+    );
+
+    doc.text(
+      "1.00€",
+      marginTextFourthColumnPurchasingTable,
+      alignMiddleTextLastThreeColumnsPurchasedTable,
+      {
+        width: widthTextLastThreeColumnsPurchasedTable,
+        align: "right",
+      }
+    );
+
+    // Horizontal line at the bottom of the cell
+    horizontalLinePurchasedTable(heightNextLineRecipesPurchasedTable);
+
+    // Update for the next line
+    heightLineRecipesPurchasedTable = heightNextLineRecipesPurchasedTable;
+  });
+
+  //  Footer
+  const heightLastLineRecipesPurchasedTable =
+    heightNextLineRecipesPurchasedTable + singleVerticalLinePurchasedTable;
+  const heightTextLastLineRecipesPurchasedTable =
+    heightNextLineRecipesPurchasedTable + marginTextPurchasingTable;
+
+  verticalLinesPurchasedTable(
+    heightLineRecipesPurchasedTable,
+    heightLastLineRecipesPurchasedTable
+  );
 
   doc.text(
-    "Produit",
-    margin + marginPurchasingTableText,
-    heightFirstRowPurchasingTableText,
+    "Total",
+    marginTextFirstColumnPurchasingTable,
+    heightTextLastLineRecipesPurchasedTable,
     {
-      width: widthPurchasingTableFirstColomunText,
+      width: widthTextFirstColumnsPurchasedTable,
       align: "center",
     }
   );
-
-  // Second box
-  const widthPurchasingTableSecondColomun =
-    margin + widthPurchasingTableFirstColomunText + marginPurchasingTableText;
-  doc
-    .moveTo(widthPurchasingTableSecondColomun, heightFirstRowPurchasingTable)
-    .lineTo(widthPurchasingTableSecondColomun, lengthPurchasingTableFistRows)
-    .stroke();
-
+  const priceHT = 0.83 * recipesName.length;
   doc.text(
-    purchasingTableHEADER_PRIX_HT,
-    widthPurchasingTableSecondColomun + marginPurchasingTableText,
-    heightFirstRowPurchasingTableText,
+    `${priceHT.toFixed(2)}€`,
+    marginTextSecondColumnPurchasingTable,
+    heightTextLastLineRecipesPurchasedTable,
     {
-      width: widthMaxPurchasingTableHEADER,
-      align: "center",
+      width: widthTextLastThreeColumnsPurchasedTable,
+      align: "right",
     }
   );
 
-  // Third box
-  const widthPurchasingTableThirdColomun =
-    widthPurchasingTableSecondColomun +
-    marginPurchasingTableText * 2 +
-    widthMaxPurchasingTableHEADER;
+  const priceTVA = 0.17 * recipesName.length;
+  doc.text(
+    `${priceTVA.toFixed(2)}€`,
+    marginTextThirdColumnPurchasingTable,
+    heightTextLastLineRecipesPurchasedTable,
+    {
+      width: widthTextLastThreeColumnsPurchasedTable,
+      align: "right",
+    }
+  );
 
-  doc
-    .moveTo(widthPurchasingTableThirdColomun, heightFirstRowPurchasingTable)
-    .lineTo(widthPurchasingTableThirdColomun, lengthPurchasingTableFistRows)
-    .stroke();
+  doc.text(
+    `${recipesName.length}.00€`,
+    marginTextFourthColumnPurchasingTable,
+    heightTextLastLineRecipesPurchasedTable,
+    {
+      width: widthTextLastThreeColumnsPurchasedTable,
+      align: "right",
+    }
+  );
 
-  // Fourth box
-  const widthPurchasingTableFourthColomun =
-    widthPurchasingTableThirdColomun +
-    marginPurchasingTableText * 2 +
-    widthMaxPurchasingTableHEADER;
+  // Horizontal line at the bottom of the cell
+  horizontalLinePurchasedTable(heightLastLineRecipesPurchasedTable);
 
-  doc
-    .moveTo(widthPurchasingTableFourthColomun, heightFirstRowPurchasingTable)
-    .lineTo(widthPurchasingTableFourthColomun, lengthPurchasingTableFistRows)
-    .stroke();
-
-  // Last line
-  doc
-    .moveTo(
-      widthPurchasingTableFourthColomun +
-        marginPurchasingTableText * 2 +
-        widthMaxPurchasingTableHEADER,
-      heightFirstRowPurchasingTable
-    )
-    .lineTo(
-      widthPurchasingTableFourthColomun +
-        marginPurchasingTableText * 2 +
-        widthMaxPurchasingTableHEADER,
-      lengthPurchasingTableFistRows
-    )
-    .stroke();
-  console.log(widthPurchasingTableFirstColomunText);
   doc.end();
 
   stream.on("finish", async () => {
