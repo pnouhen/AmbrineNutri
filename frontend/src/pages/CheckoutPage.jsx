@@ -18,7 +18,6 @@ import Footer from "../structures/Footer";
 
 import { isValidPayment } from "../services/isValidPayment";
 
-
 export function CheckoutPage() {
   const { token, userInfo, setUserInfo } = useContext(AuthContext);
 
@@ -27,7 +26,6 @@ export function CheckoutPage() {
   const [recipes, setRecipes] = useState([]);
   const [isRecipes, setIsRecipes] = useState("Le panier est vide");
   const [recipesPanier, setRecipesPanier] = useState([]);
-  const [recipesPanierSaved, setRecipesPanierSaved] = useState(null);
   const [coordDefault, setCoordDefault] = useState(() =>
     userInfo?.addresses.filter((address) => address.isDefault)
   );
@@ -109,35 +107,39 @@ export function CheckoutPage() {
     };
 
     // Panier is empty
-    if(userInfo.panier.length === 0) setMessageModal("NoRecipePanier")
-    
-      // Recipes doesn't already purchased
+    if (userInfo.panier.length === 0) setMessageModal("NoRecipePanier");
+
+    // Recipes doesn't already purchased
     const alreadyPurchased = userInfo.panier.some((idPanier) =>
       userInfo.purchases.includes(idPanier)
     );
-    if (alreadyPurchased) setMessageModal("RecipeAlreadyPurchased")
+    if (alreadyPurchased) setMessageModal("RecipeAlreadyPurchased");
 
-      // Check one address is défault
+    // Check one address is défault
     const hasDefault = userInfo.addresses.some(
       (address) => address.isDefault === true
     );
-    if (!infopurchasesRecipes.address?.isDefault && !hasDefault) setMessageModal("NoAddressIsDefault")
-    
+    if (!infopurchasesRecipes.address?.isDefault && !hasDefault)
+      setMessageModal("NoAddressIsDefault");
+
     // Check address is good
-    if (!isValidAddress(infopurchasesRecipes.address)) setMessageModal("InvalidAddress")
+    if (!isValidAddress(infopurchasesRecipes.address))
+      setMessageModal("InvalidAddress");
 
     // Check all the elements of Payment
-    if (!isValidPayment(infopurchasesRecipes)) setMessageModal("FailPayment")
-    
+    if (!isValidPayment(infopurchasesRecipes)) setMessageModal("FailPayment");
+
     fetchDataUserPost(
       `${import.meta.env.VITE_BASE_API}/api/users/me/purchasesRecipes`,
       body
     )
       .then(() => {
-        userInfo.panier = []
-        setRecipesPanier([])
-                setMessageModal("PaymentSuccessful")
-
+        setUserInfo((prev) => ({
+          ...prev,
+          panier: [],
+        }));
+        setRecipesPanier([]);
+        setMessageModal("PaymentSuccessful");
       })
       .catch((error) => console.error("Erreur", error));
   };

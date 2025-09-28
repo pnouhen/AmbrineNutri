@@ -328,14 +328,15 @@ exports.purchasesRecipes = async (req, res) => {
     user.purchases = [...user.purchases, ...user.panier];
     // Reset panier here for added safety
     user.panier = [];
+
     await user.save();
 
     // TODO préparer l'element a envoyé via l'object dans pdfController
     const recipesName = [
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-  ];
-    generatePDF(recipesName)
+      "1 recette recette recette recette recette",
+      "1 recette recette recette recette recette",
+    ];
+    generatePDF(recipesName);
 
     return res.status(200).json({
       purchases: user.purchases,
