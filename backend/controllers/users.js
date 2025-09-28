@@ -7,7 +7,7 @@ const Recipes = require("../models/Recipes");
 const { isValidAddress } = require("../utils/isValidAddress");
 const { isValidPayment } = require("../utils/isValidPayment");
 
-const { pdfBiiling } = require("./pdfController");
+const { generatePDF } = require("./pdfController");
 
 exports.signup = (req, res, next) => {
   // Check the email
@@ -331,10 +331,11 @@ exports.purchasesRecipes = async (req, res) => {
     await user.save();
 
     // TODO préparer l'element a envoyé via l'object dans pdfController
-    
-
-    // Generate billing
-    pdfBiiling(infopurchasesRecipes);
+    const recipesName = [
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+  ];
+    generatePDF(recipesName)
 
     return res.status(200).json({
       purchases: user.purchases,

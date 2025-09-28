@@ -13,11 +13,9 @@ import { CartSummary } from "../user/CartSummary";
 import { BillingAddress } from "../user/BillingAddress";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { PaymentForm } from "../user/PaymentForm";
-import GenerateFacture from "../user/GenerateFacture";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { isValidPayment } from "../services/isValidPayment";
 
 
@@ -81,14 +79,6 @@ export function CheckoutPage() {
       });
   };
 
-  // Clean recipesPanier
-  useEffect(() => {
-    if (messageModal === "PaymentSuccessful") {
-      setRecipesPanierSaved(recipesPanier);
-      setRecipesPanier([]);
-    }
-  }, [messageModal]);
-
   // Display coordDefault
   useEffect(() => {
     setCoordDefault(
@@ -146,6 +136,8 @@ export function CheckoutPage() {
       .then(() => {
         userInfo.panier = []
         setRecipesPanier([])
+                setMessageModal("PaymentSuccessful")
+
       })
       .catch((error) => console.error("Erreur", error));
   };
@@ -192,23 +184,6 @@ export function CheckoutPage() {
       </main>
 
       <Footer />
-
-      {/* TODO Voir pour le generer en back-end */}
-      {messageModal === "PaymentSuccessful" && (
-        <PDFDownloadLink
-          document={
-            <GenerateFacture
-              coordDefault={coordDefault}
-              recipesPanier={recipesPanierSaved}
-            />
-          }
-          fileName="facture.pdf"
-        >
-          {({ loading }) =>
-            loading ? "Génération..." : "Télécharger la facture"
-          }
-        </PDFDownloadLink>
-      )}
     </>
   );
 }

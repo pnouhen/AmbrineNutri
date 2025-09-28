@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const open = require("open").default;
 
-function generatePDF(req, res) {
+// function generatePDF(req, res) {
+function generatePDF(recipesName) {
   const infopurchasesRecipes = {
     address: {
       address: "7 rue Benjamin Delessert",
@@ -15,54 +16,6 @@ function generatePDF(req, res) {
       postalCode: "87100",
     },
   };
-  const recipesName = [
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-    "1 recette recette recette recette recette",
-  ];
 
   // Save pdf
   const pdfDir = path.join(__dirname, "../pdfs");
@@ -517,10 +470,10 @@ function generatePDF(req, res) {
   doc.end();
 
   // To views pdf
-  stream.on("finish", async () => {
-    await open(filePath);
-    res.send("PDF généré et ouvert !");
-  });
+  // stream.on("finish", async () => {
+  //   await open(filePath);
+  //   res.send("PDF généré et ouvert !");
+  // });
 }
 
 module.exports = { generatePDF };
