@@ -17,29 +17,84 @@ function generatePDF(req, res) {
   };
   const recipesName = [
     "1 recette recette recette recette recette",
-    "2 recette recette repette recette recette recette recette recette recette recette recette recette recette recette recette recette",
-    "3 recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette",
-    "4 recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
+    "1 recette recette recette recette recette",
   ];
 
-  // Chemin vers le dossier pdfs
+  // Save pdf
   const pdfDir = path.join(__dirname, "../pdfs");
-
-  // Crée le dossier s'il n'existe pas
-  if (!fs.existsSync(pdfDir)) {
-    fs.mkdirSync(pdfDir);
-  }
-  const invoiceNumber = Date.now();
   const filePath = path.join(pdfDir, `Facture-document.pdf`);
-  const logoPath = path.join(__dirname, "../assets/logo-facture.jpg");
 
-  const doc = new PDFDocument();
+  // Fillable PDF object + get total pages
+  const doc = new PDFDocument({ bufferPages: true });
+
+  // The file on disk where the PDF will be written.
   const stream = fs.createWriteStream(filePath);
 
+  // Link the two together to save the PDF content.
   doc.pipe(stream);
+
+  // Resources
+  const invoiceNumber = Date.now();
+  const logoPath = path.join(__dirname, "../assets/logo-facture.jpg");
+
+  // Layout
   const pageWidth = doc.page.width;
+  const pageHeight = doc.page.height;
   const margin = 30;
 
+  // Footer margins to get a limit for the text
+  const heightCountFooter = doc.fontSize(10).heightOfString("Page");
+  const heightTextFooter = doc.fontSize(8).heightOfString("Page");
+  const marginFooter = 10;
+  const heightPageFooter =
+    pageHeight - heightCountFooter - heightCountFooter - marginFooter - margin;
+  const bottomLimit = heightPageFooter - margin;
+
+  // Basic font
   const fontSizeInitial = 11;
   const fontInitial = "Helvetica";
   doc.fontSize(fontSizeInitial).font(fontInitial);
@@ -73,11 +128,10 @@ function generatePDF(req, res) {
   const fontSizeTitle = 16;
   const fontTitle = "Helvetica-Bold";
 
-  doc.font(fontTitle).fontSize(fontSizeTitle);
+  doc.font(fontTitle).fontSize(fontSizeTitle).fillColor("black");
   const widthTitleText = doc.widthOfString(textTitle);
   const heightTitleText = doc.heightOfString(textTitle);
 
-  // Affichage du texte centré
   doc.text(textTitle, 0, heightTitle, {
     width: pageWidth,
     align: "center",
@@ -120,7 +174,6 @@ function generatePDF(req, res) {
 
   //   PURCHASING TABLE
   // Calculates the text width of the last three columns using the header text
-  doc.font(fontInitial).fontSize(fontSizeInitial);
   const purchasingTableHEADER_PRIX_HT = "Prix HT";
   const purchasingTableHEADER_TVA = "TVA (20%)";
   const purchasingTableHEADER_PRIX_TTC = "Prix TTC";
@@ -270,8 +323,6 @@ function generatePDF(req, res) {
 
   // Remove 2px = heightOfString - fontSize
   const paddingVertical = marginTextPurchasingTable - 2;
-  const pageHeight = doc.page.height;
-  const bottomLimit = pageHeight - margin; // limite avant bas de page
 
   recipesName.forEach((fullName) => {
     const textHeightPurchasedTable = doc.heightOfString(fullName, {
@@ -423,10 +474,51 @@ function generatePDF(req, res) {
   // Horizontal line at the bottom of the cell
   horizontalLinePurchasedTable(heightLastLineRecipesPurchasedTable);
 
+  // MANDATORY LEGAL NOTICES
+  const heightMandatoryLegalnotices =
+    heightLastLineRecipesPurchasedTable + marginTextPurchasingTable;
+
+  doc.text(
+    "Taux des pénalités de retard : 3 fois le taux d’intérêt légal.\nIndemnité forfaitaire pour frais de recouvrement : 40 €.",
+    margin,
+    heightMandatoryLegalnotices
+  );
+
+  // FOOTER
+  const range = doc.bufferedPageRange();
+  for (let i = range.start; i < range.start + range.count; i++) {
+    doc.switchToPage(i);
+
+    // Add count number
+    doc
+      .fontSize(10)
+      .fillColor("#666666")
+      .text(`Page ${i + 1} sur ${range.count}`, 50, heightPageFooter, {
+        align: "center",
+        width: pageWidth - 100,
+        height: heightCountFooter,
+      });
+
+    // Legal obligation to retain
+    doc
+      .fontSize(8)
+      .text(
+        "Document généré automatiquement – à conserver pendant 10 ans (art. L123-22 du Code de commerce).",
+        50,
+        heightPageFooter + heightCountFooter + marginFooter,
+        {
+          align: "center",
+          width: pageWidth - 100,
+          height: heightTextFooter,
+        }
+      );
+  }
+
   doc.end();
 
+  // To views pdf
   stream.on("finish", async () => {
-    await open(filePath); // ouvre le PDF automatiquement
+    await open(filePath);
     res.send("PDF généré et ouvert !");
   });
 }
