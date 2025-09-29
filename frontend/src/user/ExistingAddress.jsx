@@ -6,7 +6,7 @@ import MessageNoData from "../components/MessageNoData";
 
 export function ExistingAddress({
   addresses,
-  setUserInfo,
+  generateUserInfo,
   setIsOpenModal,
   setUpdateCoord,
   coordDefault,
@@ -28,22 +28,24 @@ export function ExistingAddress({
   };
 
   const updateCoordDefault = (coord) => {
-    const updatedCoord = { ...coord, isDefault: true };
-    const body = {
-      id: coord._id,
-      updateAddress: updatedCoord,
-    };
-    fetchDataUserPut(
-      `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
-      body
-    )
-      .then(() => {
-        setCoordDefault(coord);
-      })
-      .catch((error) => {
-        if (!coord.isDefault) setMessageModal("InvalidAddress");
-        console.error("Erreur :", error);
-      });
+    if (coordDefault) {
+      const updatedCoord = { ...coord, isDefault: true };
+      const body = {
+        id: coord._id,
+        updateAddress: updatedCoord,
+      };
+      fetchDataUserPut(
+        `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
+        body
+      )
+        .then(() => {
+          setCoordDefault(coord);
+        })
+        .catch((error) => {
+          if (!coord.isDefault) setMessageModal("InvalidAddress");
+          console.error("Erreur :", error);
+        });
+    }
   };
 
   const deleteAddress = (deleteCoord) => {
@@ -53,13 +55,8 @@ export function ExistingAddress({
       }`
     )
       .then(() => {
-        if (deleteCoord.isDefault === true) setCoordDefault({});
-        setUserInfo((prev) => ({
-          ...prev,
-          addresses: prev.addresses.filter(
-            (address) => address._id !== deleteCoord._id
-          ),
-        }));
+        if (coordDefault && deleteCoord.isDefault === true) setCoordDefault({});
+        generateUserInfo();
       })
       .catch((error) => {
         setMessageModal("NoDelete");
@@ -85,7 +82,7 @@ export function ExistingAddress({
                 : "shadow-recipeButton"
             }`}
             onClick={() => updateCoordDefault(coord)}
-            onKeyDown={(e) => (onEnterAddresses(e, coord))}
+            onKeyDown={(e) => onEnterAddresses(e, coord)}
           >
             <div className="pl-5">
               <p className="h3">

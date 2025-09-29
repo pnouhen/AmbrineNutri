@@ -25,7 +25,7 @@ export default function RecipeDetails() {
   const [purchase, setPurchase] = useState(undefined);
   const [checkSubmit, setCheckSubmit] = useState("");
   const [indexPeople, setIndexPeople] = useState(1);
-
+console.log(userInfo)
   // Recipe recovery
   useEffect(() => {
     if (!token) {

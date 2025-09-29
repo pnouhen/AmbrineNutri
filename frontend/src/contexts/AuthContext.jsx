@@ -25,20 +25,22 @@ export function AuthProvider({ children }) {
   };
 
   // Update userInfo if token or addresses.length change
-  useEffect(() => {
-    if (token) {
+const generateUserInfo = () => {
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then(async (userInfo) => {
           setUserInfo(userInfo);
         })
         .catch((error) => console.error("Erreur lors du chargement", error));
-    }
-  }, [token, userInfo?.addresses.length, userInfo?.panier]);
+  }
+
+  useEffect(() => {
+    if (token) generateUserInfo()
+  }, [token]);
 
   // Export the context
   return (
     <AuthContext.Provider
-      value={{ token, userInfo, login, logout, setUserInfo }}
+      value={{ token, userInfo, login, logout, setUserInfo, generateUserInfo }}
     >
       {children}
     </AuthContext.Provider>

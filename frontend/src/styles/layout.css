@@ -120,6 +120,14 @@
     @apply md:w-80 w-full flex flex-col gap-5;
   }
 
+  .bgUserAccount {
+    @apply py-5 bg-gradient-to-r from-[#dbe4c6] to-[#fff6cc];
+  }
+
+  .userAccountContainer {
+    @apply mx-auto px-5 md:w-1/2 rounded-2xl;
+  }
+
   .border-panier {
     @apply pt-5 border-t-2 border-gray-400;
   }

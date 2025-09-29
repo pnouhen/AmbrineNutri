@@ -19,7 +19,7 @@ import Footer from "../structures/Footer";
 import { isValidPayment } from "../services/isValidPayment";
 
 export function CheckoutPage() {
-  const { token, userInfo, setUserInfo } = useContext(AuthContext);
+  const { token, userInfo, generateUserInfo } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -134,10 +134,7 @@ export function CheckoutPage() {
       body
     )
       .then(() => {
-        setUserInfo((prev) => ({
-          ...prev,
-          panier: [],
-        }));
+        generateUserInfo()
         setRecipesPanier([]);
         setMessageModal("PaymentSuccessful");
       })
@@ -154,8 +151,8 @@ export function CheckoutPage() {
     <>
       <Header />
 
-      <main className="py-5 bg-gradient-to-r from-[#dbe4c6] to-[#fff6cc]">
-        <div className="mx-auto px-5 section md:w-1/2 rounded-2xl">
+      <main className="bgUserAccount">
+        <div className="userAccountContainer section">
           <CartSummary
             recipesPanier={recipesPanier}
             isRecipes={isRecipes}
@@ -164,7 +161,7 @@ export function CheckoutPage() {
 
           <BillingAddress
             addresses={userInfo?.addresses}
-            setUserInfo={setUserInfo}
+            generateUserInfo={generateUserInfo}
             coordDefault={coordDefault}
             setCoordDefault={setCoordDefault}
             setMessageModal={setMessageModal}

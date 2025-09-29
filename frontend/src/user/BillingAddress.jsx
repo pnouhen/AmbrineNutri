@@ -8,13 +8,11 @@ import { ExistingAddress } from "./ExistingAddress";
 
 export function BillingAddress({
   addresses,
-  setUserInfo,
+  generateUserInfo,
   coordDefault,
   setCoordDefault,
   setMessageModal,
 }) {
-  const { token } = useContext(AuthContext);
-
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [updateCoord, setUpdateCoord] = useState({});
 
@@ -23,7 +21,7 @@ export function BillingAddress({
       <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
         addresses={addresses}
-        setUserInfo={setUserInfo}
+        generateUserInfo={generateUserInfo}
         setIsOpenModal={setIsOpenModal}
         setUpdateCoord={setUpdateCoord}
         coordDefault={coordDefault}
@@ -38,12 +36,12 @@ export function BillingAddress({
       />
 
       <ModalCoord
-        token={token}
         addresses={addresses}
-        setUserInfo={setUserInfo}
+        generateUserInfo={generateUserInfo}
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
         updateCoord={updateCoord}
+        setUpdateCoord={setUpdateCoord}
         coordDefault={coordDefault}
         setCoordDefault={setCoordDefault}
         setMessageModal={setMessageModal}

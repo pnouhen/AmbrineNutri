@@ -14,9 +14,10 @@ export default function Header() {
   // Recover token, userInfo and logout put into context
   const { token, userInfo, logout } = useContext(AuthContext);
 
-  // Change account Navlink background color 
+  // Change account Navlink background color
   const location = useLocation();
   const panierActive = location.pathname === "/panier";
+  const useAccountActive = location.pathname === "/mon-compte";
 
   // Display account menu
   const onClickCompte = () => {
@@ -63,9 +64,9 @@ export default function Header() {
       return (
         <li
           tabIndex={0}
-          className={`navItem relative lg:w-[8.75rem] navItem-rounded ${
-            panierActive ? "bg-mustard" : "bg-green-100"
-          }`}
+          className={`navItem relative lg:w-[8.75rem] transition-all duration-100 ${
+            panierActive || useAccountActive ? "bg-mustard" : "bg-green-100"
+          } ${compteActive ? "rounded-t-[1.25rem]" : "navItem-rounded"}`}
           onClick={onClickCompte}
           onMouseEnter={onMouseEnterCompte}
           onMouseLeave={onMouseLeaveCompte}
@@ -82,9 +83,17 @@ export default function Header() {
 
           <ul
             className={`absolute w-full transition-all ${
-              compteActive ? "z-10 -bottom-22" : "-z-10 bottom-0 opacity-0"
+              compteActive
+                ? "z-10 -bottom-[8.25rem]"
+                : "-z-10 bottom-0 opacity-0"
             }`}
           >
+            <NavItem
+              to="mon-compte"
+              className="navItem-padding"
+              text="Mon Compte"
+            />
+
             <NavItem to="panier" className="navItem-padding" text="Panier" />
 
             <li>

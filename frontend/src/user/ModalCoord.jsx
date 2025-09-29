@@ -8,12 +8,13 @@ import { fetchDataUserPut } from "../services/fetchDataUserPut";
 import { isValidAddress } from "../../src/services/isValidAddress";
 
 export function ModalCoord({
-  token,
   addresses,
-  setUserInfo,
+  generateUserInfo,
   isOpenModal,
   setIsOpenModal,
   updateCoord,
+  setUpdateCoord,
+  coordDefault,
   setCoordDefault,
   setMessageModal,
 }) {
@@ -29,6 +30,7 @@ export function ModalCoord({
   const [emptyInput, setEmptyInput] = useState(false);
 
   const closeModal = () => {
+    setUpdateCoord([]);
     setIsOpenModal(false);
     setEmptyInput(false);
   };
@@ -61,15 +63,15 @@ export function ModalCoord({
     const city = cityRef.current?.value.trim();
     const country = countryRef.current?.value.trim();
 
-     const newCoord = {
-        lastName: lastName,
-        firstName: firstName,
-        address: address,
-        postalCode: postalCode,
-        city: city,
-        country: country,
-        isDefault: true,
-      };
+    const newCoord = {
+      lastName: lastName,
+      firstName: firstName,
+      address: address,
+      postalCode: postalCode,
+      city: city,
+      country: country,
+      isDefault: true,
+    };
 
     if (isValidAddress(newCoord)) {
       if (!updateCoord.id) {
@@ -87,10 +89,7 @@ export function ModalCoord({
               addresses.forEach((el) => (el.isDefault = false));
 
             // Add the new address at the beginning of the table
-            setUserInfo((prev) => ({
-              ...prev,
-              addresses: [newCoord, ...prev.addresses],
-            }));
+            generateUserInfo();
           })
           .catch((error) => {
             setMessageModal("InvalidAddress");
@@ -110,15 +109,9 @@ export function ModalCoord({
         )
           .then(() => {
             newCoord._id = id;
+            setUpdateCoord([]);
             // Change isDefult for each address
-            setUserInfo((prev) => ({
-              ...prev,
-              addresses: prev.addresses.map((adr) =>
-                String(adr._id) === String(id)
-                  ? { ...adr, ...newCoord, isDefault: true }
-                  : { ...adr, isDefault: false }
-              ),
-            }));
+            generateUserInfo();
           })
           .catch((error) => {
             setMessageModal("InvalidAddress");
@@ -127,7 +120,7 @@ export function ModalCoord({
       }
 
       setIsOpenModal(!isOpenModal);
-      setCoordDefault(newCoord);
+      if(coordDefault) setCoordDefault(newCoord);
     } else {
       setEmptyInput(true);
     }

@@ -1,6 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import PageTracker from "./components/PageTracker";
+
 import Home from "./pages/Home";
 import Error404 from "./pages/Error404";
 import LegalNotices from "./pages/LegalNotices";
@@ -10,6 +12,8 @@ import Recipes from "./pages/Recipes";
 import RecipeDetails from "./pages/RecipeDetails";
 import AuthPage from "./pages/AuthPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
+import UserAccount from "./pages/UserAccount";
+
 import { AuthProvider } from "./contexts/AuthContext";
 
 import "./styles/layout.css";
@@ -82,12 +86,21 @@ const router = createBrowserRouter([
       </PageTracker>
     ),
   },
-  
+
   {
     path: "/panier",
     element: (
       <PageTracker>
         <CheckoutPage />
+      </PageTracker>
+    ),
+  },
+
+  {
+    path: "/mon-compte",
+    element: (
+      <PageTracker>
+        <UserAccount />
       </PageTracker>
     ),
   },
