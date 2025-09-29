@@ -7,7 +7,7 @@ const Recipes = require("../models/Recipes");
 const { isValidAddress } = require("../utils/isValidAddress");
 const { isValidPayment } = require("../utils/isValidPayment");
 
-const { generatePDF } = require("./pdfController");
+const { generateInvoice } = require("./generateInvoice");
 
 exports.signup = (req, res, next) => {
   // Check the email
@@ -326,17 +326,20 @@ exports.purchasesRecipes = async (req, res) => {
         .json({ message: "Un des éléments du paiement est mal rempli" });
 
     user.purchases = [...user.purchases, ...user.panier];
+
+    // Generate Invoice
+    const recipesName = await Promise.all(
+      user.panier.map((recipeId) =>
+        Recipes.findById(recipeId).then((r) => r.title)
+      )
+    );
+
+    generateInvoice(userId, recipesName);
+
     // Reset panier here for added safety
     user.panier = [];
 
     await user.save();
-
-    // TODO préparer l'element a envoyé via l'object dans pdfController
-    const recipesName = [
-      "1 recette recette recette recette recette",
-      "1 recette recette recette recette recette",
-    ];
-    generatePDF(recipesName);
 
     return res.status(200).json({
       purchases: user.purchases,

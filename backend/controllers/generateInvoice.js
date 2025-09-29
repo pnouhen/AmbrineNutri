@@ -3,8 +3,11 @@ const fs = require("fs");
 const path = require("path");
 const open = require("open").default;
 
-// function generatePDF(req, res) {
-function generatePDF(recipesName) {
+const { generateFolder } = require("../utils/generateFolder");
+const { getNextInvoiceNumber } = require("../utils/getNextInvoiceNumber");
+
+// function generateInvoice(req, res) {
+function generateInvoice(userId, recipesName) {
   const infopurchasesRecipes = {
     address: {
       address: "7 rue Benjamin Delessert",
@@ -17,9 +20,31 @@ function generatePDF(recipesName) {
     },
   };
 
+  // Formatted date
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+
   // Save pdf
-  const pdfDir = path.join(__dirname, "../pdfs");
-  const filePath = path.join(pdfDir, `Facture-document.pdf`);
+  const invoicesFolderUserId = path.join("./uploads", "users", userId);
+  generateFolder(invoicesFolderUserId);
+
+  const invoicesFolderInvoice = path.join(
+    "./uploads/users",
+    userId,
+    "factures"
+  );
+  generateFolder(invoicesFolderInvoice);
+
+  const partialName = `Facture-${day}-${month}-${year}`;
+  const numberInvoiceDay = getNextInvoiceNumber(
+    invoicesFolderInvoice,
+    partialName
+  );
+  const fileName = `${partialName}-${numberInvoiceDay}.pdf`;
+
+  const filePath = path.join(invoicesFolderInvoice, fileName);
 
   // Fillable PDF object + get total pages
   const doc = new PDFDocument({ bufferPages: true });
@@ -108,15 +133,11 @@ function generatePDF(recipesName) {
   });
 
   // INVOICE INFORMATION
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // les mois vont de 0 à 11
-  const year = today.getFullYear();
-  const formattedDate = `${day}/${month}/${year}`;
+  const formattedDateInformation = `${day}/${month}/${year}`;
 
   const heightInVoiceInformation =
     heightUserAddress + heightUserAddressText + margin;
-  const textInvoiceInformation = `Facture n° : Fr-${invoiceNumber}\nDate d'émission : ${formattedDate}\nFacture acquittée le ${formattedDate}\nMode de paiement : Carte bancaire`;
+  const textInvoiceInformation = `Facture n° : Fr-${invoiceNumber}\nDate d'émission : ${formattedDateInformation}\nFacture acquittée le ${formattedDateInformation}\nMode de paiement : Carte bancaire`;
   const heightInVoiceInformationText = doc.heightOfString(
     textInvoiceInformation
   );
@@ -222,7 +243,7 @@ function generatePDF(recipesName) {
       heightInitial + marginTextPurchasingTable;
 
     doc.text(
-      "Produits",
+      "Recette(s)",
       marginTextFirstColumnPurchasingTable,
       heightFirstRowPurchasedTable,
       {
@@ -476,4 +497,4 @@ function generatePDF(recipesName) {
   // });
 }
 
-module.exports = { generatePDF };
+module.exports = { generateInvoice };
