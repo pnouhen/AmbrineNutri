@@ -18,7 +18,7 @@ function isValidAddress(coordonate) {
     /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/.test(lastName.trim());
 
   // CheckAddress
-  const address = coordonate.lastName;
+  const address = coordonate.address;
   const isValidAddress =
     address != null &&
     typeof address === "string" &&

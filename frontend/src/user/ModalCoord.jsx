@@ -56,6 +56,8 @@ export function ModalCoord({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setEmptyInput(false);
+
     const lastName = lastNameRef.current?.value.trim();
     const firstName = firstNameRef.current?.value.trim();
     const address = addressRef.current?.value.trim();
@@ -120,7 +122,7 @@ export function ModalCoord({
       }
 
       setIsOpenModal(!isOpenModal);
-      if(coordDefault) setCoordDefault(newCoord);
+      if (coordDefault) setCoordDefault(newCoord);
     } else {
       setEmptyInput(true);
     }

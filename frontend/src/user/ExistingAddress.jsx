@@ -38,8 +38,9 @@ export function ExistingAddress({
         `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
         body
       )
-        .then(() => {
-          setCoordDefault(coord);
+        .then((newCoord) => {
+          const firstCoord = [newCoord.address];
+          setCoordDefault(firstCoord);
         })
         .catch((error) => {
           if (!coord.isDefault) setMessageModal("InvalidAddress");
@@ -77,7 +78,7 @@ export function ExistingAddress({
             tabIndex={0}
             key={index}
             className={`pr-5 pt-5 flex flex-col rounded-lg bg-yellow-50 cursor-pointer ${
-              coord._id === coordDefault?._id
+              coordDefault && coord._id === coordDefault[0]?._id
                 ? "shadow-recipeButtonActive"
                 : "shadow-recipeButton"
             }`}

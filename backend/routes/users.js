@@ -1,25 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const userCtrl = require("../controllers/users");
+
 const auth = require("../middleware/auth");
 
+const authCtrl = require("../controllers/users/auth");
+const panierCtrl = require("../controllers/users/panier");
+const addressesCtrl = require("../controllers/users/address");
+const purchaseCtrl = require("../controllers/users/purchase");
+
 // Routers for AuthPage
-router.post("/signup", userCtrl.signup);
-router.post("/login", userCtrl.login);
-router.get("/me", auth, userCtrl.getMe);
+router.post("/signup", authCtrl.signup);
+router.post("/login", authCtrl.login);
+router.get("/me", auth, authCtrl.getMe);
 
 // Routers for panier
-router.post("/me/panier", auth, userCtrl.addToPanier);
-router.delete("/me/panier/:recipeId", auth, userCtrl.removeToPanier);
+router.post("/me/panier", auth, panierCtrl.addToPanier);
+router.delete("/me/panier/:recipeId", auth, panierCtrl.removeToPanier);
 
 // Router for addresses
-router.post("/me/addresses", auth, userCtrl.addToAddress);
-router.put("/me/addresses", auth, userCtrl.updateAddressById);
-router.delete("/me/addresses/:addressId", auth, userCtrl.removeToAddress);
+router.post("/me/addresses", auth, addressesCtrl.addToAddress);
+router.put("/me/addresses", auth, addressesCtrl.updateAddressById);
+router.delete("/me/addresses/:addressId", auth, addressesCtrl.removeToAddress);
 
 // Router for purchase
-router.post("/me/purchasesRecipes", auth, userCtrl.purchasesRecipes)
-router.get("/me/showRecipeSelectPurchase/:id", auth, userCtrl.showRecipeSelectPurchase)
-
+router.post("/me/purchasesRecipes", auth, purchaseCtrl.purchasesRecipes);
+router.get(
+  "/me/showRecipeSelectPurchase/:id",
+  auth,
+  purchaseCtrl.showRecipeSelectPurchase
+);
 
 module.exports = router;

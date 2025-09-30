@@ -26,9 +26,7 @@ export function CheckoutPage() {
   const [recipes, setRecipes] = useState([]);
   const [isRecipes, setIsRecipes] = useState("Le panier est vide");
   const [recipesPanier, setRecipesPanier] = useState([]);
-  const [coordDefault, setCoordDefault] = useState(() =>
-    userInfo?.addresses.filter((address) => address.isDefault)
-  );
+  const [coordDefault, setCoordDefault] = useState(null);
 
   const carteNameRef = useRef();
   const cardNumberRef = useRef();
@@ -79,12 +77,17 @@ export function CheckoutPage() {
 
   // Display coordDefault
   useEffect(() => {
-    setCoordDefault(
-      userInfo?.addresses.find((address) => address.isDefault === true)
-    );
-  }, [userInfo]);
+  if (userInfo?.addresses) {
+    const defaults = userInfo.addresses.filter(address => address.isDefault);
+    if(defaults.length === 0) {
+      setCoordDefault([])
+    } else {
+    setCoordDefault(defaults);
+    }
+  }
+}, [userInfo]);
 
-  // Submit Payment here if the payment form should be used
+// Submit Payment here if the payment form should be used
   const submitPayement = (e) => {
     e.preventDefault();
 
@@ -96,7 +99,7 @@ export function CheckoutPage() {
 
     const infopurchasesRecipes = {
       panier: userInfo.panier,
-      address: coordDefault,
+      address: coordDefault[0],
       carteName: carteName,
       cardNumber: cardNumber,
       cryptograme: cryptograme,
@@ -142,9 +145,8 @@ export function CheckoutPage() {
   };
 
   // Shows page after generate all elements
-  if (!userInfo) {
-    return null;
-  }
+  if (!userInfo) return null;
+
   if (userInfo?.panier.length > 1 && recipesPanier.length === 0) return null;
 
   return (
