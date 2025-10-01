@@ -4,7 +4,16 @@ exports.showRecipes = (req, res) => {
   Recipes.find()
     .select("-steps")
     .select("-ingredients.quantity")
-    .then((recipes) => res.status(200).json(recipes))
+    .then((recipes) => {
+      // Associate the URL to manage retrieving images from the server
+      const recipesWithUrl = recipes.map((rcp) => ({
+        ...rcp._doc,
+        imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
+          rcp.img
+        }`,
+      }));
+      res.status(200).json(recipesWithUrl);
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -16,6 +25,15 @@ exports.showRecipeSelectNoPurchase = (req, res) => {
   Recipes.findById(recipeId)
     .select("-steps")
     .select("-ingredients.quantity")
-    .then((recipeSelect) => res.status(200).json(recipeSelect))
+    .then((recipeSelect) => {
+      // Associate the URL to manage retrieving images from the server
+      const recipeWithUrl = {
+        ...recipeSelect._doc,
+        imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
+          recipeSelect.img
+        }`,
+      };
+      res.status(200).json(recipeWithUrl);
+    })
     .catch((error) => res.status(400).json({ error }));
 };

@@ -15,6 +15,7 @@ import { Steps } from "../recipeDetails/Steps";
 import MessageNoData from "../components/MessageNoData";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
+import GenerateRecipePdf from "../recipeDetails/GenerateRecipePdf";
 
 export default function RecipeDetails() {
   const { id } = useParams();
@@ -32,8 +33,9 @@ export default function RecipeDetails() {
       // Recipe doesn't purchase
       fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
         .then((recipe) => {
-          setPurchase(false)
-          setRecipeDetails(recipe)})
+          setPurchase(false);
+          setRecipeDetails(recipe);
+        })
         .catch((error) => {
           setRecipeDetails([]);
           console.error("Erreur:", error);
@@ -49,8 +51,9 @@ export default function RecipeDetails() {
       // Recipe doesn't purchase
       fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
         .then((recipe) => {
-          setPurchase(false)
-          setRecipeDetails(recipe)})
+          setPurchase(false);
+          setRecipeDetails(recipe);
+        })
         .catch((error) => {
           setRecipeDetails([]);
           console.error("Erreur:", error);
@@ -134,7 +137,7 @@ export default function RecipeDetails() {
                   <RecipeCard
                     duration={recipeDetails.duration}
                     vegetarian={recipeDetails.vegetarian}
-                    src={recipeDetails.img}
+                    src={recipeDetails.imageUrl}
                   />
 
                   <div className="p-5 lg:w-80 md:w-52 w-full flex flex-col gap-5 bg-green-200">
@@ -192,7 +195,8 @@ export default function RecipeDetails() {
           )}
         </section>
       </main>
-          {/* TODO : Generer un pdf */}
+      {/* TODO : Generer un pdf */}
+      <GenerateRecipePdf recipeDetails={recipeDetails} />
       <Footer />
 
       <ModalMessage

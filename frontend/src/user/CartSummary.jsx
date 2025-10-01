@@ -21,7 +21,7 @@ export function CartSummary({ recipesPanier, isRecipes, deleteRecipe }) {
                 className="pr-5 flex items-center gap-5 bg-green-50 rounded-lg shadow-inputButton"
               >
                 <img
-                  src={recipe.img}
+                  src={recipe.imageUrl}
                   alt={`Photo de ${recipe.title}`}
                   className="lg:w-32 w-24  lg:h-32 h-24 object-cover rounded-l-lg"
                 />

@@ -1,7 +1,7 @@
 [
   {
     "title": "Houmous maison",
-    "img": "/assets/img/recipes/Houmous-maison.webp",
+    "img": "Houmous-maison.webp",
     "vegetarian": "Oui",
     "categorie": { "id": 0, "text": "Apéritif" },
     "duration": "Moins de 15 minutes",
@@ -21,7 +21,7 @@
   },
   {
     "title": "Mini quiches au poulet",
-    "img": "/assets/img/recipes/Mini-quiches-au-poulet.webp",
+    "img": "Mini-quiches-au-poulet.webp",
     "vegetarian": "Non",
     "categorie": { "id": 0, "text": "Apéritif" },
     "duration": "De 30 à 45 minutes",
@@ -42,7 +42,7 @@
   },
   {
     "title": "Cromesquis de volaille",
-    "img": "/assets/img/recipes/Cromesquis-de-volaille.webp",
+    "img": "Cromesquis-de-volaille.webp",
     "vegetarian": "Non",
     "categorie": { "id": 0, "text": "Apéritif" },
     "duration": "De 45 à 60 minutes",
@@ -62,7 +62,7 @@
   },
   {
     "title": "Œufs mimosa",
-    "img": "/assets/img/recipes/Oeufs-mimosa.webp",
+    "img": "Oeufs-mimosa.webp",
     "vegetarian": "Oui",
     "categorie": { "id": 1, "text": "Entrées" },
     "duration": "Moins de 15 minutes",
@@ -82,7 +82,7 @@
   },
   {
     "title": "Salade de chèvre chaud",
-    "img": "/assets/img/recipes/Salade-de-chèvre-chaud.webp",
+    "img": "Salade-de-chèvre-chaud.webp",
     "vegetarian": "Oui",
     "categorie": { "id": 1, "text": "Entrées" },
     "duration": "De 15 à 30 minutes",
@@ -102,7 +102,7 @@
   },
   {
     "title": "Rouleaux de printemps au poulet",
-    "img": "/assets/img/recipes/Rouleaux-de-printemps-au-poulet.webp",
+    "img": "Rouleaux-de-printemps-au-poulet.webp",
     "vegetarian": "Non",
     "categorie": { "id": 1, "text": "Entrées" },
     "duration": "De 15 à 30 minutes",
@@ -123,7 +123,7 @@
   },
   {
     "title": "Terrine de volaille légère",
-    "img": "/assets/img/recipes/Terrine-de-volaille-legere.webp",
+    "img": "Terrine-de-volaille-legere.webp",
     "vegetarian": "Non",
     "categorie": { "id": 1, "text": "Entrées" },
     "duration": "De 30 à 45 minutes",
@@ -142,7 +142,7 @@
   },
   {
     "title": "Ballotine de dinde aux légumes",
-    "img": "/assets/img/recipes/Ballotine-de-dinde-aux-legumes.webp",
+    "img": "Ballotine-de-dinde-aux-legumes.webp",
     "vegetarian": "Non",
     "categorie": { "id": 1, "text": "Entrées" },
     "duration": "De 45 à 60 minutes",
@@ -167,7 +167,7 @@
   },
   {
     "title": "Foie de volaille en salade tiède",
-    "img": "/assets/img/recipes/Foie-de-volaille-en-salade-tiede.webp",
+    "img": "Foie-de-volaille-en-salade-tiede.webp",
     "vegetarian": "Non",
     "categorie": { "id": 1, "text": "Entrées" },
     "duration": "Plus de 60 minutes",
@@ -189,7 +189,7 @@
   },
   {
     "title": "Soupe de bœuf à l'ancienne",
-    "img": "/assets/img/recipes/Soupe-de-boeuf-a-l-ancienne.webp",
+    "img": "Soupe-de-boeuf-a-l-ancienne.webp",
     "vegetarian": "Non",
     "categorie": { "id": 2, "text": "Soupes et Veloutés" },
     "duration": "De 15 à 30 minutes",
@@ -211,7 +211,7 @@
   },
   {
     "title": "Soupe de potimarron",
-    "img": "/assets/img/recipes/Soupe-de-potimarron.webp",
+    "img": "Soupe-de-potimarron.webp",
     "vegetarian": "Oui",
     "categorie": { "id": 2, "text": "Soupes et Veloutés" },
     "duration": "De 30 à 45 minutes",
@@ -232,7 +232,7 @@
   },
   {
     "title": "Bisque de bœuf et épices",
-    "img": "/assets/img/recipes/Bisque-de-boeuf-et-epices.webp",
+    "img": "Bisque-de-boeuf-et-epices.webp",
     "vegetarian": "Non",
     "categorie": { "id": 2, "text": "Soupes et Veloutés" },
     "duration": "Plus de 60 minutes",
@@ -254,7 +254,7 @@
   },
   {
     "title": "Poulet au lait de coco",
-    "img": "/assets/img/recipes/Poulet-au-lait-de-coco.webp",
+    "img": "Poulet-au-lait-de-coco.webp",
     "vegetarian": "Non",
     "categorie": { "id": 3, "text": "Plats" },
     "duration": "De 15 à 30 minutes",
@@ -274,7 +274,7 @@
   },
   {
     "title": "Poulet au curry",
-    "img": "/assets/img/recipes/Poulet-au-curry.webp",
+    "img": "Poulet-au-curry.webp",
     "vegetarian": "Non",
     "categorie": {
       "id": 3,
@@ -297,7 +297,7 @@
   },
   {
     "title": "Quiche lorraine",
-    "img": "/assets/img/recipes/Quiche-lorraine.webp",
+    "img": "Quiche-lorraine.webp",
     "vegetarian": "Non",
     "categorie": {
       "id": 3,
@@ -327,7 +327,7 @@
   },
   {
     "title": "Boeuf bourguignon",
-    "img": "/assets/img/recipes/Boeuf-bourguignon.webp",
+    "img": "Boeuf-bourguignon.webp",
     "vegetarian": "Non",
     "categorie": {
       "id": 3,
@@ -361,7 +361,7 @@
   },
   {
     "title": "Saumon aux épinards",
-    "img": "/assets/img/recipes/Saumon-aux-epinards.webp",
+    "img": "Saumon-aux-epinards.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 3,
@@ -390,7 +390,7 @@
   },
   {
     "title": "Buddha bowl au quinoa",
-    "img": "/assets/img/recipes/Buddha-bowl-quinoa.webp",
+    "img": "Buddha-bowl-quinoa.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 3,
@@ -419,90 +419,8 @@
     ]
   },
   {
-    "title": "Sauce beurre blanc",
-    "img": "/assets/img/recipes/Sauce-beurre-blanc.webp",
-    "vegetarian": "Non",
-    "categorie": {
-      "id": 5,
-      "text": "Sauces"
-    },
-    "duration": "Moins de 15 minutes",
-    "ingredients": [
-      { "name": "beurre", "quantity": 150, "dosage": "g" },
-      { "name": "vin blanc", "quantity": 10, "dosage": "cL" },
-      { "name": "échalotes", "quantity": 2, "dosage": "" },
-      { "name": "crème fraîche", "quantity": 5, "dosage": "cL" },
-      { "name": "sel", "quantity": 1, "dosage": "pincée" }
-    ],
-    "ustensils": ["casserole", "fouet"],
-    "steps": [
-      "Émincez les échalotes et faites-les revenir dans une casserole avec un peu de vin blanc jusqu'à évaporation.",
-      "Ajoutez le reste du vin blanc et laissez réduire de moitié.",
-      "Ajoutez la crème fraîche et faites chauffer à feu doux.",
-      "Incorporez progressivement le beurre froid, en fouettant pour émulsionner.",
-      "Assaisonnez avec du sel.",
-      "Servez immédiatement avec vos plats de poisson ou de viande."
-    ]
-  },
-  {
-    "title": "Sauce tomate maison",
-    "img": "/assets/img/recipes/Sauce-tomate-maison.webp",
-    "vegetarian": "Oui",
-    "categorie": {
-      "id": 5,
-      "text": "Sauces"
-    },
-    "duration": "De 15 à 30 minutes",
-    "ingredients": [
-      { "name": "tomates", "quantity": 6, "dosage": "" },
-      { "name": "oignon", "quantity": 1, "dosage": "" },
-      { "name": "ail", "quantity": 2, "dosage": "gousses" },
-      { "name": "huile d'olive", "quantity": 2, "dosage": "c. à soupe" },
-      { "name": "sel", "quantity": 1, "dosage": "pincée" },
-      { "name": "poivre", "quantity": 1, "dosage": "pincée" },
-      { "name": "basilic", "quantity": 1, "dosage": "feuille" }
-    ],
-    "ustensils": ["casserole", "couteau", "cuillère en bois"],
-    "steps": [
-      "Coupez les tomates en petits morceaux et émincez l'oignon et l'ail.",
-      "Faites chauffer l'huile d'olive dans une casserole.",
-      "Ajoutez l'oignon et l'ail, et faites revenir pendant 5 minutes.",
-      "Ajoutez les tomates et laissez mijoter pendant 20 minutes.",
-      "Assaisonnez de sel, poivre et basilic haché.",
-      "Mixez la sauce si vous préférez une texture lisse.",
-      "Servez avec des pâtes ou comme base pour d'autres plats."
-    ]
-  },
-  {
-    "title": "Sauce madère",
-    "img": "/assets/img/recipes/Sauce-madere.webp",
-    "vegetarian": "Non",
-    "categorie": {
-      "id": 5,
-      "text": "Sauces"
-    },
-    "duration": "De 45 à 60 minutes",
-    "ingredients": [
-      { "name": "vin madère", "quantity": 20, "dosage": "cL" },
-      { "name": "fond de veau", "quantity": 50, "dosage": "cL" },
-      { "name": "échalotes", "quantity": 2, "dosage": "" },
-      { "name": "beurre", "quantity": 50, "dosage": "g" },
-      { "name": "sel", "quantity": 1, "dosage": "pincée" },
-      { "name": "poivre", "quantity": 1, "dosage": "pincée" }
-    ],
-    "ustensils": ["casserole", "cuillère en bois"],
-    "steps": [
-      "Émincez les échalotes et faites-les revenir dans une casserole avec le beurre.",
-      "Ajoutez le vin madère et laissez réduire de moitié.",
-      "Ajoutez le fond de veau et laissez mijoter 30 minutes à feu doux.",
-      "Filtrez la sauce pour enlever les échalotes.",
-      "Rectifiez l'assaisonnement avec du sel et du poivre.",
-      "Servez avec des viandes rôties ou du gibier."
-    ]
-  },
-  {
     "title": "Tarte aux pommes",
-    "img": "/assets/img/recipes/Tarte-aux-pommes.webp",
+    "img": "Tarte-aux-pommes.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 4,
@@ -529,7 +447,7 @@
   },
   {
     "title": "Mousse au chocolat",
-    "img": "/assets/img/recipes/Mousse-au-chocolat.webp",
+    "img": "Mousse-au-chocolat.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 4,
@@ -553,7 +471,7 @@
   },
   {
     "title": "Clafoutis aux cerises",
-    "img": "/assets/img/recipes/Clafoutis-aux-cerises.webp",
+    "img": "Clafoutis-aux-cerises.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 4,
@@ -582,7 +500,7 @@
   },
   {
     "title": "Panna cotta à la vanille",
-    "img": "/assets/img/recipes/Panna-cotta-vanille.webp",
+    "img": "Panna-cotta-vanille.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 4,
@@ -607,7 +525,7 @@
   },
   {
     "title": "Compote pomme-poire",
-    "img": "/assets/img/recipes/Compote-pomme-poire.webp",
+    "img": "Compote-pomme-poire.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 4,
@@ -631,7 +549,7 @@
   },
   {
     "title": "Tiramisu",
-    "img": "/assets/img/recipes/Tiramisu.webp",
+    "img": "Tiramisu.webp",
     "vegetarian": "Oui",
     "categorie": {
       "id": 4,

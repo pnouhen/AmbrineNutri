@@ -7,7 +7,7 @@ const { generateFolder } = require("../utils/generateFolder");
 const { getNextInvoiceNumber } = require("../utils/getNextInvoiceNumber");
 
 // function generateInvoice(req, res) {
-function generateInvoice(userId, recipesName) {
+function generateInvoice(req, userId, recipesName) {
   const infopurchasesRecipes = {
     address: {
       address: "7 rue Benjamin Delessert",
@@ -57,7 +57,7 @@ function generateInvoice(userId, recipesName) {
 
   // Resources
   const invoiceNumber = Date.now();
-  const logoPath = path.join(__dirname, "../assets/logo-facture.jpg");
+  const logoPath = path.join("./", "assets/img/logo", "logo-facture.jpg");
 
   // Layout
   const pageWidth = doc.page.width;

@@ -30,7 +30,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
               {recipePages.map((page, index) => (
                 <div className="embla__slide shrink-0 w-full" key={index}>
                   <div className="md:grid md:grid-cols-3 flex flex-wrap gap-5">
-                    {page.map(({ _id, duration, vegetarian, title, img }) => (
+                    {page.map(({ _id, duration, vegetarian, title, imageUrl }) => (
                       <NavLink
                         key={_id}
                         className="m-auto flex flex-shrink-0"
@@ -41,7 +41,7 @@ export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
                           duration={duration}
                           vegetarian={vegetarian}
                           title={title}
-                          src={img}
+                          src={imageUrl}
                         />
                       </NavLink>
                     ))}

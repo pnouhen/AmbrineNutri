@@ -56,7 +56,7 @@ exports.purchasesRecipes = async (req, res) => {
       )
     );
 
-    generateInvoice(userId, recipesName);
+    generateInvoice(req, userId, recipesName);
 
     // Reset panier here for added safety
     user.panier = [];
@@ -85,7 +85,15 @@ exports.showRecipeSelectPurchase = async (req, res) => {
       return res.status(400).json({ message: "Recette non acheté" });
 
     Recipes.findById(recipeId)
-      .then((recipeSelect) => res.status(200).json(recipeSelect))
+      .then((recipeSelect) => {
+        // Associate the URL to manage retrieving images from the server
+        const recipeWithUrl = {
+          ...recipeSelect._doc,
+          imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
+            recipeSelect.img
+          }`,
+        };
+      })
       .catch((error) => res.status(400).json({ error }));
   } catch (err) {
     res.status(500).json({ message: err.message });

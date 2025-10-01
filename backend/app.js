@@ -6,6 +6,8 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
+const path = require("path");
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Connexion à MongoDB réussie !"))
@@ -33,6 +35,7 @@ const recipesRouter = require("./routes/recipes");
 const usersRoutes = require("./routes/users");
 
 // Use routes
+app.use('/assets/img', express.static(path.join("./", 'assets/img')));
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/prices", pricesRoutes);
 app.use("/api/infoaddrecipes", infoAddRecipesRoutes);
