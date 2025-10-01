@@ -92,7 +92,9 @@ exports.showRecipeSelectPurchase = async (req, res) => {
           imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
             recipeSelect.img
           }`,
+          
         };
+              res.status(200).json(recipeWithUrl);
       })
       .catch((error) => res.status(400).json({ error }));
   } catch (err) {
