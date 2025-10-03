@@ -4,7 +4,11 @@ const Recipes = require("../../models/Recipes");
 const { isValidAddress } = require("../../utils/isValidAddress");
 const { isValidPayment } = require("../../utils/isValidPayment");
 
-const { generateInvoice } = require("../generateInvoice");
+const { generateInvoice } = require("../../utils/generateInvoice");
+
+const path = require("path");
+const fs = require("fs");
+const sharp = require("sharp");
 
 exports.purchasesRecipes = async (req, res) => {
   try {
@@ -85,16 +89,29 @@ exports.showRecipeSelectPurchase = async (req, res) => {
       return res.status(400).json({ message: "Recette non acheté" });
 
     Recipes.findById(recipeId)
-      .then((recipeSelect) => {
+      .then(async (recipeSelect) => {
         // Associate the URL to manage retrieving images from the server
         const recipeWithUrl = {
           ...recipeSelect._doc,
           imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
             recipeSelect.img
           }`,
-          
         };
-              res.status(200).json(recipeWithUrl);
+
+        // Convert recipe image
+        const imgPath = path.join(
+          __dirname,
+          "../../assets/img/recipes/",
+          recipeSelect.img
+        );
+        const imgJpeg = await sharp(imgPath).jpeg({ quality: 90 }).toBuffer();
+
+        const recipeWithImage = {
+          ...recipeWithUrl,
+          imageBase64: imgJpeg.toString("base64"),
+        };
+
+        res.status(200).json(recipeWithImage);
       })
       .catch((error) => res.status(400).json({ error }));
   } catch (err) {

@@ -16,6 +16,8 @@ import MessageNoData from "../components/MessageNoData";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 import GenerateRecipePdf from "../recipeDetails/GenerateRecipePdf";
+import Button from "../components/Button";
+import { pdf, PDFDownloadLink } from "@react-pdf/renderer";
 
 export default function RecipeDetails() {
   const { id } = useParams();
@@ -85,13 +87,13 @@ export default function RecipeDetails() {
   // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {
     if (!userInfo || !recipeDetails) return; // attendre les 2
-    setInPanier(userInfo.panier.includes(recipeDetails._id));
+    setInPanier(userInfo.panier.includes(recipeDetails?._id));
   }, [token, userInfo, recipeDetails]);
 
   // Add recipe to cart
   const handleAddPanier = () => {
     if (token && recipeDetails) {
-      const body = { recipeId: recipeDetails._id };
+      const body = { recipeId: recipeDetails?._id };
       fetchDataUserPost(
         `${import.meta.env.VITE_BASE_API}/api/users/me/panier`,
         body
@@ -116,6 +118,28 @@ export default function RecipeDetails() {
     }
   };
 
+  const downloadRecipe = async () => {
+    // Return a object which allows to generate a PDF, toBlob() converts the PDF to a binary file
+  const blob = await pdf(
+    <GenerateRecipePdf recipeDetails={recipeDetails} indexPeople={indexPeople} />
+  ).toBlob();
+
+  // Creates a temporary URL for this Blob file
+  const url = URL.createObjectURL(blob);
+
+  // Dynamically creates an <a> element to trigger the download
+  const link = document.createElement("a");
+  // Link of PDF
+  link.href = url;
+  // Name PDF
+  link.download = `${recipeDetails.title.split(" ").join("_")}.pdf`;
+  // Simulates a click to download it
+  link.click();
+
+  // Frees the temporary URL to avoid memory leaks
+  URL.revokeObjectURL(url);
+};
+
   // Display page
   if (token && !userInfo?.panier) return null;
   if (!recipeDetails) return null;
@@ -124,20 +148,20 @@ export default function RecipeDetails() {
     <>
       <Header />
 
-      <main className="relative py-5">
+      <main className="relative py-5 flex flex-col gap-5 items-center">
         <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
         <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
           {recipeDetails !== null ? (
             <>
-              <h2 className="h2 w-full">{recipeDetails.title}</h2>
+              <h2 className="h2 w-full">{recipeDetails?.title}</h2>
 
               <div className="flex max-md:flex-col gap-5">
                 <article className="flex flex-col items-center gap-0.5">
                   <RecipeCard
-                    duration={recipeDetails.duration}
-                    vegetarian={recipeDetails.vegetarian}
-                    src={recipeDetails.imageUrl}
+                    duration={recipeDetails?.duration}
+                    vegetarian={recipeDetails?.vegetarian}
+                    src={recipeDetails?.imageUrl}
                   />
 
                   <div className="p-5 lg:w-80 md:w-52 w-full flex flex-col gap-5 bg-green-200">
@@ -152,13 +176,13 @@ export default function RecipeDetails() {
                       <div className="max-md:mx-auto flex flex-col justify-start gap-2.5">
                         <h3 className="h3 text-white-200">Les ustensils :</h3>
 
-                        <div className="flex flex-col gap-1">
-                          {recipeDetails.ustensils.map((ustensil, index) => (
-                            <p key={index} className="text text-white-200">
+                        <ul className="flex flex-col gap-1">
+                          {recipeDetails?.ustensils.map((ustensil, index) => (
+                            <li key={index} className="text text-white-200">
                               {ustensil}
-                            </p>
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
 
                       <Ingredients
@@ -194,9 +218,14 @@ export default function RecipeDetails() {
             <MessageNoData text="Désolé, un problème est survenu." />
           )}
         </section>
+        {purchase && (
+          <Button
+            text="Télécharger la recette"
+            className="buttonSubmit w-60"
+            onClick={downloadRecipe}
+          />
+        )}
       </main>
-      {/* TODO : Generer un pdf */}
-      <GenerateRecipePdf recipeDetails={recipeDetails} />
       <Footer />
 
       <ModalMessage
