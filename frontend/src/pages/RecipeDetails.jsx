@@ -17,7 +17,7 @@ import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 import GenerateRecipePdf from "../recipeDetails/GenerateRecipePdf";
 import Button from "../components/Button";
-import { pdf, PDFDownloadLink } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
 
 export default function RecipeDetails() {
   const { id } = useParams();

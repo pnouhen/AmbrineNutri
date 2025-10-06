@@ -137,4 +137,10 @@ export const dataModalMeassage = [
               Étant donné qu'il s'agit d'un site de démonstration, les données ne seront pas conservés
             </strong>`,
   },
+
+  {
+    action: "NoDownload",
+    title: "Le téléchargement à échoué",
+    message: "Désolé, le téléchargement n'a pas pu fonctionner"
+  }
 ];

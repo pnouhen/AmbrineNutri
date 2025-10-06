@@ -1,36 +1,38 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../contexts/AuthContext";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
 
 import Header from "../structures/Header";
 import { BillingAddress } from "../user/BillingAddress";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 import InvoiceHistory from "../user/InvoiceHistory";
+import { redirectionNoToken } from "../services/RedirectionNoToken";
 
 export default function UserAccount() {
   const { token, userInfo, generateUserInfo } = useContext(AuthContext);
 
-  const navigate = useNavigate();
-
-  const [invoices, setInvoices] = useState([]);
-  const [textInvoiceHistory, setTextInvoiceHistory] = useState(
-    "Il n'y a pas encore de facture"
-  );
-  const coordDefault = null
+  const [invoices, setInvoices] = useState(null);
+  const coordDefault = null;
   const [messageModal, setMessageModal] = useState("");
 
-  // Manage page if token
-  useEffect(() => {
-    if (!token) navigate("/se-connecter");
-  }, [token]);
+  redirectionNoToken(token);
 
-  //   Generate invoices
-//   useEffect(() => {}, []);
+  //   Generate the name of invoices
+  useEffect(() => {
+    fetchDataUserGet(
+      `${import.meta.env.VITE_BASE_API}/api/users/me/invoicesRecipes`
+    )
+      .then((invoicesRecipes) => setInvoices(invoicesRecipes))
+      .catch((error) => {
+        setInvoices([]);
+        console.error("Erreur lors du chargement", error);
+      });
+  }, []);
 
   // Shows page after generate all elements
-  if (!userInfo) {
+  if (!userInfo || !invoices) {
     return null;
   }
 
@@ -43,9 +45,9 @@ export default function UserAccount() {
           <h2 className="h2">Mon Compte</h2>
 
           <InvoiceHistory
+            token={token}
             invoices={invoices}
-            setInvoices={setInvoices}
-            textInvoiceHistory={textInvoiceHistory}
+            setMessageModal={setMessageModal}
           />
 
           <BillingAddress

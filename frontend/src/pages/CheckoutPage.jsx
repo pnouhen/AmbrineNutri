@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 import { AuthContext } from "../contexts/AuthContext";
+import { redirectionNoToken } from "../services/RedirectionNoToken";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
 import { isValidAddress } from "../services/isValidAddress";
+import { isValidPayment } from "../services/isValidPayment";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 
 import Header from "../structures/Header";
@@ -16,12 +18,9 @@ import { PaymentForm } from "../user/PaymentForm";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
-import { isValidPayment } from "../services/isValidPayment";
 
 export function CheckoutPage() {
   const { token, userInfo, generateUserInfo } = useContext(AuthContext);
-
-  const navigate = useNavigate();
 
   const [recipes, setRecipes] = useState([]);
   const [isRecipes, setIsRecipes] = useState("Le panier est vide");
@@ -35,10 +34,7 @@ export function CheckoutPage() {
 
   const [messageModal, setMessageModal] = useState("");
 
-  // Manage page if token
-  useEffect(() => {
-    if (!token) navigate("/se-connecter");
-  }, [token]);
+    redirectionNoToken(token);
 
   // Generate all recipes for display recipes in panier
   useEffect(() => {

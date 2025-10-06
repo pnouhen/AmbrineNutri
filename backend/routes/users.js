@@ -7,6 +7,7 @@ const authCtrl = require("../controllers/users/auth");
 const panierCtrl = require("../controllers/users/panier");
 const addressesCtrl = require("../controllers/users/address");
 const purchaseCtrl = require("../controllers/users/purchase");
+const invoiceRecipesCtrl = require("../controllers/users/invoice")
 
 // Routers for AuthPage
 router.post("/signup", authCtrl.signup);
@@ -30,4 +31,7 @@ router.get(
   purchaseCtrl.showRecipeSelectPurchase
 );
 
+// Router for invoice
+router.get("/me/invoicesRecipes/", auth, invoiceRecipesCtrl.getInvoicesRecipes)
+router.get("/me/invoicesRecipes/:fileName", auth, invoiceRecipesCtrl.sendFile)
 module.exports = router;
