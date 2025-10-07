@@ -11,7 +11,7 @@ import Footer from "../structures/Footer";
 import ModalMessage from "../Modals/MessageModal";
 
 export default function AuthPage() {
-  const [checkSubmit, setCheckSubmit] = useState("");
+  const [checkSubmit, setCheckSubmit] = useState("TemporaryDataNotice");
   const navigate = useNavigate();
   const location = useLocation();
   const { token } = useContext(AuthContext);

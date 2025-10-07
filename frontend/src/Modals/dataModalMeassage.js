@@ -41,6 +41,12 @@ export const dataModalMeassage = [
   },
 
   {
+    action: "TemporaryDataNotice",
+    title: "Site de test — modifications valables 10 minutes",
+    message: "Étant donné qu’il s’agit d’un site de test, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.",
+  },
+
+  {
     action: "noConnexionAuthPage",
     title: "La connexion a échoué",
     message: "Email/Mot de passe n'est pas valide",

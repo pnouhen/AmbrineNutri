@@ -9,9 +9,13 @@ export async function fetchDataUserGet(url) {
       },
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Erreur HTTP : ${errorData.message || response.status}`);
+     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        sessionStorage.removeItem("token");
+        window.location.href = "/se-connecter"; // redirection vers la page de connexion
+        return;
+      }
+      throw new Error(`Erreur HTTP ${response.status}`);
     }
 
     const data = await response.json();

@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
+import { redirectionNoToken } from "../services/RedirectionNoToken";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -25,16 +27,20 @@ export function AuthProvider({ children }) {
   };
 
   // Update userInfo if token or addresses.length change
-const generateUserInfo = () => {
+  const generateUserInfo = () => {
       fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
         .then(async (userInfo) => {
           setUserInfo(userInfo);
         })
-        .catch((error) => console.error("Erreur lors du chargement", error));
-  }
+        .catch((error) => {
+          console.error("Erreur lors du chargement", error);
+        });
+  };
 
   useEffect(() => {
-    if (token) generateUserInfo()
+    if (token) {
+      generateUserInfo();
+    }
   }, [token]);
 
   // Export the context

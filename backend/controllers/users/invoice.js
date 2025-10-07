@@ -19,7 +19,7 @@ exports.getInvoicesRecipes = async (req, res) => {
     );
 
     // Check if folder exists
-    if (!fs.existsSync(userFolder)) return res.join([]);
+    if (!fs.existsSync(userFolder)) return res.json([]);
 
     const files = fs
       .readdirSync(userFolder)
