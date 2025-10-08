@@ -59,7 +59,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
           id="e-mailConnexion"
           ref={emailConnexionRef}
           maxLength={160}
-          defaultValue="user@user.fr"
+          value="user@user.fr"
         />
 
         <LabelInput
@@ -69,7 +69,7 @@ export default function ConnexionForm({ setCheckSubmit }) {
           id="passwordConnexion"
           ref={passwordConnexionRef}
           autoComplete={"off"}
-          defaultValue= "Kfq66jb2yBNmGk3!"
+          value= "Kfq66jb2yBNmGk3!"
         />
         
         <Button text="Se connecter" className="buttonSubmit" />

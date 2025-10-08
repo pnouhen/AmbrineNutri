@@ -49,7 +49,7 @@ const User = require("./models/Users");
 
 // Users
 const idUserTest = "68e4f9f4359579aa77639312";
-const idsToKeep = [idUserTest, "68a86b2e5c34f943f6a29d3b"];
+const idsToKeep = [idUserTest, "68a86b2e5c34f943f6a29d3b", "68e66028e7055830c841f270"];
 
 // AddressesUserTest
 const addressesUser = [
@@ -87,7 +87,7 @@ const addressesUser = [
   },
 ];
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/10 * * * * *", async () => {
   try {
     // Delete new review some thanks to the date
     const cutoffDate = new Date("2025-02-28T00:00:00.000Z");
