@@ -125,7 +125,7 @@
   }
 
   .userAccountContainer {
-    @apply mx-auto px-5 md:w-1/2 rounded-2xl;
+    @apply mx-auto p-5 lg:w-1/2 md:w-3/4 rounded-2xl;
   }
 
   .border-panier {

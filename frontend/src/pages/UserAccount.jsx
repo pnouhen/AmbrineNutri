@@ -40,7 +40,7 @@ export default function UserAccount() {
     <>
       <Header />
 
-      <main className="bgUserAccount">
+      <main className="bgUserAccount h-full flex flex-1 items-center">
         <div className="userAccountContainer section flex flex-col gap-5">
           <h2 className="h2">Mon Compte</h2>
 

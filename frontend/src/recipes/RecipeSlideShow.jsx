@@ -9,7 +9,7 @@ import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
 export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
-   // For slide show width Embla Carousel React
+  // For slide show width Embla Carousel React
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
@@ -22,35 +22,38 @@ export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
   return (
     <section className="section pb-5 px-5 flex flex-col gap-5">
       <h2 className="h2">Les recettes</h2>
-      
+
       {recipePages.length > 0 ? (
         <>
           <div className={`overflow-hidden `} ref={emblaRef}>
             <div className="embla_container flex">
               {recipePages.map((page, index) => (
                 <div className="embla__slide shrink-0 w-full" key={index}>
-                  <div className="md:grid md:grid-cols-3 flex flex-wrap gap-5">
-                    {page.map(({ _id, duration, vegetarian, title, imageUrl }) => (
-                      <NavLink
-                        key={_id}
-                        className="m-auto flex flex-shrink-0"
-                        id={_id}
-                        to={`/recettes/${_id}`}
-                      >
-                        <RecipeCard
-                          duration={duration}
-                          vegetarian={vegetarian}
-                          title={title}
-                          src={imageUrl}
-                        />
-                      </NavLink>
-                    ))}
+                  <ul className="md:grid md:grid-cols-3 flex flex-wrap gap-5">
+                    {page.map(
+                      ({ _id, duration, vegetarian, title, imageUrl }) => (
+                        <li key={_id} className="m-auto">
+                          <NavLink
+                            className="flex flex-shrink-0"
+                            id={_id}
+                            to={`/recettes/${_id}`}
+                          >
+                            <RecipeCard
+                              duration={duration}
+                              vegetarian={vegetarian}
+                              title={title}
+                              src={imageUrl}
+                            />
+                          </NavLink>
+                        </li>
+                      )
+                    )}
 
                     <NumberDivInvisible
                       numberDivInvisible={numberDivInvisible}
                       className="imgRecipe"
                     />
-                  </div>
+                  </ul>
                 </div>
               ))}
             </div>

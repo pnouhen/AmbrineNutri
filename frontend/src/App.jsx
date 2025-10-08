@@ -17,6 +17,7 @@ import UserAccount from "./pages/UserAccount";
 import { AuthProvider } from "./contexts/AuthContext";
 
 import "./styles/layout.css";
+import UserRecipes from "./pages/UserRecipes";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +102,15 @@ const router = createBrowserRouter([
     element: (
       <PageTracker>
         <UserAccount />
+      </PageTracker>
+    ),
+  },
+
+  {
+    path: "/mes-recettes",
+    element: (
+      <PageTracker>
+        <UserRecipes />
       </PageTracker>
     ),
   },

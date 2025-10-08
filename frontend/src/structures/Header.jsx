@@ -27,7 +27,7 @@ export default function Header() {
     setCompteActive(true);
   };
   const onMouseLeaveCompte = () => {
-    setCompteActive(false);
+    // setCompteActive(false);
   };
   const enterCompte = (e) => {
     if (e.key === "Enter" || e.key === "Tab") setCompteActive(true);
@@ -73,7 +73,7 @@ export default function Header() {
           onKeyDown={(e) => enterCompte(e)}
         >
           <div className="navItem-padding relative w-full z-10 cursor-pointer">
-            <p className="text-center truncate w-20">{userInfo?.firstName}</p>
+            <p className="max-md:mx-auto text-center lg:truncate lg:w-20">{userInfo?.firstName}</p>
             <i
               className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                 compteActive ? "rotate-180 mt-1" : "rotate-360"
@@ -82,16 +82,22 @@ export default function Header() {
           </div>
 
           <ul
-            className={`absolute w-full transition-all ${
+            className={`absolute lg:-bottom-[11rem] md:-bottom-[7rem] -bottom-[9rem] w-full transition-all duration-200 ${
               compteActive
-                ? "z-10 -bottom-[8.25rem]"
-                : "-z-10 bottom-0 opacity-0"
+                ? "z-10"
+                : "-z-10 opacity-0"
             }`}
           >
             <NavItem
               to="mon-compte"
               className="navItem-padding"
               text="Mon Compte"
+            />
+
+            <NavItem
+              to="mes-recettes"
+              className="navItem-padding"
+              text="Mes Recettes"
             />
 
             <NavItem to="panier" className="navItem-padding" text="Panier" />
