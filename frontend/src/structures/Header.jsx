@@ -27,7 +27,7 @@ export default function Header() {
     setCompteActive(true);
   };
   const onMouseLeaveCompte = () => {
-    // setCompteActive(false);
+    setCompteActive(false);
   };
   const enterCompte = (e) => {
     if (e.key === "Enter" || e.key === "Tab") setCompteActive(true);
