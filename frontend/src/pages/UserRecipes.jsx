@@ -12,7 +12,7 @@ import RecipeCard from "../recipes/RecipeCard";
 export default function UserRecipes() {
   const { token, userInfo } = useContext(AuthContext);
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(null);
   const [isRecipes, setIsRecipes] = useState(
     "Vous n'avez pas encore acheté de recette"
   );
@@ -32,7 +32,7 @@ export default function UserRecipes() {
 
   // Display recipes purchases
   useEffect(() => {
-    const searchRecipeInPurchases = recipes.filter((recipe) =>
+    const searchRecipeInPurchases = recipes?.filter((recipe) =>
       userInfo?.purchases.includes(recipe._id)
     );
     setRecipesPurchases(searchRecipeInPurchases);
@@ -75,7 +75,7 @@ export default function UserRecipes() {
 
             {/* Affiche les recettes de la catégorie */}
             <ul className="md:grid md:grid-cols-3 flex flex-wrap gap-5">
-              {categorie.recipes.map((recipe) => (
+              {categorie.recipes?.map((recipe) => (
                 <li key={recipe._id} className="m-auto">
                   <NavLink
                     className="flex flex-shrink-0"
@@ -110,7 +110,7 @@ export default function UserRecipes() {
         <div className="section w-full lg:min-h-[27.625rem] md:min-h-80  p-5">
           <h2 className="h2 mb-5">Mes recettes</h2>
 
-          {recipesPurchases.length > 0 ? (
+          {recipesPurchases?.length > 0 ? (
             generateRecipesCategories()
           ) : (
             <MessageNoData text={isRecipes} />
