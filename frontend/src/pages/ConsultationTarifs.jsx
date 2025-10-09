@@ -44,37 +44,44 @@ export default function ConsultationTarifs() {
   const changePrices = (e) => {
     e.preventDefault();
 
-    const body = [
+    const priceFirstConsult = priceFirstConsultRef.current.value;
+    const coupleRateFirstConsult = coupleRateFirstConsultRef.current.value;
+    const priceFollowUpConsult = priceFollowUpConsultRef.current.value;
+    const coupleRateFollowUpConsult =
+      coupleRateFollowUpConsultRef.current.value;
+
+    const newPrices = [
       {
-        _id: firstConsult._id,
+        _id: 1,
         values: {
-          price: priceFirstConsultRef.current.value,
-          coupleRate: coupleRateFirstConsultRef.current.value,
+          price: priceFirstConsult,
+          coupleRate: coupleRateFirstConsult,
         },
       },
       {
-        _id: followUpConsult._id,
+        _id: 2,
         values: {
-          price: priceFollowUpConsultRef.current.value,
-          coupleRate: coupleRateFollowUpConsultRef.current.value,
+          price: priceFollowUpConsult,
+          coupleRate: coupleRateFollowUpConsult,
         },
       },
     ];
 
-    fetchDataUserPut(
-      `${import.meta.env.VITE_BASE_API}/api/users/me/admin/changePrices`,
-      body
-    )
-      .then((newPrices) => {
-        setFirstConsult(newPrices[0]);
-        setFollowUpConsult(newPrices[1]);
-        setMessageModal("UpdateTrue");
-      })
-      .catch((error) => {
-        console.error("Erreur :", error);
-        setMessageModal("UpdateFalse");
-      });
-    console.log("ok");
+    const isPricesValid =
+      priceFirstConsult > 0 &&
+      coupleRateFirstConsult > 0 &&
+      priceFollowUpConsult > 0 &&
+      coupleRateFollowUpConsult > 0;
+
+    console.log(isPricesValid);
+
+    if (isPricesValid) {
+      setFirstConsult(newPrices[0]);
+      setFollowUpConsult(newPrices[1]);
+      setMessageModal("UpdateTrue");
+    } else {
+      setMessageModal("UpdateFalse");
+    }
   };
 
   // Display page

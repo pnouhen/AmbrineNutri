@@ -34,7 +34,7 @@ const pricesRoutes = require("./routes/prices");
 const infoAddRecipesRoutes = require("./routes/infoAddRecipes");
 const recipesRouter = require("./routes/recipes");
 const usersRoutes = require("./routes/users");
-const adminRoutes = require("./routes/admin");
+
 
 // Use routes
 app.use("/assets/img", express.static(path.join("./", "assets/img")));
@@ -43,12 +43,10 @@ app.use("/api/prices", pricesRoutes);
 app.use("/api/infoaddrecipes", infoAddRecipesRoutes);
 app.use("/api/recipes", recipesRouter);
 app.use("/api/users", usersRoutes);
-app.use("/api/users/", adminRoutes);
 
 // Generate with Chatgpt with delete some elements after 10 minutes
 const Review = require("./models/Review");
 const User = require("./models/Users");
-const Prices = require("./models/Prices");
 
 // Users
 const idUserTest = "68e4f9f4359579aa77639312";
@@ -157,28 +155,6 @@ cron.schedule("*/10 * * * * *", async () => {
       }
     }
 
-    // TODO Remettre les prix par default
-    const idFirstConsult = "687cfe263a48742cc682a40f";
-    await Prices.updateOne(
-      { _id: idFirstConsult },
-      {
-        $set: {
-          "values.price": 70,
-          "values.coupleRate": 120,
-        },
-      }
-    );
-
-    const idFollowUpConsult = "687cfe263a48742cc682a410";
-    await Prices.updateOne(
-      { _id: idFollowUpConsult },
-      {
-        $set: {
-          "values.price": 40,
-          "values.coupleRate": 60,
-        },
-      }
-    );
   } catch (error) {
     console.error("Erreur lors de la suppression automatique :", error);
   }

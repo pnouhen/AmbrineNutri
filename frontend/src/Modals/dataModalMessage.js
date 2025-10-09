@@ -43,7 +43,7 @@ export const dataModalMessage = [
   {
     action: "UpdateTrue",
     title: "Mise à jour réussi",
-    message: `Les modifications ont été effectuées <br /> <strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.<strong/>`,
+    message: `Les modifications ont été effectuées <br /> <strong>Étant donné qu’il s’agit d’un site de démonstration, les modifications effectuées ne sont pas envoyées à la base de données<strong/>`,
   },
 
   {
@@ -55,7 +55,8 @@ export const dataModalMessage = [
   {
     action: "TemporaryDataNotice",
     title: "Site de démonstration — modifications valables 10 minutes",
-    message: "<strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.<strong/>",
+    message:
+      "<strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.<strong/>",
   },
 
   {
@@ -159,6 +160,6 @@ export const dataModalMessage = [
   {
     action: "NoDownload",
     title: "Le téléchargement à échoué",
-    message: "Désolé, le téléchargement n'a pas pu fonctionner"
-  }
+    message: "Désolé, le téléchargement n'a pas pu fonctionner",
+  },
 ];
