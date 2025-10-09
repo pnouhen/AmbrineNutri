@@ -1,4 +1,4 @@
-export const dataModalMeassage = [
+export const dataModalMessage = [
   {
     action: "reviewsTrue",
     title: "Avis déposé",
@@ -41,9 +41,21 @@ export const dataModalMeassage = [
   },
 
   {
+    action: "UpdateTrue",
+    title: "Mise à jour réussi",
+    message: `Les modifications ont été effectuées <br /> <strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.<strong/>`,
+  },
+
+  {
+    action: "UpdateFalse",
+    title: "Mise à jour échoué",
+    message: "Les modifications n'ont pas pu être effectuées",
+  },
+
+  {
     action: "TemporaryDataNotice",
-    title: "Site de test — modifications valables 10 minutes",
-    message: "Étant donné qu’il s’agit d’un site de test, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.",
+    title: "Site de démonstration — modifications valables 10 minutes",
+    message: "<strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.<strong/>",
   },
 
   {

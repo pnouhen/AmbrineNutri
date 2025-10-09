@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import { AuthContext } from "../contexts/AuthContext";
 
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
 
 export default function LegalNotices() {
+  const { token, userInfo } = useContext(AuthContext);
+
+  // Display this page
+  if (token && !userInfo) return null;
+
   return (
     <>
       <Header />

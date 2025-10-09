@@ -82,13 +82,15 @@ export default function Header() {
           </div>
 
           <ul
-            className={`absolute lg:-bottom-[11rem] md:-bottom-[7rem] -bottom-[9rem] w-full transition-all duration-200 ${
+            className={`absolute ${userInfo?.role === "user" ? "lg:-bottom-[11rem] md:-bottom-[7rem] -bottom-[9rem]" : "lg:-bottom-[2.75rem] md:-bottom-[1.75rem] -bottom-[2.25rem]"} w-full transition-all duration-200 ${
               compteActive
                 ? "z-10"
                 : "-z-10 opacity-0"
             }`}
           >
-            <NavItem
+            {userInfo?.role === "user" ? (
+              <>
+              <NavItem
               to="mon-compte"
               className="navItem-padding"
               text="Mon Compte"
@@ -101,7 +103,13 @@ export default function Header() {
             />
 
             <NavItem to="panier" className="navItem-padding" text="Panier" />
-
+              </>
+            ): (
+              <>
+              
+              </>
+            )}
+            
             <li>
               <button
                 className="navItem navLi navItem-padding w-full rounded-b-[1.25rem] bg-green-100 cursor-pointer"

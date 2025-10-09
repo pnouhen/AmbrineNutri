@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 import { fetchDataGet } from "../services/fetchDataGet";
+import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
@@ -62,6 +63,9 @@ export default function UserRecipes() {
       };
     });
 
+    // Shows page if user
+    if (userInfo.role !== "user") return <Error404 />;
+
     return (
       <>
         {classifiedRecipes.map((categorie, index) => (
@@ -101,6 +105,9 @@ export default function UserRecipes() {
   // Display page
   if (token && !userInfo) return null;
   if (!recipes) return null;
+
+  // Shows page if user
+  if (userInfo.role !== "user") return <Error404 />;
 
   return (
     <>

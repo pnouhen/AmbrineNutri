@@ -8,7 +8,7 @@ export default function Error404() {
     <>
       <Header />
 
-      <main className="p-5 flex flex-col justify-center items-center bg-gray">
+      <main className="p-5 flex flex-1 flex-col justify-center items-center bg-gray">
         <section className="p-5 lg:w-7/12 md:w-10/12 w-full section flex flex-col justify-center items-center gap-5 rounded-2xl">
           <h2 className="h2 w-full text-center">Page introuvable</h2>
 

@@ -9,6 +9,7 @@ import { fetchDataUserPost } from "../services/fetchDataUserPost";
 import { isValidAddress } from "../services/isValidAddress";
 import { isValidPayment } from "../services/isValidPayment";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
+import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
 import { CartSummary } from "../user/CartSummary";
@@ -17,7 +18,6 @@ import { fetchDataGet } from "../services/fetchDataGet";
 import { PaymentForm } from "../user/PaymentForm";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
-
 
 export function CheckoutPage() {
   const { token, userInfo, generateUserInfo } = useContext(AuthContext);
@@ -34,7 +34,7 @@ export function CheckoutPage() {
 
   const [messageModal, setMessageModal] = useState("");
 
-    redirectionNoToken(token);
+  redirectionNoToken(token);
 
   // Generate all recipes for display recipes in panier
   useEffect(() => {
@@ -73,17 +73,19 @@ export function CheckoutPage() {
 
   // Display coordDefault
   useEffect(() => {
-  if (userInfo?.addresses) {
-    const defaults = userInfo.addresses.filter(address => address.isDefault);
-    if(defaults.length === 0) {
-      setCoordDefault([])
-    } else {
-    setCoordDefault(defaults);
+    if (userInfo?.addresses) {
+      const defaults = userInfo.addresses.filter(
+        (address) => address.isDefault
+      );
+      if (defaults.length === 0) {
+        setCoordDefault([]);
+      } else {
+        setCoordDefault(defaults);
+      }
     }
-  }
-}, [userInfo]);
+  }, [userInfo]);
 
-// Submit Payment here if the payment form should be used
+  // Submit Payment here if the payment form should be used
   const submitPayement = (e) => {
     e.preventDefault();
 
@@ -133,7 +135,7 @@ export function CheckoutPage() {
       body
     )
       .then(() => {
-        generateUserInfo()
+        generateUserInfo();
         setRecipesPanier([]);
         setMessageModal("PaymentSuccessful");
       })
@@ -142,8 +144,10 @@ export function CheckoutPage() {
 
   // Shows page after generate all elements
   if (!userInfo) return null;
-
   if (userInfo?.panier.length > 1 && recipesPanier.length === 0) return null;
+
+  // Shows page if user
+  if (userInfo.role !== "user") return <Error404 />;
 
   return (
     <>

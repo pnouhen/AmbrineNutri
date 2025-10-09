@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
+import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
 import { BillingAddress } from "../user/BillingAddress";
@@ -32,9 +33,10 @@ export default function UserAccount() {
   }, []);
 
   // Shows page after generate all elements
-  if (!userInfo || !invoices) {
-    return null;
-  }
+  if (!userInfo || !invoices) return null;
+
+  // Shows page if user
+  if (userInfo.role !== "user") return <Error404 />;
 
   return (
     <>

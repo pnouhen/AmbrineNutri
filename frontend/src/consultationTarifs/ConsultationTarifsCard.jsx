@@ -13,7 +13,7 @@ export function ConsultationTarifsCard({
   const euroNote = "€*";
 
   return (
-    <article className="lg:w-7/12 md:w-10/12 w-full section p-5 flex flex-col gap-5 rounded-2xl">
+    <article className="section sectionConsultationTarifs">
       <h2 className="h2">{title}</h2>
 
       {/* The condition allow you to adapt the map according to the desired elements */}

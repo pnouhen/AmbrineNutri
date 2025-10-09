@@ -83,6 +83,10 @@
     @apply flex gap-1.5;
   }
 
+  .sectionConsultationTarifs {
+    @apply lg:w-7/12 md:w-10/12 w-full p-5 flex flex-col gap-5 rounded-2xl;
+  }
+
   .recipeButton {
     @apply p-2.5 w-52 max-md:w-24 max-md:h-20 rounded-lg shadow-recipeButton transition-all duration-400 ease-in-out font-medium cursor-pointer;
     background: linear-gradient(

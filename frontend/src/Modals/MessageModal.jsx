@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ModalClose from "./ModalClose";
-import { dataModalMeassage } from "./dataModalMeassage";
+import { dataModalMessage } from "./dataModalMessage";
 
 export default function ModalMessage({
   action,
@@ -32,7 +32,7 @@ export default function ModalMessage({
   if (!action) return null;
 
   // All the messages are stocked in files.js
-  const messageModal = dataModalMeassage.filter(
+  const messageModal = dataModalMessage.filter(
     (message) => message.action === action
   );
 
@@ -42,7 +42,7 @@ export default function ModalMessage({
       tabIndex={-1} // Give priority to the modal
       onClick={onClickClose}
       onKeyDown={onEscapeClose}
-      className="z-10 modal"
+      className="z-10 modal  cursor-pointer"
     >
       <div
         className="modalContainer w-96 flex flex-col justify-center gap-4"

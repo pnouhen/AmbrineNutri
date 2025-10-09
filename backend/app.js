@@ -34,6 +34,7 @@ const pricesRoutes = require("./routes/prices");
 const infoAddRecipesRoutes = require("./routes/infoAddRecipes");
 const recipesRouter = require("./routes/recipes");
 const usersRoutes = require("./routes/users");
+const adminRoutes = require("./routes/admin");
 
 // Use routes
 app.use("/assets/img", express.static(path.join("./", "assets/img")));
@@ -42,14 +43,20 @@ app.use("/api/prices", pricesRoutes);
 app.use("/api/infoaddrecipes", infoAddRecipesRoutes);
 app.use("/api/recipes", recipesRouter);
 app.use("/api/users", usersRoutes);
+app.use("/api/users/", adminRoutes);
 
 // Generate with Chatgpt with delete some elements after 10 minutes
 const Review = require("./models/Review");
 const User = require("./models/Users");
+const Prices = require("./models/Prices");
 
 // Users
 const idUserTest = "68e4f9f4359579aa77639312";
-const idsToKeep = [idUserTest, "68a86b2e5c34f943f6a29d3b", "68e66028e7055830c841f270"];
+const idsToKeep = [
+  idUserTest,
+  "68a86b2e5c34f943f6a29d3b",
+  "68e66028e7055830c841f270",
+];
 
 // AddressesUserTest
 const addressesUser = [
@@ -104,24 +111,31 @@ cron.schedule("*/10 * * * * *", async () => {
       {
         $set: {
           panier: ["68dd207ea7293698d4fa7156"],
-          purchases: ["68dd207ea7293698d4fa7159", "68dd207ea7293698d4fa7166", "68dd207ea7293698d4fa715f"],
+          purchases: [
+            "68dd207ea7293698d4fa7159",
+            "68dd207ea7293698d4fa7166",
+            "68dd207ea7293698d4fa715f",
+          ],
           addresses: addressesUser,
         },
       }
     );
 
     // Delete others invoices
-    const usersRootFolder  = path.join("./uploads/users")
-    const userFolders  = await fs.readdir(usersRootFolder);
+    const usersRootFolder = path.join("./uploads/users");
+    const userFolders = await fs.readdir(usersRootFolder);
 
-    if (userFolders .includes(idUserTest)) {
+    if (userFolders.includes(idUserTest)) {
       const folderUserTest = path.join(
         "./uploads/users",
         idUserTest,
         "factures"
       );
       const invoicesFolder = await fs.readdir(folderUserTest);
-      const invoicesSave = ["Facture-07-10-2025-1.pdf", "Facture-07-10-2025-2.pdf"];
+      const invoicesSave = [
+        "Facture-07-10-2025-1.pdf",
+        "Facture-07-10-2025-2.pdf",
+      ];
 
       for (const file of invoicesFolder) {
         if (!invoicesSave.includes(file)) {
@@ -136,12 +150,35 @@ cron.schedule("*/10 * * * * *", async () => {
     }
 
     // Delete others folder
-    for (const folder of userFolders ) {
+    for (const folder of userFolders) {
       if (!idsToKeep.includes(folder)) {
-        const folderDelete = path.join(usersRootFolder , folder);
+        const folderDelete = path.join(usersRootFolder, folder);
         await fs.rm(folderDelete, { recursive: true, force: true });
       }
     }
+
+    // TODO Remettre les prix par default
+    const idFirstConsult = "687cfe263a48742cc682a40f";
+    await Prices.updateOne(
+      { _id: idFirstConsult },
+      {
+        $set: {
+          "values.price": 70,
+          "values.coupleRate": 120,
+        },
+      }
+    );
+
+    const idFollowUpConsult = "687cfe263a48742cc682a410";
+    await Prices.updateOne(
+      { _id: idFollowUpConsult },
+      {
+        $set: {
+          "values.price": 40,
+          "values.coupleRate": 60,
+        },
+      }
+    );
   } catch (error) {
     console.error("Erreur lors de la suppression automatique :", error);
   }
