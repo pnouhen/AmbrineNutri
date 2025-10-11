@@ -22,9 +22,10 @@ export default function Home() {
 
   // Get rewiews here for update reviews after post
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`)
+    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`, "reviews")
       .then((data) => {
         setReviews(data);
+        console.log(data)
       })
       .catch((error) => {
         // If reviews = null, the page doesn't display

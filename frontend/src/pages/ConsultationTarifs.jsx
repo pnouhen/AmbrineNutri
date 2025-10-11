@@ -22,7 +22,7 @@ export default function ConsultationTarifs() {
   const { token, userInfo } = useContext(AuthContext);
 
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`)
+    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`, "prices")
       .then((data) => {
         setFirstConsult(data[0]);
         setFollowUpConsult(data[1]);
