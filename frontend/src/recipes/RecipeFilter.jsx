@@ -13,7 +13,7 @@ export function RecipeFilter({ data, filter, setFilter }) {
           {data.map((categorie, index) => (
             <li key={index} className="lg:mx-auto">
               <button
-                className={`text recipeButton ${
+                className={`text recipeButton w-52 max-md:w-24 max-md:h-20 ${
                   filter === categorie ? "recipeButtonActive" : ""
                 }`}
                 onClick={() => setFilter(categorie)}

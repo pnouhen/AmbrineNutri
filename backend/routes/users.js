@@ -34,4 +34,5 @@ router.get(
 // Router for invoice
 router.get("/me/invoicesRecipes/", auth, invoiceRecipesCtrl.getInvoicesRecipes)
 router.get("/me/invoicesRecipes/:fileName", auth, invoiceRecipesCtrl.sendFile)
+
 module.exports = router;

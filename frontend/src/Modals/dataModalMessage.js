@@ -53,6 +53,12 @@ export const dataModalMessage = [
   },
 
   {
+    action: "ConfirmDeletion",
+    title: "Confirmer la suppression",
+    message: "Êtes-vous sûr de vouloir supprimer la recette ?",
+  },
+
+  {
     action: "TemporaryDataNotice",
     title: "Site de démonstration — modifications valables 10 minutes",
     message:

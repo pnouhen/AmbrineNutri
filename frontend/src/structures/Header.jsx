@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 import NavItem from "../header/NavItem";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 export default function Header() {
   const [menuBurger, setMenuBurger] = useState(false);
@@ -42,16 +43,7 @@ export default function Header() {
 
   // Stop overflow in tablet and mobile
   useEffect(() => {
-    if (menuBurger) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    // Cleanup to avoid conflicts
-    return () => {
-      document.body.style.overflow = "auto";
-    };
+    toggleOverflow(menuBurger)
   }, [menuBurger]);
 
   const handleLogout = () => {

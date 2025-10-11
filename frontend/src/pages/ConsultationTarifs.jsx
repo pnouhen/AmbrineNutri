@@ -73,8 +73,6 @@ export default function ConsultationTarifs() {
       priceFollowUpConsult > 0 &&
       coupleRateFollowUpConsult > 0;
 
-    console.log(isPricesValid);
-
     if (isPricesValid) {
       setFirstConsult(newPrices[0]);
       setFollowUpConsult(newPrices[1]);

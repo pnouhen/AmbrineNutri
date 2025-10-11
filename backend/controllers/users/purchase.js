@@ -7,7 +7,6 @@ const { isValidPayment } = require("../../utils/isValidPayment");
 const { generateInvoice } = require("../../utils/generateInvoice");
 
 const path = require("path");
-const fs = require("fs");
 const sharp = require("sharp");
 
 exports.purchasesRecipes = async (req, res) => {

@@ -34,7 +34,7 @@ const pricesRoutes = require("./routes/prices");
 const infoAddRecipesRoutes = require("./routes/infoAddRecipes");
 const recipesRouter = require("./routes/recipes");
 const usersRoutes = require("./routes/users");
-
+const adminRouter = require("./routes/admin")
 
 // Use routes
 app.use("/assets/img", express.static(path.join("./", "assets/img")));
@@ -43,6 +43,7 @@ app.use("/api/prices", pricesRoutes);
 app.use("/api/infoaddrecipes", infoAddRecipesRoutes);
 app.use("/api/recipes", recipesRouter);
 app.use("/api/users", usersRoutes);
+app.use("/api/admin", adminRouter)
 
 // Generate with Chatgpt with delete some elements after 10 minutes
 const Review = require("./models/Review");

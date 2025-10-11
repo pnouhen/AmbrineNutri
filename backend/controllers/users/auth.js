@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../../models/Users");
 
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
   // Check the email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(req.body.email))

@@ -42,7 +42,7 @@ export default function ModalMessage({
       tabIndex={-1} // Give priority to the modal
       onClick={onClickClose}
       onKeyDown={onEscapeClose}
-      className="z-10 modal  cursor-pointer"
+      className="z-10 modal"
     >
       <div
         className="modalContainer w-96 flex flex-col justify-center gap-4"

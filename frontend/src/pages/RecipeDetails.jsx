@@ -48,7 +48,8 @@ export default function RecipeDetails() {
     if (
       token &&
       userInfo?.purchases !== undefined &&
-      !userInfo?.purchases.includes(id)
+      !userInfo?.purchases.includes(id) &&
+      userInfo?.role === "user"
     ) {
       // Recipe doesn't purchase
       fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
@@ -83,6 +84,23 @@ export default function RecipeDetails() {
         });
     }
   }, [userInfo?.purchases, token]);
+
+  // Display if admin is connected
+  useEffect(() => {
+    if (userInfo?.role === "admin") {
+      fetchDataUserGet(
+        `${import.meta.env.VITE_BASE_API}/api/admin/recipes/${id}`
+      )
+        .then((recipes) => {
+          setRecipeDetails(recipes);
+          setPurchase(true);
+        })
+        .catch((error) => {
+          setRecipeDetails([]);
+          console.error("Erreur lors du chargement", error);
+        });
+    }
+  }, [userInfo]);
 
   // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {
@@ -120,25 +138,28 @@ export default function RecipeDetails() {
 
   const downloadRecipe = async () => {
     // Return a object which allows to generate a PDF, toBlob() converts the PDF to a binary file
-  const blob = await pdf(
-    <GenerateRecipePdf recipeDetails={recipeDetails} indexPeople={indexPeople} />
-  ).toBlob();
+    const blob = await pdf(
+      <GenerateRecipePdf
+        recipeDetails={recipeDetails}
+        indexPeople={indexPeople}
+      />
+    ).toBlob();
 
-  // Creates a temporary URL for this Blob file
-  const url = URL.createObjectURL(blob);
+    // Creates a temporary URL for this Blob file
+    const url = URL.createObjectURL(blob);
 
-  // Dynamically creates an <a> element to trigger the download
-  const link = document.createElement("a");
-  // Link of PDF
-  link.href = url;
-  // Name PDF
-  link.download = `${recipeDetails.title.split(" ").join("_")}.pdf`;
-  // Simulates a click to download it
-  link.click();
+    // Dynamically creates an <a> element to trigger the download
+    const link = document.createElement("a");
+    // Link of PDF
+    link.href = url;
+    // Name PDF
+    link.download = `${recipeDetails.title.split(" ").join("_")}.pdf`;
+    // Simulates a click to download it
+    link.click();
 
-  // Frees the temporary URL to avoid memory leaks
-  URL.revokeObjectURL(url);
-};
+    // Frees the temporary URL to avoid memory leaks
+    URL.revokeObjectURL(url);
+  };
 
   // Display page
   if (token && !userInfo?.panier) return null;

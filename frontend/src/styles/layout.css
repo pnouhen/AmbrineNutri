@@ -88,7 +88,7 @@
   }
 
   .recipeButton {
-    @apply p-2.5 w-52 max-md:w-24 max-md:h-20 rounded-lg shadow-recipeButton transition-all duration-400 ease-in-out font-medium cursor-pointer;
+    @apply p-2.5 rounded-lg shadow-recipeButton transition-all duration-400 ease-in-out font-medium cursor-pointer;
     background: linear-gradient(
       0deg,
       rgba(255, 230, 161, 1) 0%,

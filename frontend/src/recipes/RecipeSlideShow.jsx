@@ -8,7 +8,15 @@ import RecipeCard from "./RecipeCard";
 import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
-export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
+export function RecipeSlideShow({
+  recipePages,
+  numberRecipes,
+  noRecipes,
+  actionRecipes,
+  setRecipes,
+  setModalMessage,
+  setRecipeDelete,
+}) {
   // For slide show width Embla Carousel React
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
@@ -39,6 +47,11 @@ export function RecipeSlideShow({ recipePages, numberRecipes, noRecipes }) {
                             to={`/recettes/${_id}`}
                           >
                             <RecipeCard
+                              setRecipeDelete={setRecipeDelete}
+                              id={_id}
+                              setRecipes={setRecipes}
+                              actionRecipes={actionRecipes}
+                              setModalMessage={setModalMessage}
                               duration={duration}
                               vegetarian={vegetarian}
                               title={title}

@@ -1,6 +1,22 @@
 import React from "react";
 
-export default function RecipeCard({ duration, vegetarian, src, title }) {
+export default function RecipeCard({
+  duration,
+  vegetarian,
+  src,
+  title,
+  actionRecipes,
+  setRecipeDelete,
+  setModalMessage,
+  id,
+}) {
+  const deleteRecipes = (e, id) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setRecipeDelete(id);
+    setModalMessage("ConfirmDeletion");
+  };
+
   return (
     <div className="relative">
       <p className="text useBadgeInfo duration">{duration}</p>
@@ -17,6 +33,15 @@ export default function RecipeCard({ duration, vegetarian, src, title }) {
         alt={`Image de ${title}`}
         loading="eager"
       />
+
+      {actionRecipes === "delete" && (
+        <button
+          className="absolute top-2 right-2 cursor-pointer"
+          onClick={(e) => deleteRecipes(e, id)}
+        >
+          <i className="fa-solid fa-trash h2"></i>
+        </button>
+      )}
 
       <h3 className="h3 absolute left-1/2 top-1/2 -translate-1/2 w-full text-center">
         {title}
