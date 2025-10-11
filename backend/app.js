@@ -93,7 +93,7 @@ const addressesUser = [
   },
 ];
 
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("*/10 * * * *", async () => {
   try {
     // Delete new review some thanks to the date
     const cutoffDate = new Date("2025-02-28T00:00:00.000Z");
@@ -132,8 +132,8 @@ cron.schedule("*/10 * * * * *", async () => {
       );
       const invoicesFolder = await fs.readdir(folderUserTest);
       const invoicesSave = [
-        "Facture-07-10-2025-1.pdf",
-        "Facture-07-10-2025-2.pdf",
+        "Facture-11-10-2025-1.pdf",
+        "Facture-11-10-2025-2.pdf",
       ];
 
       for (const file of invoicesFolder) {

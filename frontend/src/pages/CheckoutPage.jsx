@@ -95,7 +95,7 @@ export function CheckoutPage() {
     const cryptograme = cryptogramRef.current?.value.trim();
     const expiryDate = expiryDateRef.current?.getRawValue()?.trim();
 
-    const infopurchasesRecipes = {
+    const infoPurchasesRecipes = {
       panier: userInfo.panier,
       address: coordDefault[0],
       carteName: carteName,
@@ -103,9 +103,7 @@ export function CheckoutPage() {
       cryptograme: cryptograme,
       expiryDate: expiryDate,
     };
-    const body = {
-      infopurchasesRecipes: infopurchasesRecipes,
-    };
+    const body = infoPurchasesRecipes;
 
     // Panier is empty
     if (userInfo.panier.length === 0) setMessageModal("NoRecipePanier");
@@ -120,15 +118,15 @@ export function CheckoutPage() {
     const hasDefault = userInfo.addresses.some(
       (address) => address.isDefault === true
     );
-    if (!infopurchasesRecipes.address?.isDefault && !hasDefault)
+    if (!infoPurchasesRecipes.address?.isDefault && !hasDefault)
       setMessageModal("NoAddressIsDefault");
 
     // Check address is good
-    if (!isValidAddress(infopurchasesRecipes.address))
+    if (!isValidAddress(infoPurchasesRecipes.address))
       setMessageModal("InvalidAddress");
 
     // Check all the elements of Payment
-    if (!isValidPayment(infopurchasesRecipes)) setMessageModal("FailPayment");
+    if (!isValidPayment(infoPurchasesRecipes)) setMessageModal("FailPayment");
 
     fetchDataUserPost(
       `${import.meta.env.VITE_BASE_API}/api/users/me/purchasesRecipes`,

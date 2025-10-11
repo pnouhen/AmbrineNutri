@@ -7,19 +7,7 @@ const { generateFolder } = require("../utils/generateFolder");
 const { getNextInvoiceNumber } = require("../utils/getNextInvoiceNumber");
 
 // function generateInvoice(req, res) {
-function generateInvoice(req, userId, recipesName) {
-  const infopurchasesRecipes = {
-    address: {
-      address: "7 rue Benjamin Delessert",
-      city: "Limoges",
-      country: "France",
-      firstName: "Pierre",
-      isDefault: true,
-      lastName: "Nouhen",
-      postalCode: "87100",
-    },
-  };
-
+function generateInvoice(req, userId, recipesName, infoPurchasesRecipes) {
   // Formatted date
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
@@ -79,7 +67,7 @@ function generateInvoice(req, userId, recipesName) {
 
   // HEADER
   const textHeader =
-    "Laura Diet\n21 Rue Védrines\n87100 Limoges\n06.75.66.96.04\nRCS : RCS Limoges 512 345 678\nSIREN : 512 345 678\nSIRET : 512 345 678 00021\nTVA intracommunautaire : FR12 512345678";
+    "Claire Diet\n10 Rue de la Paix\n75002 Paris\n01.23.45.67.89\nRCS : RCS Limoges 512 345 678\nSIREN : 512 345 678\nSIRET : 512 345 678 00021\nTVA intracommunautaire : FR12 512345678";
   const widthHeaderImg = 53;
   const heightHeaderImg = 100;
   const textHeaderMoreLength = "TVA intracommunautaire : FR12 512345678";
@@ -124,7 +112,7 @@ function generateInvoice(req, userId, recipesName) {
 
   //   USER ADDRESS
   const heightUserAddress = heightTitle + heightTitleText + margin;
-  const textUserAddress = `${infopurchasesRecipes.address.lastName} ${infopurchasesRecipes.address.firstName}\n${infopurchasesRecipes.address.address}\n${infopurchasesRecipes.address.postalCode} ${infopurchasesRecipes.address.city}\n${infopurchasesRecipes.address.country}`;
+  const textUserAddress = `${infoPurchasesRecipes.address.lastName} ${infoPurchasesRecipes.address.firstName}\n${infoPurchasesRecipes.address.address}\n${infoPurchasesRecipes.address.postalCode} ${infoPurchasesRecipes.address.city}\n${infoPurchasesRecipes.address.country}`;
   doc.font(fontInitial).fontSize(fontSizeInitial);
   const heightUserAddressText = doc.heightOfString(textUserAddress);
 

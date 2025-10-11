@@ -23,7 +23,7 @@ export default function LegalNotices() {
             <h3 className="h3 mb-2.5 w-full">1. Éditeur du site</h3>
 
             <ul className="flex flex-col gap-2">
-              <li className="text">Nom de l'entreprise : Laura Diet</li>
+              <li className="text">Nom de l'entreprise : Claire Diet</li>
 
               <li className="text">
                 Forme juridique : Entrepreneur individuel
@@ -31,13 +31,13 @@ export default function LegalNotices() {
 
               <li className="text">Capital social : 200€</li>
 
-              <li className="text">Adresse : 21 Rue Védrines, 87100 Limoges</li>
+              <li className="text">Adresse : 10 Rue de la Paix, 75002 Paris</li>
 
-              <li className="text">Téléphone : 06.75.66.96.04</li>
+              <li className="text">Téléphone : 01.23.45.67.89</li>
 
-              <li className="text">Email : lauradietetique@gmail.com</li>
+              <li className="text">Email : contact@clairediet.fr</li>
 
-              <li className="text">Directeur de la publication : Laura Diet</li>
+              <li className="text">Directeur de la publication : Claire Dubreuil</li>
             </ul>
           </section>
 

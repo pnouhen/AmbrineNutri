@@ -126,11 +126,11 @@ export default function GenerateRecipePdf({ recipeDetails, indexPeople }) {
         <View style={styles.header}>
           <Image
             src="/assets/logo/logo-facture.jpg"
-            alt="Logo de Laura Diététique"
+            alt="Logo de Claire Diet"
             style={styles.logo}
           />
           <View>
-            <Text style={styles.h1}>Laura diététique</Text>
+            <Text style={styles.h1}>Claire Diet</Text>
 
             <Text style={styles.subH1}>
               A l'écoute pour des conseils de qualité et personnalisés

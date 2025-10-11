@@ -12,19 +12,19 @@ export default function Footer() {
             <p className="font18-600">Adresse :</p>
 
             <a
-              href="https://www.google.com/maps/place/Laura+Di%C3%A9t%C3%A9tique/@45.8506005,1.2463868,20.5z/data=!4m15!1m8!3m7!1s0x47fecb2d76075669:0x8895982de98b07fb!2s21+Rue+V%C3%A9drines,+87100+Limoges!3b1!8m2!3d45.8505717!4d1.2465095!16s%2Fg%2F11c18qsfnj!3m5!1s0x47fecb32b39cb9f9:0xb7bb1b7ae0a2e9ec!8m2!3d45.8506088!4d1.246543!16s%2Fg%2F11cs04h0nd?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D"
+              href="https://www.google.com/maps/place/10+Rue+de+la+Paix,+75002+Paris/@48.8690308,2.3309502,17z/data=!4m16!1m9!3m8!1s0x47e66e31ab3c3753:0x7228ae88d596524!2s10+Rue+de+la+Paix,+75002+Paris!3b1!8m2!3d48.8689443!4d2.3312533!10e5!16s%2Fg%2F11bw3x7ccr!3m5!1s0x47e66e31ab3c3753:0x7228ae88d596524!8m2!3d48.8689443!4d2.3312533!16s%2Fg%2F11bw3x7ccr?entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               className="flex items-center underline text"
             >
-              21 Rue Védrines, 87100 Limoges
+              10 Rue de la Paix, 75002 Paris
             </a>
           </div>
 
           <div className="flex gap-1.5">
             <p className="font18-600">Téléphone :</p>
 
-            <a href="tel:+33675669604" className="underline text">
-              06.75.66.96.04
+            <a href="tel:+33123456789" className="underline text">
+              01.23.45.67.89
             </a>
           </div>
 
@@ -32,10 +32,10 @@ export default function Footer() {
             <p className="font18-600">E-mail :</p>
 
             <a
-              href="mailto:lauradietetique@gmail.com"
+              href="mailto:contact@clairediet.fr"
               className="flex items-center underline text"
             >
-              lauradietetique@gmail.com
+              contact@clairediet.fr
             </a>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function Footer() {
         <h2 className="w-full h2">Suivez-moi :</h2>
 
         <a
-          href="https://www.facebook.com/Lauradietetique/"
+          href="https://www.facebook.com/"
           className="flex items-center"
         >
           <img
@@ -56,7 +56,7 @@ export default function Footer() {
         </a>
 
         <a
-          href="https://www.instagram.com/dietandmom/"
+          href="https://www.instagram.com/"
           className="text-black flex items-center"
         >
           <img

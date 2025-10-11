@@ -13,41 +13,41 @@ export default function About() {
           url="/assets/img/background/background-about.webp"
           className="object-top"
         />
-        
+
         <section className="my-10 md:grid md:grid-cols-[30%_60%] p-5 max-md:flex max-md:flex-col max-md:items-center justify-center max-md:gap-8">
           <img
-            src="/assets/img/LauraPicture.webp"
-            alt="Photo de Laura"
-            className="md:w-full w-40 h-full md:rounded-tl-full rounded-2xl object-cover"
+            src="/assets/img/ClaireProfil.webp"
+            alt="Photo de Claire"
+            className="md:w-full w-40 h-full md:rounded-tl-[14rem] max-lg:rounded-2xl object-cover"
           />
 
-          <div className="w-full section pb-5 text flex flex-col justify-around items-center gap-5 rounded-tr-2xl rounded-br-2xl max-md:rounded-2xl">
+          <div className="w-full section px-2 pb-5 text flex flex-col justify-around items-center gap-5 rounded-tr-2xl rounded-br-2xl max-md:rounded-2xl">
             <p>
-              Passionnée par l'importance de l'alimentation sur la santé, c'est
-              naturellement que je me suis orientée vers des études en
-              diététique.
+              Depuis toujours, je suis convaincue que bien manger, c’est
+              avant tout prendre soin de soi. C’est cette conviction qui m’a
+              guidée vers la nutrition et m’a poussée à en faire mon métier.
             </p>
 
             <p>
-              Après un Bac scientifique, je suis rentrée à l'Université
-              d'Auvergne et j'ai obtenu mon DUT (Diplôme Universitaire de
-              Technologie) option diététique en 2011.
+              Après un baccalauréat scientifique, j’ai poursuivi mes études
+              dans le domaine de la diététique et de la nutrition, où j’ai
+              découvert toute la richesse de la relation entre alimentation,
+              santé etéquilibre de vie.
             </p>
 
             <p>
-              Depuis 9 ans j'exerce le métier de diététicienne nutritionniste.
-              Durant ces années j'ai pu me perfectionner notamment dans les
-              accompagnements individuels et personnalisés. Chaque être humain
-              est à part, a sa propre histoire avec ses antécédents et ses
-              difficultés personnelles. Ma vision de la nutrition est
-              indissociable de la dimension humaine et psychologique.
+              Aujourd’hui, j’exerce en tant que nutritionniste avec la volonté
+              d’accompagner chaque personne vers une relation plussereine et
+              durable avec son alimentation. J’accorde une attention particulière
+              à l’écoute, à la bienveillance et à l’adaptation desconseils selon
+              les besoins, le rythme et les objectifs de chacun.
             </p>
 
             <p>
-              Aujourd'hui, je vous propose des consultations au cabinet ou à
-              distance pour vous transmettre mes connaissances en nutrition, et
-              vous apporter toujours de nouvelles solutions pour atteindre vos
-              objectifs personnels!
+              Je propose des consultations au cabinet ou à distance, afin devous
+              aider à retrouver un équilibre alimentaire qui vous ressemble—
+              sans restrictions inutiles, mais avec plaisir, compréhension
+              etconfiance.
             </p>
           </div>
         </section>

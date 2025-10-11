@@ -1,0 +1,37 @@
+[
+  {
+    "date": "2022-09-14T00:00:00.000Z",
+    "firstName": "Guillaume",
+    "lastName": "D",
+    "comment": "Elle m’a aidée à comprendre mes habitudes alimentaires sans jamais me juger. Grâce à ses conseils clairs et bienveillants, j’ai retrouvé un équilibre durable et surtout, le plaisir de manger sainement.",
+    "rating": 5
+  },
+  {
+    "date": "2022-06-18T00:00:00.000Z",
+    "firstName": "Alice",
+    "lastName": "S",
+    "comment": "Claire prend vraiment le temps d’écouter et d’adapter ses recommandations à chaque situation. On sent qu’elle maîtrise son sujet et qu’elle aime sincèrement aider les gens à se sentir mieux.",
+    "rating": 5
+  },
+  {
+    "date": "2022-06-05T00:00:00.000Z",
+    "firstName": "Hugo",
+    "lastName": "D",
+    "comment": "Claire m’a beaucoup aidé à rééquilibrer mes repas sans frustration. Seul petit bémol : les premières semaines demandent un vrai effort d’organisation, mais elle reste toujours disponible et encourageante.",
+    "rating": 4
+  },
+  {
+    "date": "2022-06-28T00:00:00.000Z",
+    "firstName": "Laurie",
+    "lastName": "F",
+    "comment": "Très douce et à l’écoute, Claire m’a accompagnée avec beaucoup de pédagogie. Elle explique tout simplement, ce qui rend le changement d’habitudes beaucoup plus facile.",
+    "rating": 5
+  },
+  {
+    "date": "2020-03-25T00:00:00.000Z",
+    "firstName": "Corentin",
+    "lastName": "A",
+    "comment": "On sent que Claire aime son métier et qu’elle s’investit pleinement. Grâce à elle, j’ai enfin trouvé un équilibre alimentaire qui me correspond, sans restrictions ni culpabilité.",
+    "rating": 5
+  }
+]

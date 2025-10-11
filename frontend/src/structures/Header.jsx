@@ -126,16 +126,16 @@ export default function Header() {
   };
 
   return (
-    <header className="relative flex gap-4 px-8 py-2.5 bg-white-300-100">
+    <header className="relative flex gap-4 px-8 py-5 bg-white-300-100">
       <img
         src="/assets/logo/logo.webp"
-        alt="Logo de Laura Diététique"
+        alt="Logo de Claire Dubreuil"
         className="md:h-36 h-16 md:w-20 w-8 object-contain"
       />
 
       <div className="w-full flex flex-col lg:gap-5">
         <div className="h-full flex flex-col justify-around">
-          <h1 className="h1">Laura diététique</h1>
+          <h1 className="h1">Claire Diet</h1>
 
           <p className="md:mr-0 mr-3.5 ls:text-2xl md:text-xl text-sm font-header">
             A l'écoute pour des conseils de qualité et personnalisés
@@ -189,7 +189,7 @@ export default function Header() {
             <li className="navLi">
               <a
                 className="navItem navItem-padding navItem-rounded bg-green-100"
-                href="https://user.clicrdv.com/Laura-Gentes"
+                href="https://user.clicrdv.com/Claire-Dubreuil"
                 target="_blank"
                 rel="noopener noreferrer"
               >

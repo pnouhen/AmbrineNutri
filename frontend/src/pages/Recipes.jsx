@@ -128,8 +128,8 @@ export default function Recipes() {
         classNameValidation={modalMessage !== "UpdateTrue" && true}
         onClickValidate={() => confirmDeleteRecipes()}
       />
-
-      <ModalRecipe infoAddRecipes={infosAddRecipe} />
+      {userInfo?.role === "admin" && (<ModalRecipe infoAddRecipes={infosAddRecipe} />)}
+      
     </>
   );
 }
