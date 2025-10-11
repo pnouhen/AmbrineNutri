@@ -32,10 +32,10 @@ export default function Footer() {
             <p className="font18-600">E-mail :</p>
 
             <a
-              href="mailto:contact@clairediet.fr"
+              href="mailto:contact@ambrinenutri.fr"
               className="flex items-center underline text"
             >
-              contact@clairediet.fr
+              contact@ambrinenutri.fr
             </a>
           </div>
         </div>

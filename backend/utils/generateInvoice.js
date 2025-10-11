@@ -67,7 +67,7 @@ function generateInvoice(req, userId, recipesName, infoPurchasesRecipes) {
 
   // HEADER
   const textHeader =
-    "Claire Diet\n10 Rue de la Paix\n75002 Paris\n01.23.45.67.89\nRCS : RCS Limoges 512 345 678\nSIREN : 512 345 678\nSIRET : 512 345 678 00021\nTVA intracommunautaire : FR12 512345678";
+    "Ambrine Nutri\n10 Rue de la Paix\n75002 Paris\n01.23.45.67.89\nRCS : RCS Limoges 512 345 678\nSIREN : 512 345 678\nSIRET : 512 345 678 00021\nTVA intracommunautaire : FR12 512345678";
   const widthHeaderImg = 53;
   const heightHeaderImg = 100;
   const textHeaderMoreLength = "TVA intracommunautaire : FR12 512345678";

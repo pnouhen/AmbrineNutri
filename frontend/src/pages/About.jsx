@@ -16,8 +16,8 @@ export default function About() {
 
         <section className="my-10 md:grid md:grid-cols-[30%_60%] p-5 max-md:flex max-md:flex-col max-md:items-center justify-center max-md:gap-8">
           <img
-            src="/assets/img/ClaireProfil.webp"
-            alt="Photo de Claire"
+            src="/assets/img/AmbrineProfil.webp"
+            alt="Photo de Ambrine"
             className="md:w-full w-40 h-full md:rounded-tl-[14rem] max-lg:rounded-2xl object-cover"
           />
 

@@ -23,7 +23,7 @@ export default function LegalNotices() {
             <h3 className="h3 mb-2.5 w-full">1. Éditeur du site</h3>
 
             <ul className="flex flex-col gap-2">
-              <li className="text">Nom de l'entreprise : Claire Diet</li>
+              <li className="text">Nom de l'entreprise : Ambrine Nutri</li>
 
               <li className="text">
                 Forme juridique : Entrepreneur individuel
@@ -35,9 +35,9 @@ export default function LegalNotices() {
 
               <li className="text">Téléphone : 01.23.45.67.89</li>
 
-              <li className="text">Email : contact@clairediet.fr</li>
+              <li className="text">Email : contact@ambrinenutri.fr</li>
 
-              <li className="text">Directeur de la publication : Claire Dubreuil</li>
+              <li className="text">Directeur de la publication : Ambrine Nouhen</li>
             </ul>
           </section>
 

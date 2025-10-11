@@ -1,7 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
-import { redirectionNoToken } from "../services/RedirectionNoToken";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
