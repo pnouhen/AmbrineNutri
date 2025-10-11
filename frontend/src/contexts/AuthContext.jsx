@@ -33,6 +33,7 @@ export function AuthProvider({ children }) {
           setUserInfo(userInfo);
         })
         .catch((error) => {
+          sessionStorage.removeItem("token")
           console.error("Erreur lors du chargement", error);
         });
   };
