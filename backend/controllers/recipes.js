@@ -8,7 +8,7 @@ exports.showRecipes = (req, res) => {
       // Associate the URL to manage retrieving images from the server
       const recipesWithUrl = recipes.map((rcp) => ({
         ...rcp._doc,
-        imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
+        imageUrl: `${process.env.Protocol}://${req.get("host")}/assets/img/recipes/${
           rcp.img
         }`,
       }));
@@ -29,7 +29,7 @@ exports.showRecipeSelectNoPurchase = (req, res) => {
       // Associate the URL to manage retrieving images from the server
       const recipeWithUrl = {
         ...recipeSelect._doc,
-        imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
+        imageUrl: `${process.env.Protocol}://${req.get("host")}/assets/img/recipes/${
           recipeSelect.img
         }`,
       };

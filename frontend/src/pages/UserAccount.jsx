@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { fetchDataUserGet } from "../services/fetchDataUserGet";
+import { fecthInvoicesRecipes } from "../services/fecthInvoicesRecipes";
 import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
@@ -12,24 +12,33 @@ import InvoiceHistory from "../user/InvoiceHistory";
 import { redirectionNoToken } from "../services/RedirectionNoToken";
 
 export default function UserAccount() {
-  const { token, userInfo, generateUserInfo } = useContext(AuthContext);
+  const { token, userInfo } = useContext(AuthContext);
 
-  const [invoices, setInvoices] = useState(null);
+  const [invoices, setInvoices] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("invoicesRecipes"));
+  });
+
+  const [addresses, setAddresses] = useState(() => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (!userInfo?.addresses) return [];
+
+    return userInfo.addresses;
+  });
   const coordDefault = null;
+
   const [messageModal, setMessageModal] = useState("");
 
   redirectionNoToken(token);
 
   //   Generate the name of invoices
   useEffect(() => {
-    fetchDataUserGet(
-      `${import.meta.env.VITE_BASE_API}/api/users/me/invoicesRecipes`
-    )
-      .then((invoicesRecipes) => setInvoices(invoicesRecipes))
-      .catch((error) => {
-        setInvoices([]);
-        console.error("Erreur lors du chargement", error);
-      });
+    if (!invoices) {
+      const loadInvoices = async () => {
+        const newInvoicesRecipes = await fecthInvoicesRecipes();
+        setInvoices(newInvoicesRecipes);
+      };
+      loadInvoices();
+    }
   }, []);
 
   // Shows page after generate all elements
@@ -53,8 +62,8 @@ export default function UserAccount() {
           />
 
           <BillingAddress
-            addresses={userInfo?.addresses}
-            generateUserInfo={generateUserInfo}
+            addresses={addresses}
+            setAddresses={setAddresses}
             coordDefault={coordDefault}
             setMessageModal={setMessageModal}
           />

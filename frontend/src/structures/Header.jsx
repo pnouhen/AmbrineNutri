@@ -147,7 +147,7 @@ export default function Header() {
             menuBurger === false
               ? ""
               : "max-lg:h-[100vh] max-lg:w-[100vw] max-lg:bg-white"
-          } max-lg:absolute max-lg:right-1/2 max-lg:left-0 max-lg:z-50 max-lg:px-8 md:mx-2.5 max-lg:w-full  max-lg:flex max-lg:flex-col max-lg:items-end max-lg:gap-14`}
+          } max-lg:absolute max-lg:right-1/2 max-lg:left-0 max-lg:z-50 max-lg:px-8 max-lg:w-full  max-lg:flex max-lg:flex-col max-lg:items-end max-lg:gap-14`}
         >
           {/* Responvie display  */}
           {window.innerWidth <= 1024 ? (

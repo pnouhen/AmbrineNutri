@@ -93,7 +93,7 @@ exports.login = (req, res, next) => {
 exports.getMe = (req, res) => {
   // Search user and excluding password
   User.findById(req.userId)
-    .select("-password")
+    .select("-password -email -_id -__v")
     .then((user) => {
       if (!user)
         return res.status(401).json({ message: "Utilisateur non trouvé" });

@@ -92,7 +92,7 @@ exports.showRecipeSelectPurchase = async (req, res) => {
         // Associate the URL to manage retrieving images from the server
         const recipeWithUrl = {
           ...recipeSelect._doc,
-          imageUrl: `${req.protocol}://${req.get("host")}/assets/img/recipes/${
+          imageUrl: `${process.env.Protocol}://${req.get("host")}/assets/img/recipes/${
             recipeSelect.img
           }`,
         };

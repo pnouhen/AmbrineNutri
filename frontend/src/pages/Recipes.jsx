@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { fetchDataGet } from "../services/fetchDataGet";
-import { fetchDataUserGet } from "../services/fetchDataUserGet";
 
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -15,48 +14,67 @@ import ModalMessage from "../Modals/MessageModal";
 import ModalRecipe from "../admin/ModalRecipe";
 
 export default function Recipes() {
+  const [infosAddRecipe, setInfosAddRecipe] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("infoAddRecipes"));
+  });
   const [categoriesRecipe, setCategoriesRecipe] = useState(null);
-  const [actionRecipes, setActionRecipe] = useState("");
   const [filter, setFilter] = useState("Tous");
-  const [recipes, setRecipes] = useState(null);
+
+  const [recipes, setRecipes] = useState(() => {
+    const recipes = JSON.parse(sessionStorage.getItem("recipes"));
+    recipes?.sort((a, b) => a.title.localeCompare(b.title));
+    return recipes;
+  });
   const [noRecipes, setNoRecipes] = useState(
     "Aucune recette n'est disponible."
   );
-  const [recipeDelete, setRecipeDelete] = useState("");
+
   const [modalMessage, setModalMessage] = useState("");
-  const [infosAddRecipe, setInfosAddRecipe] = useState("");
-  const [recipeUpdate, setUpdateRecipe] = useState("");
 
-  // To display the header at once if the user is logged in
-  const { token, userInfo } = useContext(AuthContext);
+  // For admin
+  const [actionRecipes, setActionRecipe] = useState("");
+  const [recipeDelete, setRecipeDelete] = useState("");
 
-  // Get categoriesRecipes here for link the recipes
+  // To display the modal recipe if user = admin
+  const { userInfo } = useContext(AuthContext);
+
+  // Get infosAddRecipe
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`)
-      .then((infosAddRecipe) => {
-        const categories = infosAddRecipe.filter(
-          (info) => info.type === "categories"
-        );
-        setCategoriesRecipe(["Tous", ...categories[0].values]);
-        setInfosAddRecipe(infosAddRecipe);
-      })
-      .catch((error) => {
-        setCategoriesRecipe(["Tous"]);
-        console.error("Erreur lors du chargement", error);
-      });
-  }, []);
-  // Get recipes here for link the categoriesRecipes
-  useEffect(() => {
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
-        .then((recipes) => {
-          recipes.sort((a, b) => a.title.localeCompare(b.title));
-          setRecipes(recipes);
-        })
+    if (!infosAddRecipe)
+      fetchDataGet(
+        `${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`,
+        "infoAddRecipes"
+      )
+        .then((infosAddRecipe) => setInfosAddRecipe(infosAddRecipe))
         .catch((error) => {
-          setNoRecipes("Désolé, un problème est survenu.");
-          setRecipes([]);
+          setCategoriesRecipe(["Tous"]);
           console.error("Erreur lors du chargement", error);
         });
+  }, []);
+
+  // Create categoriesRecipes
+  useEffect(() => {
+    if (infosAddRecipe) {
+      const categories = infosAddRecipe?.filter(
+        (info) => info.type === "categories"
+      );
+      setCategoriesRecipe(["Tous", ...categories[0].values]);
+    }
+  }, [infosAddRecipe]);
+
+  // Get recipes here for link the categoriesRecipes
+  useEffect(() => {
+    if(!recipes)
+    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`, "recipes")
+      .then((recipes) => {
+        recipes.sort((a, b) => a.title.localeCompare(b.title));
+        setRecipes(recipes);
+      })
+      .catch((error) => {
+        setNoRecipes("Désolé, un problème est survenu.");
+        setRecipes([]);
+        console.error("Erreur lors du chargement", error);
+      });
   }, []);
 
   // Filter categorie
@@ -70,7 +88,10 @@ export default function Recipes() {
   }
 
   // Groupe recipe by page
-  let numberRecipes = 6;
+  let numberRecipes = 8;
+  if (window.innerWidth < 1024) {
+    numberRecipes = 6;
+  }
   if (window.innerWidth < 768) {
     numberRecipes = 2;
   }
@@ -86,7 +107,6 @@ export default function Recipes() {
   };
 
   // Display page
-  if (token && !userInfo) return null;
   if (!categoriesRecipe || !recipes) return null;
 
   return (
@@ -128,8 +148,9 @@ export default function Recipes() {
         classNameValidation={modalMessage !== "UpdateTrue" && true}
         onClickValidate={() => confirmDeleteRecipes()}
       />
-      {userInfo?.role === "admin" && (<ModalRecipe infoAddRecipes={infosAddRecipe} />)}
-      
+      {userInfo?.role === "admin" && (
+        <ModalRecipe infoAddRecipes={infosAddRecipe} />
+      )}
     </>
   );
 }

@@ -113,7 +113,7 @@
   }
 
   .imgRecipe {
-    @apply lg:w-80 w-52 lg:h-80 h-52;
+    @apply md:w-full w-52 md:h-full h-52;
   }
 
   .authPageDiv {

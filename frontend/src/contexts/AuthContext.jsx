@@ -8,44 +8,31 @@ export function AuthProvider({ children }) {
     // Recuperation direct
     return sessionStorage.getItem("token");
   });
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("userInfo"))
+  });
 
   // For the connexion
   const login = (newToken, user) => {
+    sessionStorage.setItem("userInfo", JSON.stringify(user))
     sessionStorage.setItem("token", newToken);
     setToken(newToken);
-    setUserInfo(user);
+    setUserInfo(user)
   };
 
   // For the disconnection
   const logout = () => {
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userInfo")
+    sessionStorage.removeItem("invoicesRecipes")
     setToken(null);
-    setUserInfo(null);
+    setUserInfo(null)
   };
-
-  // Update userInfo if token or addresses.length change
-  const generateUserInfo = () => {
-      fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`)
-        .then(async (userInfo) => {
-          setUserInfo(userInfo);
-        })
-        .catch((error) => {
-          sessionStorage.removeItem("token")
-          console.error("Erreur lors du chargement", error);
-        });
-  };
-
-  useEffect(() => {
-    if (token) {
-      generateUserInfo();
-    }
-  }, [token]);
 
   // Export the context
   return (
     <AuthContext.Provider
-      value={{ token, userInfo, login, logout, setUserInfo, generateUserInfo }}
+      value={{ token, userInfo, login, logout, setUserInfo }}
     >
       {children}
     </AuthContext.Provider>

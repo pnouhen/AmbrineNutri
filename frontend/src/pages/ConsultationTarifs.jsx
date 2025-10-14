@@ -14,25 +14,36 @@ import Footer from "../structures/Footer";
 import ModalMessage from "../Modals/MessageModal";
 
 export default function ConsultationTarifs() {
-  const [firstConsult, setFirstConsult] = useState(null);
-  const [followUpConsult, setFollowUpConsult] = useState(null);
+  const [firstConsult, setFirstConsult] = useState(() => {
+    const prices = JSON.parse(sessionStorage.getItem("prices"));
+
+    if (!prices) return null;
+    return prices[0];
+  });
+  const [followUpConsult, setFollowUpConsult] = useState(() => {
+    const prices = JSON.parse(sessionStorage.getItem("prices"));
+
+    if (!prices) return null;
+    return prices[1];
+  });
   const [messageModal, setMessageModal] = useState("");
 
   // To display the header at once if the user is logged in
-  const { token, userInfo } = useContext(AuthContext);
+  const { userInfo } = useContext(AuthContext);
 
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`, "prices")
-      .then((data) => {
-        setFirstConsult(data[0]);
-        setFollowUpConsult(data[1]);
-      })
-      .catch((error) => {
-        // If firstConsult && followUpConsult = null, the page doesn't display
-        setFirstConsult([]);
-        setFollowUpConsult([]);
-        console.error("Erreur de chargement", error);
-      });
+    if (!firstConsult || !followUpConsult)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/prices`, "prices")
+        .then((data) => {
+          setFirstConsult(data[0]);
+          setFollowUpConsult(data[1]);
+        })
+        .catch((error) => {
+          // If firstConsult && followUpConsult = null, the page doesn't display
+          setFirstConsult([]);
+          setFollowUpConsult([]);
+          console.error("Erreur de chargement", error);
+        });
   }, []);
 
   // Change prices
@@ -83,7 +94,6 @@ export default function ConsultationTarifs() {
   };
 
   // Display page
-  if (token && !userInfo) return null;
   if (!firstConsult || !followUpConsult) return null;
 
   return (

@@ -5,7 +5,7 @@ export const dataModalMessage = [
     message: `Merci pour votre retour !<br />
     <strong>
       Étant donné qu'il s'agit d'un site de démonstration, votre
-      commentaire sera supprimé dans 10 minutes.
+      commentaire sera supprimé dans 10 minutes dans la base de données.
     </strong>`,
   },
 
@@ -62,7 +62,7 @@ export const dataModalMessage = [
     action: "TemporaryDataNotice",
     title: "Site de démonstration — modifications valables 10 minutes",
     message:
-      "<strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées uniquement pendant 10 minutes.<strong/>",
+      "<strong>Étant donné qu’il s’agit d’un site de démonstration, toutes les modifications effectuées seront conservées dans la base de données uniquement pendant 10 minutes.<strong/>",
   },
 
   {

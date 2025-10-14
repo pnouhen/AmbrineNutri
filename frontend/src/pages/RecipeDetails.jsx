@@ -12,7 +12,6 @@ import RecipeCard from "../recipes/RecipeCard";
 import { InputSelect } from "../recipeDetails/InputSelect";
 import { Ingredients } from "../recipeDetails/Ingredients";
 import { Steps } from "../recipeDetails/Steps";
-import MessageNoData from "../components/MessageNoData";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 import GenerateRecipePdf from "../recipeDetails/GenerateRecipePdf";
@@ -23,17 +22,27 @@ export default function RecipeDetails() {
   const { id } = useParams();
   const { token, userInfo } = useContext(AuthContext);
 
-  const [recipeDetails, setRecipeDetails] = useState(null);
-  const [inPanier, setInPanier] = useState(null);
-  const [purchase, setPurchase] = useState(undefined);
+  const [inPanier, setInPanier] = useState(false);
+  const [purchase, setPurchase] = useState(false);
+
+  const [recipeDetails, setRecipeDetails] = useState(() => {
+    if (!userInfo?.purchases.includes(id)) {
+      if (userInfo?.panier.includes(id)) setInPanier(true);
+
+      return JSON.parse(sessionStorage.getItem(id));
+    } else {
+      return null
+    }
+  });
+
   const [checkSubmit, setCheckSubmit] = useState("");
   const [indexPeople, setIndexPeople] = useState(1);
 
   // Recipe recovery
   useEffect(() => {
-    if (!token) {
+    if (!token && !recipeDetails) {
       // Recipe doesn't purchase
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`, id)
         .then((recipe) => {
           setPurchase(false);
           setRecipeDetails(recipe);
@@ -49,10 +58,11 @@ export default function RecipeDetails() {
       token &&
       userInfo?.purchases !== undefined &&
       !userInfo?.purchases.includes(id) &&
-      userInfo?.role === "user"
+      userInfo?.role === "user" &&
+      !recipeDetails
     ) {
       // Recipe doesn't purchase
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`, id)
         .then((recipe) => {
           setPurchase(false);
           setRecipeDetails(recipe);
@@ -63,12 +73,12 @@ export default function RecipeDetails() {
         });
     }
 
-    if (
+    // Recipe purchases
+    const isValidUser =
       token &&
       userInfo?.purchases !== undefined &&
-      userInfo?.purchases.includes(id)
-    ) {
-      // Recipe purchases
+      userInfo?.purchases.includes(id);
+    if (isValidUser || (userInfo?.role === "admin" && !recipeDetails)) {
       fetchDataUserGet(
         `${
           import.meta.env.VITE_BASE_API
@@ -85,23 +95,6 @@ export default function RecipeDetails() {
     }
   }, [userInfo?.purchases, token]);
 
-  // Display if admin is connected
-  useEffect(() => {
-    if (userInfo?.role === "admin") {
-      fetchDataUserGet(
-        `${import.meta.env.VITE_BASE_API}/api/admin/recipes/${id}`
-      )
-        .then((recipes) => {
-          setRecipeDetails(recipes);
-          setPurchase(true);
-        })
-        .catch((error) => {
-          setRecipeDetails([]);
-          console.error("Erreur lors du chargement", error);
-        });
-    }
-  }, [userInfo]);
-
   // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {
     if (!userInfo || !recipeDetails) return; // attendre les 2
@@ -117,6 +110,11 @@ export default function RecipeDetails() {
         body
       )
         .then(() => {
+          // Include in sessionStorage
+          const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+          storedArray.panier.push(body.recipeId);
+          sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
+
           setInPanier(true);
           userInfo.panier.push(id);
         })
@@ -162,7 +160,6 @@ export default function RecipeDetails() {
   };
 
   // Display page
-  if (token && !userInfo?.panier) return null;
   if (!recipeDetails) return null;
 
   return (
@@ -173,71 +170,65 @@ export default function RecipeDetails() {
         <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
         <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
-          {recipeDetails !== null ? (
-            <>
-              <h2 className="h2 w-full">{recipeDetails?.title}</h2>
+          <h2 className="h2 w-full">{recipeDetails?.title}</h2>
 
-              <div className="flex max-md:flex-col gap-5">
-                <article className="flex flex-col items-center gap-0.5">
-                  <RecipeCard
-                    duration={recipeDetails?.duration}
-                    vegetarian={recipeDetails?.vegetarian}
-                    src={recipeDetails?.imageUrl}
+          <div className="flex max-md:flex-col gap-5">
+            <article className="flex flex-col items-center gap-0.5">
+              <RecipeCard
+                duration={recipeDetails?.duration}
+                vegetarian={recipeDetails?.vegetarian}
+                src={recipeDetails?.imageUrl}
+              />
+
+              <div className="p-5 w-full flex flex-col gap-5 bg-green-200">
+                <InputSelect
+                  indexPeople={indexPeople}
+                  setIndexPeople={setIndexPeople}
+                  notifyButtonInactive={notifyButtonInactive}
+                  purchase={purchase}
+                />
+
+                <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">
+                  <div className="max-md:mx-auto flex flex-col justify-start gap-2.5">
+                    <h3 className="h3 text-white-200">Les ustensils :</h3>
+
+                    <ul className="flex flex-col gap-1">
+                      {recipeDetails?.ustensils.map((ustensil, index) => (
+                        <li key={index} className="text text-white-200">
+                          {ustensil}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Ingredients
+                    recipeDetails={recipeDetails}
+                    indexPeople={indexPeople}
+                    purchase={purchase}
                   />
-
-                  <div className="p-5 lg:w-80 md:w-52 w-full flex flex-col gap-5 bg-green-200">
-                    <InputSelect
-                      indexPeople={indexPeople}
-                      setIndexPeople={setIndexPeople}
-                      notifyButtonInactive={notifyButtonInactive}
-                      purchase={purchase}
-                    />
-
-                    <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">
-                      <div className="max-md:mx-auto flex flex-col justify-start gap-2.5">
-                        <h3 className="h3 text-white-200">Les ustensils :</h3>
-
-                        <ul className="flex flex-col gap-1">
-                          {recipeDetails?.ustensils.map((ustensil, index) => (
-                            <li key={index} className="text text-white-200">
-                              {ustensil}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <Ingredients
-                        recipeDetails={recipeDetails}
-                        indexPeople={indexPeople}
-                        purchase={purchase}
-                      />
-                    </div>
-                  </div>
-                </article>
-
-                <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
-                  <h3 className="h3">Les étapes :</h3>
-
-                  <div
-                    className={`text h-full flex flex-col ${
-                      purchase ? "items-start" : "items-center"
-                    } gap-2.5`}
-                  >
-                    <Steps
-                      token={token}
-                      inPanier={inPanier}
-                      purchase={purchase}
-                      handleAddPanier={handleAddPanier}
-                      recipeDetails={recipeDetails}
-                      userInfo={userInfo}
-                    />
-                  </div>
-                </article>
+                </div>
               </div>
-            </>
-          ) : (
-            <MessageNoData text="Désolé, un problème est survenu." />
-          )}
+            </article>
+
+            <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
+              <h3 className="h3">Les étapes :</h3>
+
+              <div
+                className={`text h-full flex flex-col ${
+                  purchase ? "items-start" : "items-center"
+                } gap-2.5`}
+              >
+                <Steps
+                  token={token}
+                  inPanier={inPanier}
+                  purchase={purchase}
+                  handleAddPanier={handleAddPanier}
+                  recipeDetails={recipeDetails}
+                  userInfo={userInfo}
+                />
+              </div>
+            </article>
+          </div>
         </section>
         {purchase && (
           <Button

@@ -8,7 +8,7 @@ import { ExistingAddress } from "./ExistingAddress";
 
 export function BillingAddress({
   addresses,
-  generateUserInfo,
+  setAddresses,
   coordDefault,
   setCoordDefault,
   setMessageModal,
@@ -21,7 +21,7 @@ export function BillingAddress({
       <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
         addresses={addresses}
-        generateUserInfo={generateUserInfo}
+        setAddresses={setAddresses}
         setIsOpenModal={setIsOpenModal}
         setUpdateCoord={setUpdateCoord}
         coordDefault={coordDefault}
@@ -37,7 +37,7 @@ export function BillingAddress({
 
       <ModalCoord
         addresses={addresses}
-        generateUserInfo={generateUserInfo}
+        setAddresses={setAddresses}
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
         updateCoord={updateCoord}

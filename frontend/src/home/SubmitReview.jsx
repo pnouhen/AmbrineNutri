@@ -22,7 +22,7 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
     (normalized.split("\n").length - 1) * 50;
   const maxCommentLength = Math.max(0, 450 - used);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const firstName = firstNameRef.current?.value.trim();
@@ -54,20 +54,21 @@ export default function SubmitReview({ setCheckSubmit, setReviews }) {
     if (isValid) {
       setReviews((prevReviews) => [...prevReviews, newReview]);
 
-      try {
-        await fetchDataPost(
-          `${import.meta.env.VITE_BASE_API}/api/reviews`,
-          newReview
-        );
-      } catch (error) {
-        console.error("Erreur:", error);
-      }
-
-      firstNameRef.current.value = "";
-      lastNameRef.current.value = "";
-      setComment("");
-      setRating(0);
+      fetchDataPost(`${import.meta.env.VITE_BASE_API}/api/reviews`, newReview)
+        .then(() => {
+          const storedArray = JSON.parse(sessionStorage.getItem("reviews"))
+          storedArray.push(newReview)
+          sessionStorage.setItem("reviews", JSON.stringify(storedArray))
+        })
+        .catch((error) => {
+    console.error("Erreur:", error);
+  });
     }
+
+    firstNameRef.current.value = "";
+    lastNameRef.current.value = "";
+    setComment("");
+    setRating(0);
   };
 
   return (

@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 import { NavLink } from "react-router-dom";
-import { NumberDivInvisible } from "../components/NumberDivInvisible";
 
 import RecipeCard from "./RecipeCard";
 import { RecipePagination } from "./RecipePagination";
@@ -27,17 +26,26 @@ export function RecipeSlideShow({
     numberDivInvisible = numberRecipes - recipePages[0].length;
   }
 
+  // Update the heightSection state when the section's height exceeds 100px
+    const sectionRef = useRef();
+  const [heightSection, setHeightSection] = useState(sectionRef.current?.offsetHeight)
+  
+  useEffect(() => {
+    if(sectionRef.current?.offsetHeight > 200)
+    setHeightSection(sectionRef.current?.offsetHeight)
+  }, [sectionRef.current?.offsetHeight > 200]);
+
   return (
-    <section className="section pb-5 px-5 flex flex-col gap-5">
+    <section className="section pb-5 px-5 flex flex-col gap-5" style={{ height: `${heightSection}px` }} ref={sectionRef}>
       <h2 className="h2">Les recettes</h2>
 
       {recipePages.length > 0 ? (
         <>
-          <div className={`overflow-hidden `} ref={emblaRef}>
-            <div className="embla_container flex">
+          <div className="h-full overflow-hidden" ref={emblaRef}>
+            <div className="embla_section flex gap-5">
               {recipePages.map((page, index) => (
                 <div className="embla__slide shrink-0 w-full" key={index}>
-                  <ul className="md:grid md:grid-cols-3 flex flex-wrap gap-5">
+                  <ul className="md:grid lg:grid-cols-4 md:grid-cols-3 flex flex-wrap gap-10">
                     {page.map(
                       ({ _id, duration, vegetarian, title, imageUrl }) => (
                         <li key={_id} className="m-auto">
@@ -56,16 +64,12 @@ export function RecipeSlideShow({
                               vegetarian={vegetarian}
                               title={title}
                               src={imageUrl}
+                              classNameImg="opacity-40"
                             />
                           </NavLink>
                         </li>
                       )
                     )}
-
-                    <NumberDivInvisible
-                      numberDivInvisible={numberDivInvisible}
-                      className="imgRecipe"
-                    />
                   </ul>
                 </div>
               ))}

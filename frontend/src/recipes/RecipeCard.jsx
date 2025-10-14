@@ -9,6 +9,7 @@ export default function RecipeCard({
   setRecipeDelete,
   setModalMessage,
   id,
+  classNameImg
 }) {
   const deleteRecipes = (e, id) => {
     e.stopPropagation();
@@ -28,7 +29,7 @@ export default function RecipeCard({
       )}
 
       <img
-        className={`imgRecipe opacity-50`}
+        className={`imgRecipe ${classNameImg}`}
         src={src}
         alt={`Image de ${title}`}
         loading="eager"
@@ -42,8 +43,10 @@ export default function RecipeCard({
           <i className="fa-solid fa-trash h2"></i>
         </button>
       )}
+      <div>
 
-      <h3 className="h3 absolute left-1/2 top-1/2 -translate-1/2 w-full text-center">
+      </div>
+      <h3 className="absolute left-1/2 top-1/2 -translate-1/2 w-11/12 lg:text-lg md:text-base text-sm font-bold text-center">
         {title}
       </h3>
     </div>

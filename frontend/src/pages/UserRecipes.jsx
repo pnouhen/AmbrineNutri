@@ -13,30 +13,39 @@ import RecipeCard from "../recipes/RecipeCard";
 export default function UserRecipes() {
   const { token, userInfo } = useContext(AuthContext);
 
-  const [recipes, setRecipes] = useState(null);
+  const [recipes, setRecipes] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("recipes"));
+  });
   const [isRecipes, setIsRecipes] = useState(
     "Vous n'avez pas encore acheté de recette"
   );
-  const [recipesPurchases, setRecipesPurchases] = useState([]);
+  const [recipesPurchases, setRecipesPurchases] = useState(() => {
+    const searchRecipeInPurchases = recipes?.filter((recipe) =>
+        userInfo?.purchases.includes(recipe._id))
+    return searchRecipeInPurchases
+  });
 
   // Generate all recipes for display recipes purchases
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
-      .then((recipes) => {
-        setRecipes(recipes);
-      })
-      .catch((error) => {
-        setIsRecipes("Désolé, un problème est survenu");
-        console.error("Erreur lors du chargement", error);
-      });
+    if (!recipes)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`, "recipes")
+        .then((recipes) => {
+          setRecipes(recipes);
+        })
+        .catch((error) => {
+          setIsRecipes("Désolé, un problème est survenu");
+          console.error("Erreur lors du chargement", error);
+        });
   }, []);
 
   // Display recipes purchases
   useEffect(() => {
-    const searchRecipeInPurchases = recipes?.filter((recipe) =>
-      userInfo?.purchases.includes(recipe._id)
-    );
-    setRecipesPurchases(searchRecipeInPurchases);
+    if (userInfo && !recipesPurchases) {
+      const searchRecipeInPurchases = recipes?.filter((recipe) =>
+        userInfo?.purchases.includes(recipe._id)
+      );
+      setRecipesPurchases(searchRecipeInPurchases);
+    }
   }, [recipes, userInfo]);
 
   //   Creation of categories from purchased recipes
@@ -63,9 +72,6 @@ export default function UserRecipes() {
       };
     });
 
-    // Shows page if user
-    if (userInfo.role !== "user") return <Error404 />;
-
     return (
       <>
         {classifiedRecipes.map((categorie, index) => (
@@ -91,6 +97,7 @@ export default function UserRecipes() {
                       vegetarian={recipe.vegetarian}
                       title={recipe.title}
                       src={recipe.imageUrl}
+                      classNameImg="opacity-40"
                     />
                   </NavLink>
                 </li>
@@ -104,11 +111,10 @@ export default function UserRecipes() {
 
   // Display page
   if (token && !userInfo) return null;
-  if (!recipes) return null;
+  if (!recipesPurchases) return null;
 
   // Shows page if user
   if (userInfo.role !== "user") return <Error404 />;
-
   return (
     <>
       <Header />

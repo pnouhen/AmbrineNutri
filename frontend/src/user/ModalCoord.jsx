@@ -9,7 +9,7 @@ import { isValidAddress } from "../../src/services/isValidAddress";
 
 export function ModalCoord({
   addresses,
-  generateUserInfo,
+  setAddresses,
   isOpenModal,
   setIsOpenModal,
   updateCoord,
@@ -83,7 +83,8 @@ export function ModalCoord({
 
         fetchDataUserPost(
           `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
-          body
+          body,
+          "s"
         )
           .then(() => {
             // Uncheck previous default addresses
@@ -91,7 +92,12 @@ export function ModalCoord({
               addresses.forEach((el) => (el.isDefault = false));
 
             // Add the new address at the beginning of the table
-            generateUserInfo();
+            setAddresses((prev) => [newCoord, ...prev]);
+
+            // Update sessionStorage
+            const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+            storedArray.addresses.unshift(newCoord);
+            sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
           })
           .catch((error) => {
             setMessageModal("InvalidAddress");
@@ -113,7 +119,20 @@ export function ModalCoord({
             newCoord._id = id;
             setUpdateCoord([]);
             // Change isDefult for each address
-            generateUserInfo();
+            const newAddresses = addresses.map((address) => {
+              if (address._id !== newCoord._id) {
+                return { ...address, isDefault: false };
+              } else {
+                return newCoord;
+              }
+            });
+
+            setAddresses(newAddresses);
+
+            // Update SessionStorage
+            const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+            storedArray.addresses = newAddresses;
+            sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
           })
           .catch((error) => {
             setMessageModal("InvalidAddress");

@@ -9,22 +9,38 @@ import { fetchDataUserPost } from "../services/fetchDataUserPost";
 import { isValidAddress } from "../services/isValidAddress";
 import { isValidPayment } from "../services/isValidPayment";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
+import { fetchDataGet } from "../services/fetchDataGet";
+import { fecthInvoicesRecipes } from "../services/fecthInvoicesRecipes";
+
 import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
 import { CartSummary } from "../user/CartSummary";
 import { BillingAddress } from "../user/BillingAddress";
-import { fetchDataGet } from "../services/fetchDataGet";
 import { PaymentForm } from "../user/PaymentForm";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 
 export function CheckoutPage() {
-  const { token, userInfo, generateUserInfo } = useContext(AuthContext);
+  const { token, userInfo } = useContext(AuthContext);
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("recipes"));
+  });
+
   const [isRecipes, setIsRecipes] = useState("Le panier est vide");
-  const [recipesPanier, setRecipesPanier] = useState([]);
+  const [recipesPanier, setRecipesPanier] = useState(() => {
+    if (recipes) {
+      return recipes.filter((recipe) => userInfo?.panier.includes(recipe._id));
+    }
+  });
+
+  const [addresses, setAddresses] = useState(() => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (!userInfo?.addresses) return [];
+
+    return userInfo.addresses;
+  });
   const [coordDefault, setCoordDefault] = useState(null);
 
   const carteNameRef = useRef();
@@ -38,14 +54,15 @@ export function CheckoutPage() {
 
   // Generate all recipes for display recipes in panier
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`)
-      .then((recipes) => {
-        setRecipes(recipes);
-      })
-      .catch((error) => {
-        setIsRecipes("Désolé, un problème est survenu");
-        console.error("Erreur lors du chargement", error);
-      });
+    if (!recipes)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`, "recipes")
+        .then((recipes) => {
+          setRecipes(recipes);
+        })
+        .catch((error) => {
+          setIsRecipes("Désolé, un problème est survenu");
+          console.error("Erreur lors du chargement", error);
+        });
   }, []);
 
   // Display recipes in panier
@@ -62,6 +79,15 @@ export function CheckoutPage() {
       `${import.meta.env.VITE_BASE_API}/api/users/me/panier/${id}`
     )
       .then(() => {
+        // Include in sessionStorage
+        const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+        const updatedPanier = storedArray.panier.filter(
+          (idStorage) => idStorage !== id
+        );
+        sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
+        storedArray.panier = updatedPanier;
+        sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
+
         setRecipesPanier(recipesPanier.filter((r) => r._id !== id));
         userInfo.panier = userInfo.panier.filter((panierId) => panierId !== id);
       })
@@ -73,17 +99,15 @@ export function CheckoutPage() {
 
   // Display coordDefault
   useEffect(() => {
-    if (userInfo?.addresses) {
-      const defaults = userInfo.addresses.filter(
-        (address) => address.isDefault
-      );
+    if (addresses) {
+      const defaults = addresses.filter((address) => address.isDefault);
       if (defaults.length === 0) {
         setCoordDefault([]);
       } else {
         setCoordDefault(defaults);
       }
     }
-  }, [userInfo]);
+  }, [addresses]);
 
   // Submit Payment here if the payment form should be used
   const submitPayement = (e) => {
@@ -132,20 +156,35 @@ export function CheckoutPage() {
       `${import.meta.env.VITE_BASE_API}/api/users/me/purchasesRecipes`,
       body
     )
-      .then(() => {
-        generateUserInfo();
+      .then(async () => {
         setRecipesPanier([]);
         setMessageModal("PaymentSuccessful");
+        // Update panier and purchases
+        const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+        sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
+
+        for (const recipeId of storedArray.panier) {
+          storedArray.purchases.push(recipeId);
+        }
+        storedArray.panier = [];
+
+        sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
+
+        //   Generate and update the name of invoices
+        const newInvoicesRecipes = await fecthInvoicesRecipes();
+        sessionStorage.setItem(
+          "invoicesRecipes",
+          JSON.stringify(newInvoicesRecipes)
+        );
       })
       .catch((error) => console.error("Erreur", error));
   };
 
   // Shows page after generate all elements
-  if (!userInfo) return null;
-  if (userInfo?.panier.length > 1 && recipesPanier.length === 0) return null;
+  if (!userInfo || !recipesPanier || !recipes || !coordDefault) return null;
 
   // Shows page if user
-  if (userInfo.role !== "user") return <Error404 />;
+  if (userInfo?.role !== "user") return <Error404 />;
 
   return (
     <>
@@ -160,8 +199,8 @@ export function CheckoutPage() {
           />
 
           <BillingAddress
-            addresses={userInfo?.addresses}
-            generateUserInfo={generateUserInfo}
+            addresses={addresses}
+            setAddresses={setAddresses}
             coordDefault={coordDefault}
             setCoordDefault={setCoordDefault}
             setMessageModal={setMessageModal}

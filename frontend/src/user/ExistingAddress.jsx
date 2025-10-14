@@ -6,7 +6,7 @@ import MessageNoData from "../components/MessageNoData";
 
 export function ExistingAddress({
   addresses,
-  generateUserInfo,
+  setAddresses,
   setIsOpenModal,
   setUpdateCoord,
   coordDefault,
@@ -41,6 +41,19 @@ export function ExistingAddress({
         .then((newCoord) => {
           const firstCoord = [newCoord.address];
           setCoordDefault(firstCoord);
+
+          const newAddresses = addresses
+            .filter((address) => address._id !== newCoord.address._id)
+            .map((address) => ({
+              ...address,
+              isDefault: false,
+            }));
+          newAddresses.unshift(newCoord.address);
+
+          // Update in sessionStorage
+          const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+          storedArray.addresses = newAddresses;
+          sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
         })
         .catch((error) => {
           if (!coord.isDefault) setMessageModal("InvalidAddress");
@@ -57,7 +70,18 @@ export function ExistingAddress({
     )
       .then(() => {
         if (coordDefault && deleteCoord.isDefault === true) setCoordDefault({});
-        generateUserInfo();
+        const updateAddresses = addresses.filter(
+          (address) => address._id !== deleteCoord._id
+        );
+        setAddresses(updateAddresses);
+
+        // Delete in sessionStorage
+        const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
+        const newAddresses = storedArray.addresses.filter(
+          (address) => address._id !== deleteCoord._id
+        );
+        storedArray.addresses = newAddresses;
+        sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
       })
       .catch((error) => {
         setMessageModal("NoDelete");

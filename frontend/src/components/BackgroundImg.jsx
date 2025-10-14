@@ -6,7 +6,7 @@ export default function BackgroundImg({ url, className }) {
       src={url}
       alt="Arrière plan de la page"
       className={`absolute top-0 -z-20 w-full h-full object-cover ${className}`}
-      loading="lazy"
+      loading="eager"
     />
   );
 }

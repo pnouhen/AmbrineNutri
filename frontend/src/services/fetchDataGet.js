@@ -1,9 +1,5 @@
 export async function fetchDataGet(url, name) {
-      console.log(name)
-  if(sessionStorage.getItem(name)) {
-    return JSON.parse(sessionStorage.getItem(name))
-  } else {
-    try {
+  try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Erreur HTTP : ${response.data}`);
@@ -17,6 +13,4 @@ export async function fetchDataGet(url, name) {
     console.error("Error lors du fetch:", error);
     throw error;
   }
-  }
-  
 }

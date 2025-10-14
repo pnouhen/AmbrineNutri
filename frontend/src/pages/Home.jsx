@@ -14,24 +14,23 @@ import SubmitReview from "../home/SubmitReview";
 import ModalMessage from "../Modals/MessageModal";
 
 export default function Home() {
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("reviews"));
+  });
   const [checkSubmit, setCheckSubmit] = useState("");
-
-  // To display the header at once if the user is logged in 
-  const { token, userInfo } = useContext(AuthContext);
 
   // Get rewiews here for update reviews after post
   useEffect(() => {
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`, "reviews")
-      .then((data) => {
-        setReviews(data);
-        console.log(data)
-      })
-      .catch((error) => {
-        // If reviews = null, the page doesn't display
-        setReviews([]);
-        console.error("Erreur de chargement", error);
-      });
+    if (!reviews)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/reviews`, "reviews")
+        .then((data) => {
+          setReviews(data);
+        })
+        .catch((error) => {
+          // If reviews = null, the page doesn't display
+          setReviews([]);
+          console.error("Erreur de chargement", error);
+        });
   }, []);
 
   // Sort review by most recent date
@@ -41,7 +40,6 @@ export default function Home() {
   }, [reviews]);
 
   // Display page
-  if (token && !userInfo) return null;
   if (!reviews) return null;
 
   return (
