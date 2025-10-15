@@ -115,7 +115,7 @@ export default function Recipes() {
 
       {categoriesRecipe && recipes && (
         <>
-          <main className="min-h-[69.1875rem] relative py-5 flex flex-col gap-5">
+          <main className="relative py-5 flex flex-col gap-5">
             <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
             {userInfo?.role === "admin" && (

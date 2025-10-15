@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { NavLink } from "react-router-dom";
 
@@ -21,31 +21,42 @@ export function RecipeSlideShow({
   const sectionRef = useRef()
   const [heightContainer, setHeightContainer] = useState(0);
 
+ const cardRef =useRef()
 
-  useEffect(() => {
+ useLayoutEffect(() => {
   if (!sectionRef.current) return;
+  // Calcul initial
+  const images = sectionRef.current.querySelectorAll("img");
+  
+  const updateHeight = () => {
+    if (sectionRef.current.offsetHeight > 200 && images.length > 0) {
+      console.log("change")
+      setHeightContainer(sectionRef.current.offsetHeight);
+    }
+  };
 
-  // Calcul de la hauteur max des enfants
-  let maxHeight = 0;
-  Array.from(sectionRef.current.children).forEach(child => {
-    const childHeight = child.offsetHeight;
-    if (childHeight > maxHeight) maxHeight = childHeight;
+  // Écoute des images
+  images.forEach(img => {
+    if (!img.complete) img.addEventListener("load", updateHeight);
   });
 
-  // Ajouter un petit padding si nécessaire
-  setHeightContainer(maxHeight + 20); 
+  // Cleanup
+  return () => {
+    images.forEach(img => img.removeEventListener("load", updateHeight));
+  };
 }, []);
+
 
   return (
     <section className="section pb-5 px-5 flex flex-col gap-5">
       <h2 className="h2">Les recettes</h2>
 
+    <div className="flex flex-col justify-between gap-5" style={{ minHeight: `${heightContainer}px` }}>
       {recipePages.length > 0 ? (
         <>
           <div
             className="overflow-hidden"
             ref={emblaRef}
-            style={{ minHeight: `${heightContainer}px` }}
           >
             <div className="embla_section flex gap-5" ref={sectionRef}>
               {recipePages.map((page, index) => (
@@ -53,7 +64,7 @@ export function RecipeSlideShow({
                   <ul className="md:grid lg:grid-cols-4 md:grid-cols-3 flex flex-wrap gap-10">
                     {page.map(
                       ({ _id, duration, vegetarian, title, imageUrl }) => (
-                        <li key={_id} className="m-auto">
+                        <li key={_id} className="m-auto" ref={cardRef}>
                           <NavLink
                             className="flex flex-shrink-0"
                             id={_id}
@@ -89,6 +100,8 @@ export function RecipeSlideShow({
           text={noRecipes}
         />
       )}
+    </div>
+      
     </section>
   );
 }
