@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 import { fetchDataGet } from "../services/fetchDataGet";
+import { redirectionNoToken } from "../services/RedirectionNoToken";
 import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
@@ -16,14 +17,26 @@ export default function UserRecipes() {
   const [recipes, setRecipes] = useState(() => {
     return JSON.parse(sessionStorage.getItem("recipes"));
   });
+
+  const [categories, setCategories] = useState(() => {
+    const infoAddRecipes = JSON.parse(sessionStorage.getItem("infoAddRecipes"));
+    const categories =
+      infoAddRecipes.filter((infos) => infos.type === "categories") || [];
+    if (categories.length > 0) return categories[0].values;
+  });
+
   const [isRecipes, setIsRecipes] = useState(
     "Vous n'avez pas encore acheté de recette"
   );
+
   const [recipesPurchases, setRecipesPurchases] = useState(() => {
     const searchRecipeInPurchases = recipes?.filter((recipe) =>
-        userInfo?.purchases.includes(recipe._id))
-    return searchRecipeInPurchases
+      userInfo?.purchases.includes(recipe._id)
+    );
+    return searchRecipeInPurchases;
   });
+
+  redirectionNoToken(token);
 
   // Generate all recipes for display recipes purchases
   useEffect(() => {
@@ -38,50 +51,60 @@ export default function UserRecipes() {
         });
   }, []);
 
+  // Get infosAddRecipe
+  useEffect(() => {
+    if (!categories)
+      fetchDataGet(
+        `${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`,
+        "infoAddRecipes"
+      )
+        .then((infosAddRecipe) => setCategories(infosAddRecipe))
+        .catch((error) => {
+          console.error("Erreur lors du chargement", error);
+        });
+  }, []);
+
   // Display recipes purchases
   useEffect(() => {
-    if (userInfo && !recipesPurchases) {
-      const searchRecipeInPurchases = recipes?.filter((recipe) =>
-        userInfo?.purchases.includes(recipe._id)
+    const userInfoPurchases = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    )?.purchases;
+    if (userInfo && recipes) {
+      const searchRecipeInPurchases = recipes.filter((recipe) =>
+        userInfoPurchases.includes(recipe._id)
       );
       setRecipesPurchases(searchRecipeInPurchases);
     }
   }, [recipes, userInfo]);
 
-  //   Creation of categories from purchased recipes
-  let categories = [];
-  if (recipesPurchases) {
-    for (const recipe of recipesPurchases) {
-      if (!categories.includes(recipe.categorie.text))
-        categories.push(recipe.categorie.text);
-    }
-  }
-
   // Generate recipes by categories
   const generateRecipesCategories = () => {
-    const classifiedRecipes = categories.map((categorie) => {
-      let recipesCategorie = [];
+    let classifiedRecipes = categories.map((cat) => ({
+      categorie: cat,
+      recipes: [],
+    }));
 
-      for (const recipe of recipesPurchases) {
-        if (recipe.categorie.text.includes(categorie))
-          recipesCategorie.push(recipe);
-      }
-      return {
-        title: categorie,
-        recipes: recipesCategorie,
-      };
-    });
+    for (const recipe of recipesPurchases) {
+      const catObj = classifiedRecipes.find(
+        (c) => c.categorie === recipe.categorie.text
+      );
+      if (catObj) catObj.recipes.push(recipe);
+    }
 
+    classifiedRecipes = classifiedRecipes.filter(
+      (cat) => cat.recipes.length > 0
+    );
+    
     return (
       <>
         {classifiedRecipes.map((categorie, index) => (
           <div
-            key={categorie.title}
+            key={categorie.categorie}
             className={`border-panier flex flex-col gap-5 ${
               index < classifiedRecipes.length - 1 && "pb-8"
             }`}
           >
-            <h3 className="h3">{categorie.title}</h3>
+            <h3 className="h3">{categorie.categorie}</h3>
 
             {/* Affiche les recettes de la catégorie */}
             <ul className="md:grid md:grid-cols-3 flex flex-wrap gap-5">
@@ -114,7 +137,7 @@ export default function UserRecipes() {
   if (!recipesPurchases) return null;
 
   // Shows page if user
-  if (userInfo.role !== "user") return <Error404 />;
+  if (userInfo?.role !== "user") return <Error404 />;
   return (
     <>
       <Header />

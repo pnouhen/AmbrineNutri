@@ -43,7 +43,7 @@ export default function Header() {
 
   // Stop overflow in tablet and mobile
   useEffect(() => {
-    toggleOverflow(menuBurger)
+    toggleOverflow(menuBurger);
   }, [menuBurger]);
 
   const handleLogout = () => {
@@ -65,7 +65,9 @@ export default function Header() {
           onKeyDown={(e) => enterCompte(e)}
         >
           <div className="navItem-padding relative w-full z-10 cursor-pointer">
-            <p className="max-md:mx-auto text-center lg:truncate lg:w-20">{userInfo?.firstName}</p>
+            <p className="max-md:mx-auto text-center lg:truncate lg:w-20">
+              {userInfo?.firstName}
+            </p>
             <i
               className={`fa-solid fa-chevron-down absolute top-1/2 -translate-y-1/2 right-5 ${
                 compteActive ? "rotate-180 mt-1" : "rotate-360"
@@ -74,34 +76,38 @@ export default function Header() {
           </div>
 
           <ul
-            className={`absolute ${userInfo?.role === "user" ? "lg:-bottom-[11rem] md:-bottom-[7rem] -bottom-[9rem]" : "lg:-bottom-[2.75rem] md:-bottom-[1.75rem] -bottom-[2.25rem]"} w-full transition-all duration-200 ${
-              compteActive
-                ? "z-10"
-                : "-z-10 opacity-0"
+            className={`absolute ${
+              userInfo?.role === "user"
+                ? "lg:-bottom-[11rem] md:-bottom-[7rem] -bottom-[9rem]"
+                : "lg:-bottom-[2.75rem] md:-bottom-[1.75rem] -bottom-[2.25rem]"
+            } w-full transition-all duration-200 ${
+              compteActive ? "z-10" : "-z-10 opacity-0 pointer-events-none"
             }`}
           >
             {userInfo?.role === "user" ? (
               <>
-              <NavItem
-              to="mon-compte"
-              className="navItem-padding"
-              text="Mon Compte"
-            />
+                <NavItem
+                  to="mon-compte"
+                  className="navItem-padding"
+                  text="Mon Compte"
+                />
 
-            <NavItem
-              to="mes-recettes"
-              className="navItem-padding"
-              text="Mes Recettes"
-            />
+                <NavItem
+                  to="mes-recettes"
+                  className="navItem-padding"
+                  text="Mes Recettes"
+                />
 
-            <NavItem to="panier" className="navItem-padding" text="Panier" />
+                <NavItem
+                  to="panier"
+                  className="navItem-padding"
+                  text="Panier"
+                />
               </>
-            ): (
-              <>
-              
-              </>
+            ) : (
+              <></>
             )}
-            
+
             <li>
               <button
                 className="navItem navLi navItem-padding w-full rounded-b-[1.25rem] bg-green-100 cursor-pointer"

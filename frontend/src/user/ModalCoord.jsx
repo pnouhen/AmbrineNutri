@@ -74,7 +74,7 @@ export function ModalCoord({
       country: country,
       isDefault: true,
     };
-
+console.log(newCoord)
     if (isValidAddress(newCoord)) {
       if (!updateCoord.id) {
         const body = {

@@ -30,7 +30,9 @@ function generateInvoice(req, userId, recipesName, infoPurchasesRecipes) {
     invoicesFolderInvoice,
     partialName
   );
-  const fileName = `${partialName}-${numberInvoiceDay}.pdf`;
+  const fileName = `${partialName}-${
+    numberInvoiceDay < 10 ? `0${numberInvoiceDay}` : numberInvoiceDay
+  }.pdf`;
 
   const filePath = path.join(invoicesFolderInvoice, fileName);
 

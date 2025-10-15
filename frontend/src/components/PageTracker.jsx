@@ -11,6 +11,12 @@ export default function PageTracker({ children }) {
     if (!location.pathname.includes("/se-connecter")) {
       sessionStorage.setItem("previousPage", location.pathname);
     }
+
+    // Select the main container
+    const pageContainer = document.getElementById("page-container");
+    if (pageContainer) {
+      pageContainer.style.height = "0px";
+    }
   }, [location.pathname]);
 
   return children;

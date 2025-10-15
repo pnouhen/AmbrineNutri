@@ -35,6 +35,8 @@ export function CheckoutPage() {
     }
   });
 
+      const panier = JSON.parse(sessionStorage.getItem("userInfo"))?.panier
+
   const [addresses, setAddresses] = useState(() => {
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     if (!userInfo?.addresses) return [];
@@ -67,8 +69,8 @@ export function CheckoutPage() {
 
   // Display recipes in panier
   useEffect(() => {
-    const searchRecipeInPanier = recipes.filter((recipe) =>
-      userInfo?.panier.includes(recipe._id)
+    const searchRecipeInPanier = recipes?.filter((recipe) =>
+      panier.includes(recipe._id)
     );
     setRecipesPanier(searchRecipeInPanier);
   }, [recipes, userInfo]);
@@ -104,7 +106,7 @@ export function CheckoutPage() {
       if (defaults.length === 0) {
         setCoordDefault([]);
       } else {
-        setCoordDefault(defaults);
+        setCoordDefault(defaults[0]);
       }
     }
   }, [addresses]);
@@ -120,8 +122,8 @@ export function CheckoutPage() {
     const expiryDate = expiryDateRef.current?.getRawValue()?.trim();
 
     const infoPurchasesRecipes = {
-      panier: userInfo.panier,
-      address: coordDefault[0],
+      panier: panier,
+      address: coordDefault,
       carteName: carteName,
       cardNumber: cardNumber,
       cryptograme: cryptograme,

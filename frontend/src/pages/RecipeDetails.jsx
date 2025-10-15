@@ -22,13 +22,14 @@ export default function RecipeDetails() {
   const { id } = useParams();
   const { token, userInfo } = useContext(AuthContext);
 
+  const purchases = JSON.parse(sessionStorage.getItem("userInfo"))?.purchases || null
+
   const [inPanier, setInPanier] = useState(false);
   const [purchase, setPurchase] = useState(false);
 
   const [recipeDetails, setRecipeDetails] = useState(() => {
-    if (!userInfo?.purchases.includes(id)) {
+        if (!purchases.includes(id)) {
       if (userInfo?.panier.includes(id)) setInPanier(true);
-
       return JSON.parse(sessionStorage.getItem(id));
     } else {
       return null
@@ -56,8 +57,7 @@ export default function RecipeDetails() {
     // Optimize display if recipe is purchased
     if (
       token &&
-      userInfo?.purchases !== undefined &&
-      !userInfo?.purchases.includes(id) &&
+      !purchases.includes(id) &&
       userInfo?.role === "user" &&
       !recipeDetails
     ) {
@@ -76,8 +76,8 @@ export default function RecipeDetails() {
     // Recipe purchases
     const isValidUser =
       token &&
-      userInfo?.purchases !== undefined &&
-      userInfo?.purchases.includes(id);
+      purchases.includes(id);
+
     if (isValidUser || (userInfo?.role === "admin" && !recipeDetails)) {
       fetchDataUserGet(
         `${
@@ -93,7 +93,7 @@ export default function RecipeDetails() {
           console.error("Erreur:", error);
         });
     }
-  }, [userInfo?.purchases, token]);
+  }, [token]);
 
   // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {

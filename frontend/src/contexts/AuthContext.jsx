@@ -5,9 +5,9 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => {
-    // Recuperation direct
     return sessionStorage.getItem("token");
   });
+  
   const [userInfo, setUserInfo] = useState(() => {
     return JSON.parse(sessionStorage.getItem("userInfo"))
   });

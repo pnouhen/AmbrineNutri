@@ -28,7 +28,6 @@ export function ExistingAddress({
   };
 
   const updateCoordDefault = (coord) => {
-    if (coordDefault) {
       const updatedCoord = { ...coord, isDefault: true };
       const body = {
         id: coord._id,
@@ -39,18 +38,17 @@ export function ExistingAddress({
         body
       )
         .then((newCoord) => {
-          const firstCoord = [newCoord.address];
-          setCoordDefault(firstCoord);
-
+          setCoordDefault(newCoord.address);
           const newAddresses = addresses
-            .filter((address) => address._id !== newCoord.address._id)
-            .map((address) => ({
-              ...address,
-              isDefault: false,
-            }));
-          newAddresses.unshift(newCoord.address);
+            .map((address) => {
+              if (address._id !== newCoord.address._id) {
+                return { ...address, isDefault: false };
+              } else {
+                return { ...address, isDefault: true };
+              }
+            });
 
-          // Update in sessionStorage
+            // Update in sessionStorage
           const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
           storedArray.addresses = newAddresses;
           sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
@@ -59,7 +57,6 @@ export function ExistingAddress({
           if (!coord.isDefault) setMessageModal("InvalidAddress");
           console.error("Erreur :", error);
         });
-    }
   };
 
   const deleteAddress = (deleteCoord) => {
@@ -102,7 +99,7 @@ export function ExistingAddress({
             tabIndex={0}
             key={index}
             className={`pr-5 pt-5 flex flex-col rounded-lg bg-yellow-50 cursor-pointer ${
-              coordDefault && coord._id === coordDefault[0]?._id
+              coord._id === coordDefault?._id
                 ? "shadow-recipeButtonActive"
                 : "shadow-recipeButton"
             }`}

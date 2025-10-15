@@ -29,11 +29,20 @@ export function RecipeSlideShow({
   // Update the heightSection state when the section's height exceeds 100px
     const sectionRef = useRef();
   const [heightSection, setHeightSection] = useState(sectionRef.current?.offsetHeight)
-  
+
   useEffect(() => {
-    if(sectionRef.current?.offsetHeight > 200)
-    setHeightSection(sectionRef.current?.offsetHeight)
-  }, [sectionRef.current?.offsetHeight > 200]);
+  if (!sectionRef.current) return;
+
+  // Put sectionRef under surveillance
+  const observer = new ResizeObserver(() => {
+    if (sectionRef.current.offsetHeight > 200) {
+      setHeightSection(sectionRef.current.offsetHeight);
+    }
+  });
+
+  observer.observe(sectionRef.current);
+  return () => observer.disconnect();
+}, [sectionRef]);
 
   return (
     <section className="section pb-5 px-5 flex flex-col gap-5" style={{ height: `${heightSection}px` }} ref={sectionRef}>
