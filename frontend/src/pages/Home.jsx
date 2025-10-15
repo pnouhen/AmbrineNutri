@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
+import React, { useState, useEffect, } from "react";
 
-import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataGet } from "../services/fetchDataGet";
 
 import { dataCardsObjectif } from "../home/dataCardObjectif";
@@ -12,11 +11,10 @@ import Reviews from "../home/Reviews";
 import Footer from "../structures/Footer";
 import SubmitReview from "../home/SubmitReview";
 import ModalMessage from "../Modals/MessageModal";
+import Loader from "../components/Loader";
 
 export default function Home() {
-  const [reviews, setReviews] = useState(() => {
-    return JSON.parse(sessionStorage.getItem("reviews"));
-  });
+  const [reviews, setReviews] = useState(null);
   const [checkSubmit, setCheckSubmit] = useState("");
 
   // Get rewiews here for update reviews after post
@@ -39,14 +37,15 @@ export default function Home() {
       return [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [reviews]);
 
-  // Display page
-  if (!reviews) return null;
-
   return (
     <>
       <Header />
 
-      <main className="relative py-5 flex flex-col gap-8 overflow-hidden">
+      <Loader condition={reviews}/>
+      
+      {reviews && (
+        <>
+        <main className="relative py-5 flex flex-col gap-8 overflow-hidden">
         <BackgroundImg url="/assets/img/background/background-home.webp" />
 
         <section className="section pb-5 px-5 grid md:grid-cols-3 grid-cols-2 justify-center gap-8">
@@ -71,6 +70,9 @@ export default function Home() {
         action={checkSubmit}
         onClickClose={() => setCheckSubmit("")}
       />
+        </>
+      )}
+      
     </>
   );
 }

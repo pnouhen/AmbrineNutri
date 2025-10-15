@@ -10,6 +10,7 @@ import Footer from "../structures/Footer";
 import MessageNoData from "../components/MessageNoData";
 import { NavLink } from "react-router-dom";
 import RecipeCard from "../recipes/RecipeCard";
+import Loader from "../components/Loader";
 
 export default function UserRecipes() {
   const { token, userInfo } = useContext(AuthContext);
@@ -94,7 +95,7 @@ export default function UserRecipes() {
     classifiedRecipes = classifiedRecipes.filter(
       (cat) => cat.recipes.length > 0
     );
-    
+
     return (
       <>
         {classifiedRecipes.map((categorie, index) => (
@@ -132,29 +133,31 @@ export default function UserRecipes() {
     );
   };
 
-  // Display page
-  if (token && !userInfo) return null;
-  if (!recipesPurchases) return null;
-
   // Shows page if user
   if (userInfo?.role !== "user") return <Error404 />;
   return (
     <>
       <Header />
 
-      <main className="bgUserAccount h-full flex flex-1 items-center">
-        <div className="section w-full lg:min-h-[27.625rem] md:min-h-80  p-5">
-          <h2 className="h2 mb-5">Mes recettes</h2>
+      <Loader condition={token && userInfo && recipesPurchases} />
 
-          {recipesPurchases?.length > 0 ? (
-            generateRecipesCategories()
-          ) : (
-            <MessageNoData text={isRecipes} />
-          )}
-        </div>
-      </main>
+      {token && userInfo && recipesPurchases && (
+        <>
+          <main className="bgUserAccount h-full flex flex-1 items-center">
+            <div className="section w-full lg:min-h-[27.625rem] md:min-h-80  p-5">
+              <h2 className="h2 mb-5">Mes recettes</h2>
 
-      <Footer />
+              {recipesPurchases?.length > 0 ? (
+                generateRecipesCategories()
+              ) : (
+                <MessageNoData text={isRecipes} />
+              )}
+            </div>
+          </main>
+
+          <Footer />
+        </>
+      )}
     </>
   );
 }

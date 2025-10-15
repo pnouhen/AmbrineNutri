@@ -1,21 +1,19 @@
-import React, { useContext } from "react";
-
-import { AuthContext } from "../contexts/AuthContext";
+import React, { useRef } from "react";
 
 import Header from "../structures/Header";
 import Footer from "../structures/Footer";
+import ScrollToTop from "../services/ScrollToTop";
 
 export default function LegalNotices() {
-  const { token, userInfo } = useContext(AuthContext);
-
-  // Display this page
-  if (token && !userInfo) return null;
+  const sectionRef = useRef();
 
   return (
     <>
       <Header />
 
-      <main className="p-5 flex flex-col justify-center items-center bg-gray">
+      <ScrollToTop targetRef={sectionRef} />
+
+      <main className="p-5 flex flex-col justify-center items-center bg-gray" ref={sectionRef}>
         <div className="p-5 lg:w-7/12 md:w-10/12 w-full section flex flex-col justify-center items-center gap-5 rounded-2xl">
           <h2 className="h2">Mentions Légales</h2>
 
@@ -37,7 +35,9 @@ export default function LegalNotices() {
 
               <li className="text">Email : contact@ambrinenutri.fr</li>
 
-              <li className="text">Directeur de la publication : Ambrine Nouhen</li>
+              <li className="text">
+                Directeur de la publication : Ambrine Nouhen
+              </li>
             </ul>
           </section>
 

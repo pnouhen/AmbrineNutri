@@ -15,6 +15,7 @@ import { fecthInvoicesRecipes } from "../services/fecthInvoicesRecipes";
 import Error404 from "../pages/Error404";
 
 import Header from "../structures/Header";
+import Loader from "../components/Loader";
 import { CartSummary } from "../user/CartSummary";
 import { BillingAddress } from "../user/BillingAddress";
 import { PaymentForm } from "../user/PaymentForm";
@@ -35,7 +36,7 @@ export function CheckoutPage() {
     }
   });
 
-      const panier = JSON.parse(sessionStorage.getItem("userInfo"))?.panier
+  const panier = JSON.parse(sessionStorage.getItem("userInfo"))?.panier;
 
   const [addresses, setAddresses] = useState(() => {
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -183,7 +184,7 @@ export function CheckoutPage() {
   };
 
   // Shows page after generate all elements
-  if (!userInfo || !recipesPanier || !recipes || !coordDefault) return null;
+  const isDisplay = userInfo && recipesPanier && recipes && coordDefault;
 
   // Shows page if user
   if (userInfo?.role !== "user") return <Error404 />;
@@ -192,38 +193,44 @@ export function CheckoutPage() {
     <>
       <Header />
 
-      <main className="bgUserAccount">
-        <div className="userAccountContainer section">
-          <CartSummary
-            recipesPanier={recipesPanier}
-            isRecipes={isRecipes}
-            deleteRecipe={deleteRecipe}
-          />
+      <Loader condition={isDisplay} />
 
-          <BillingAddress
-            addresses={addresses}
-            setAddresses={setAddresses}
-            coordDefault={coordDefault}
-            setCoordDefault={setCoordDefault}
-            setMessageModal={setMessageModal}
-          />
+      {isDisplay && (
+        <>
+          <main className="bgUserAccount">
+            <div className="userAccountContainer section">
+              <CartSummary
+                recipesPanier={recipesPanier}
+                isRecipes={isRecipes}
+                deleteRecipe={deleteRecipe}
+              />
 
-          <PaymentForm
-            submitPayement={submitPayement}
-            carteNameRef={carteNameRef}
-            cardNumberRef={cardNumberRef}
-            expiryDateRef={expiryDateRef}
-            cryptogramRef={cryptogramRef}
-          />
-        </div>
+              <BillingAddress
+                addresses={addresses}
+                setAddresses={setAddresses}
+                coordDefault={coordDefault}
+                setCoordDefault={setCoordDefault}
+                setMessageModal={setMessageModal}
+              />
 
-        <ModalMessage
-          action={messageModal}
-          onClickClose={() => setMessageModal("")}
-        />
-      </main>
+              <PaymentForm
+                submitPayement={submitPayement}
+                carteNameRef={carteNameRef}
+                cardNumberRef={cardNumberRef}
+                expiryDateRef={expiryDateRef}
+                cryptogramRef={cryptogramRef}
+              />
+            </div>
 
-      <Footer />
+            <ModalMessage
+              action={messageModal}
+              onClickClose={() => setMessageModal("")}
+            />
+          </main>
+
+          <Footer />
+        </>
+      )}
     </>
   );
 }

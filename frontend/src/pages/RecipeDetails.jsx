@@ -17,22 +17,24 @@ import Footer from "../structures/Footer";
 import GenerateRecipePdf from "../recipeDetails/GenerateRecipePdf";
 import Button from "../components/Button";
 import { pdf } from "@react-pdf/renderer";
+import Loader from "../components/Loader";
 
 export default function RecipeDetails() {
   const { id } = useParams();
   const { token, userInfo } = useContext(AuthContext);
 
-  const purchases = JSON.parse(sessionStorage.getItem("userInfo"))?.purchases || null
+  const purchases =
+    JSON.parse(sessionStorage.getItem("userInfo"))?.purchases || null;
 
   const [inPanier, setInPanier] = useState(false);
   const [purchase, setPurchase] = useState(false);
 
   const [recipeDetails, setRecipeDetails] = useState(() => {
-        if (!purchases.includes(id)) {
+    if (!purchases.includes(id)) {
       if (userInfo?.panier.includes(id)) setInPanier(true);
       return JSON.parse(sessionStorage.getItem(id));
     } else {
-      return null
+      return null;
     }
   });
 
@@ -74,9 +76,7 @@ export default function RecipeDetails() {
     }
 
     // Recipe purchases
-    const isValidUser =
-      token &&
-      purchases.includes(id);
+    const isValidUser = token && purchases.includes(id);
 
     if (isValidUser || (userInfo?.role === "admin" && !recipeDetails)) {
       fetchDataUserGet(
@@ -159,91 +159,94 @@ export default function RecipeDetails() {
     URL.revokeObjectURL(url);
   };
 
-  // Display page
-  if (!recipeDetails) return null;
-
   return (
     <>
       <Header />
 
-      <main className="relative py-5 flex flex-col gap-5 items-center">
-        <BackgroundImg url="/assets/img/background/background-recipes.webp" />
+      <Loader condition={recipeDetails} />
 
-        <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
-          <h2 className="h2 w-full">{recipeDetails?.title}</h2>
+      {recipeDetails && (
+        <>
+          <main className="relative py-5 flex flex-col gap-5 items-center">
+            <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
-          <div className="flex max-md:flex-col gap-5">
-            <article className="flex flex-col items-center gap-0.5">
-              <RecipeCard
-                duration={recipeDetails?.duration}
-                vegetarian={recipeDetails?.vegetarian}
-                src={recipeDetails?.imageUrl}
-              />
+            <section className="section m-auto lg:w-[1024px] w-full flex flex-col gap-5">
+              <h2 className="h2 w-full">{recipeDetails?.title}</h2>
 
-              <div className="p-5 w-full flex flex-col gap-5 bg-green-200">
-                <InputSelect
-                  indexPeople={indexPeople}
-                  setIndexPeople={setIndexPeople}
-                  notifyButtonInactive={notifyButtonInactive}
-                  purchase={purchase}
-                />
-
-                <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">
-                  <div className="max-md:mx-auto flex flex-col justify-start gap-2.5">
-                    <h3 className="h3 text-white-200">Les ustensils :</h3>
-
-                    <ul className="flex flex-col gap-1">
-                      {recipeDetails?.ustensils.map((ustensil, index) => (
-                        <li key={index} className="text text-white-200">
-                          {ustensil}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Ingredients
-                    recipeDetails={recipeDetails}
-                    indexPeople={indexPeople}
-                    purchase={purchase}
+              <div className="flex max-md:flex-col gap-5">
+                <article className="flex flex-col items-center gap-0.5">
+                  <RecipeCard
+                    duration={recipeDetails?.duration}
+                    vegetarian={recipeDetails?.vegetarian}
+                    src={recipeDetails?.imageUrl}
                   />
-                </div>
-              </div>
-            </article>
 
-            <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
-              <h3 className="h3">Les étapes :</h3>
+                  <div className="p-5 w-full flex flex-col gap-5 bg-green-200">
+                    <InputSelect
+                      indexPeople={indexPeople}
+                      setIndexPeople={setIndexPeople}
+                      notifyButtonInactive={notifyButtonInactive}
+                      purchase={purchase}
+                    />
 
-              <div
-                className={`text h-full flex flex-col ${
-                  purchase ? "items-start" : "items-center"
-                } gap-2.5`}
-              >
-                <Steps
-                  token={token}
-                  inPanier={inPanier}
-                  purchase={purchase}
-                  handleAddPanier={handleAddPanier}
-                  recipeDetails={recipeDetails}
-                  userInfo={userInfo}
-                />
+                    <div className="md:flex md:flex-col grid grid-cols-2 gap-2.5">
+                      <div className="max-md:mx-auto flex flex-col justify-start gap-2.5">
+                        <h3 className="h3 text-white-200">Les ustensils :</h3>
+
+                        <ul className="flex flex-col gap-1">
+                          {recipeDetails?.ustensils.map((ustensil, index) => (
+                            <li key={index} className="text text-white-200">
+                              {ustensil}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <Ingredients
+                        recipeDetails={recipeDetails}
+                        indexPeople={indexPeople}
+                        purchase={purchase}
+                      />
+                    </div>
+                  </div>
+                </article>
+
+                <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
+                  <h3 className="h3">Les étapes :</h3>
+
+                  <div
+                    className={`text h-full flex flex-col ${
+                      purchase ? "items-start" : "items-center"
+                    } gap-2.5`}
+                  >
+                    <Steps
+                      token={token}
+                      inPanier={inPanier}
+                      purchase={purchase}
+                      handleAddPanier={handleAddPanier}
+                      recipeDetails={recipeDetails}
+                      userInfo={userInfo}
+                    />
+                  </div>
+                </article>
               </div>
-            </article>
-          </div>
-        </section>
-        {purchase && (
-          <Button
-            text="Télécharger la recette"
-            className="buttonSubmit w-60"
-            onClick={downloadRecipe}
+            </section>
+            {purchase && (
+              <Button
+                text="Télécharger la recette"
+                className="buttonSubmit w-60"
+                onClick={downloadRecipe}
+              />
+            )}
+          </main>
+          <Footer />
+
+          <ModalMessage
+            action={checkSubmit}
+            onClickClose={() => setCheckSubmit("")}
           />
-        )}
-      </main>
-      <Footer />
-
-      <ModalMessage
-        action={checkSubmit}
-        onClickClose={() => setCheckSubmit("")}
-      />
+        </>
+      )}
     </>
   );
 }

@@ -12,6 +12,7 @@ import { RecipeFilter } from "../recipes/RecipeFilter";
 import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
 import ModalMessage from "../Modals/MessageModal";
 import ModalRecipe from "../admin/ModalRecipe";
+import Loader from "../components/Loader";
 
 export default function Recipes() {
   const [infosAddRecipe, setInfosAddRecipe] = useState(() => {
@@ -64,17 +65,17 @@ export default function Recipes() {
 
   // Get recipes here for link the categoriesRecipes
   useEffect(() => {
-    if(!recipes)
-    fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`, "recipes")
-      .then((recipes) => {
-        recipes.sort((a, b) => a.title.localeCompare(b.title));
-        setRecipes(recipes);
-      })
-      .catch((error) => {
-        setNoRecipes("Désolé, un problème est survenu.");
-        setRecipes([]);
-        console.error("Erreur lors du chargement", error);
-      });
+    if (!recipes)
+      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes`, "recipes")
+        .then((recipes) => {
+          recipes.sort((a, b) => a.title.localeCompare(b.title));
+          setRecipes(recipes);
+        })
+        .catch((error) => {
+          setNoRecipes("Désolé, un problème est survenu.");
+          setRecipes([]);
+          console.error("Erreur lors du chargement", error);
+        });
   }, []);
 
   // Filter categorie
@@ -106,50 +107,53 @@ export default function Recipes() {
     setModalMessage("UpdateTrue");
   };
 
-  // Display page
-  if (!categoriesRecipe || !recipes) return null;
-
   return (
     <>
       <Header />
 
-      <main className="min-h-[69.1875rem] relative py-5 flex flex-col gap-5">
-        <BackgroundImg url="/assets/img/background/background-recipes.webp" />
+      <Loader condition={categoriesRecipe && recipes} />
 
-        {userInfo?.role === "admin" && (
-          <RecipeEditor
-            actionRecipe={actionRecipes}
-            setActionRecipe={setActionRecipe}
+      {categoriesRecipe && recipes && (
+        <>
+          <main className="min-h-[69.1875rem] relative py-5 flex flex-col gap-5">
+            <BackgroundImg url="/assets/img/background/background-recipes.webp" />
+
+            {userInfo?.role === "admin" && (
+              <RecipeEditor
+                actionRecipe={actionRecipes}
+                setActionRecipe={setActionRecipe}
+              />
+            )}
+
+            <RecipeFilter
+              data={categoriesRecipe}
+              filter={filter}
+              setFilter={setFilter}
+            />
+
+            <RecipeSlideShow
+              setRecipes={setRecipes}
+              actionRecipes={actionRecipes}
+              setRecipeDelete={setRecipeDelete}
+              recipePages={recipePages}
+              numberRecipes={numberRecipes}
+              noRecipes={noRecipes}
+              setModalMessage={setModalMessage}
+            />
+          </main>
+
+          <Footer />
+
+          <ModalMessage
+            action={modalMessage}
+            onClickClose={() => setModalMessage("")}
+            classNameValidation={modalMessage !== "UpdateTrue" && true}
+            onClickValidate={() => confirmDeleteRecipes()}
           />
-        )}
-
-        <RecipeFilter
-          data={categoriesRecipe}
-          filter={filter}
-          setFilter={setFilter}
-        />
-
-        <RecipeSlideShow
-          setRecipes={setRecipes}
-          actionRecipes={actionRecipes}
-          setRecipeDelete={setRecipeDelete}
-          recipePages={recipePages}
-          numberRecipes={numberRecipes}
-          noRecipes={noRecipes}
-          setModalMessage={setModalMessage}
-        />
-      </main>
-
-      <Footer />
-
-      <ModalMessage
-        action={modalMessage}
-        onClickClose={() => setModalMessage("")}
-        classNameValidation={modalMessage !== "UpdateTrue" && true}
-        onClickValidate={() => confirmDeleteRecipes()}
-      />
-      {userInfo?.role === "admin" && (
-        <ModalRecipe infoAddRecipes={infosAddRecipe} />
+          {userInfo?.role === "admin" && (
+            <ModalRecipe infoAddRecipes={infosAddRecipe} />
+          )}
+        </>
       )}
     </>
   );

@@ -2,14 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { fecthInvoicesRecipes } from "../services/fecthInvoicesRecipes";
-import Error404 from "../pages/Error404";
+import { redirectionNoToken } from "../services/RedirectionNoToken";
 
 import Header from "../structures/Header";
+import Loader from "../components/Loader";
 import { BillingAddress } from "../user/BillingAddress";
 import ModalMessage from "../Modals/MessageModal";
 import Footer from "../structures/Footer";
 import InvoiceHistory from "../user/InvoiceHistory";
-import { redirectionNoToken } from "../services/RedirectionNoToken";
+import Error404 from "../pages/Error404";
 
 export default function UserAccount() {
   const { token, userInfo } = useContext(AuthContext);
@@ -41,9 +42,6 @@ export default function UserAccount() {
     }
   }, []);
 
-  // Shows page after generate all elements
-  if (!userInfo || !invoices) return null;
-
   // Shows page if user
   if (userInfo.role !== "user") return <Error404 />;
 
@@ -51,30 +49,35 @@ export default function UserAccount() {
     <>
       <Header />
 
-      <main className="bgUserAccount h-full flex flex-1 items-center">
-        <div className="userAccountContainer section flex flex-col gap-5">
-          <h2 className="h2">Mon Compte</h2>
+      <Loader condition={userInfo && invoices} />
 
-          <InvoiceHistory
-            token={token}
-            invoices={invoices}
-            setMessageModal={setMessageModal}
-          />
+      {userInfo && invoices && (
+        <>
+          <main className="bgUserAccount h-full flex flex-1 items-center">
+            <div className="userAccountContainer section flex flex-col gap-5">
+              <h2 className="h2">Mon Compte</h2>
 
-          <BillingAddress
-            addresses={addresses}
-            setAddresses={setAddresses}
-            coordDefault={coordDefault}
-            setMessageModal={setMessageModal}
-          />
-        </div>
+              <InvoiceHistory
+                token={token}
+                invoices={invoices}
+                setMessageModal={setMessageModal}
+              />
 
-        <ModalMessage
-          action={messageModal}
-          onClickClose={() => setMessageModal("")}
-        />
-      </main>
+              <BillingAddress
+                addresses={addresses}
+                setAddresses={setAddresses}
+                coordDefault={coordDefault}
+                setMessageModal={setMessageModal}
+              />
+            </div>
 
+            <ModalMessage
+              action={messageModal}
+              onClickClose={() => setMessageModal("")}
+            />
+          </main>
+        </>
+      )}
       <Footer />
     </>
   );

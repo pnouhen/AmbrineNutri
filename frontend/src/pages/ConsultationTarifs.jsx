@@ -12,6 +12,7 @@ import ChangePrices from "../admin/ChangePrices";
 import { ConsultationTarifsCard } from "../consultationTarifs/ConsultationTarifsCard";
 import Footer from "../structures/Footer";
 import ModalMessage from "../Modals/MessageModal";
+import Loader from "../components/Loader";
 
 export default function ConsultationTarifs() {
   const [firstConsult, setFirstConsult] = useState(() => {
@@ -92,14 +93,16 @@ export default function ConsultationTarifs() {
       setMessageModal("UpdateFalse");
     }
   };
-
-  // Display page
-  if (!firstConsult || !followUpConsult) return null;
-
+  
   return (
     <>
       <Header />
-      <main className="relative p-5 flex flex-col items-center gap-5">
+
+      <Loader condition={firstConsult && followUpConsult}/>
+
+      {firstConsult && followUpConsult && (
+        <>
+        <main className="relative p-5 flex flex-col items-center gap-5">
         <BackgroundImg
           url="/assets/img/background/background-methodRate.webp"
           className="object-right"
@@ -146,6 +149,9 @@ export default function ConsultationTarifs() {
         action={messageModal}
         onClickClose={() => setMessageModal("")}
       />
+        </>
+      )}
+      
     </>
   );
 }

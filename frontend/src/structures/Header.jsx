@@ -17,8 +17,10 @@ export default function Header() {
 
   // Change account Navlink background color
   const location = useLocation();
-  const panierActive = location.pathname === "/panier";
-  const useAccountActive = location.pathname === "/mon-compte";
+  const usepageActive =
+    location.pathname === "/panier" ||
+    location.pathname === "/mon-compte" ||
+    location.pathname === "/mes-recettes";
 
   // Display account menu
   const onClickCompte = () => {
@@ -57,7 +59,7 @@ export default function Header() {
         <li
           tabIndex={0}
           className={`navItem relative lg:w-[8.75rem] transition-all duration-100 ${
-            panierActive || useAccountActive ? "bg-mustard" : "bg-green-100"
+            usepageActive ? "bg-mustard" : "bg-green-100"
           } ${compteActive ? "rounded-t-[1.25rem]" : "navItem-rounded"}`}
           onClick={onClickCompte}
           onMouseEnter={onMouseEnterCompte}

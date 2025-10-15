@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
 import Footer from "../structures/Footer";
+import ScrollToTop from "../services/ScrollToTop";
 
 export default function About() {
+  const sectionRef = useRef()
   return (
     <>
+    <ScrollToTop targetRef={sectionRef}/>
+    
       <Header />
-      <main className="relative h-full flex flex-1 items-center">
+      <main className="relative h-full flex flex-1 items-center" ref={sectionRef}>
         <BackgroundImg
           url="/assets/img/background/background-about.webp"
           className="object-top"

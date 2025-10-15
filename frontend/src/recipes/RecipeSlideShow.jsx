@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-
 import { NavLink } from "react-router-dom";
 
 import RecipeCard from "./RecipeCard";
@@ -16,42 +15,39 @@ export function RecipeSlideShow({
   setModalMessage,
   setRecipeDelete,
 }) {
-  // For slide show width Embla Carousel React
   const options = { slidesToScroll: 1, loop: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-  // Display second row if number recipes <= 3
-  let numberDivInvisible = 0;
-  if (recipePages.length === 1) {
-    numberDivInvisible = numberRecipes - recipePages[0].length;
-  }
+  const sectionRef = useRef()
+  const [heightContainer, setHeightContainer] = useState(0);
 
-  // Update the heightSection state when the section's height exceeds 100px
-    const sectionRef = useRef();
-  const [heightSection, setHeightSection] = useState(sectionRef.current?.offsetHeight)
 
   useEffect(() => {
   if (!sectionRef.current) return;
 
-  // Put sectionRef under surveillance
-  const observer = new ResizeObserver(() => {
-    if (sectionRef.current.offsetHeight > 200) {
-      setHeightSection(sectionRef.current.offsetHeight);
-    }
+  // Calcul de la hauteur max des enfants
+  let maxHeight = 0;
+  Array.from(sectionRef.current.children).forEach(child => {
+    const childHeight = child.offsetHeight;
+    if (childHeight > maxHeight) maxHeight = childHeight;
   });
 
-  observer.observe(sectionRef.current);
-  return () => observer.disconnect();
-}, [sectionRef]);
+  // Ajouter un petit padding si nécessaire
+  setHeightContainer(maxHeight + 20); 
+}, []);
 
   return (
-    <section className="section pb-5 px-5 flex flex-col gap-5" style={{ height: `${heightSection}px` }} ref={sectionRef}>
+    <section className="section pb-5 px-5 flex flex-col gap-5">
       <h2 className="h2">Les recettes</h2>
 
       {recipePages.length > 0 ? (
         <>
-          <div className="h-full overflow-hidden" ref={emblaRef}>
-            <div className="embla_section flex gap-5">
+          <div
+            className="overflow-hidden"
+            ref={emblaRef}
+            style={{ minHeight: `${heightContainer}px` }}
+          >
+            <div className="embla_section flex gap-5" ref={sectionRef}>
               {recipePages.map((page, index) => (
                 <div className="embla__slide shrink-0 w-full" key={index}>
                   <ul className="md:grid lg:grid-cols-4 md:grid-cols-3 flex flex-wrap gap-10">
