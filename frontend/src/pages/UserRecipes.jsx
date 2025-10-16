@@ -20,7 +20,7 @@ export default function UserRecipes() {
   });
 
   const [categories, setCategories] = useState(() => {
-    const infoAddRecipes = JSON.parse(sessionStorage.getItem("infoAddRecipes"));
+    const infoAddRecipes = JSON.parse(sessionStorage.getItem("infoAddRecipes")) ||[];
     const categories =
       infoAddRecipes.filter((infos) => infos.type === "categories") || [];
     if (categories.length > 0) return categories[0].values;
@@ -29,7 +29,6 @@ export default function UserRecipes() {
   const [isRecipes, setIsRecipes] = useState(
     "Vous n'avez pas encore acheté de recette"
   );
-
   const [recipesPurchases, setRecipesPurchases] = useState(() => {
     const searchRecipeInPurchases = recipes?.filter((recipe) =>
       userInfo?.purchases.includes(recipe._id)
@@ -59,7 +58,7 @@ export default function UserRecipes() {
         `${import.meta.env.VITE_BASE_API}/api/infoaddrecipes`,
         "infoAddRecipes"
       )
-        .then((infosAddRecipe) => setCategories(infosAddRecipe))
+        .then((infosAddRecipe) => setCategories(infosAddRecipe[0].values))
         .catch((error) => {
           console.error("Erreur lors du chargement", error);
         });
