@@ -46,53 +46,6 @@ export default function ConsultationTarifs() {
           console.error("Erreur de chargement", error);
         });
   }, []);
-
-  // Change prices
-  const priceFirstConsultRef = useRef();
-  const coupleRateFirstConsultRef = useRef();
-  const priceFollowUpConsultRef = useRef();
-  const coupleRateFollowUpConsultRef = useRef();
-
-  const changePrices = (e) => {
-    e.preventDefault();
-
-    const priceFirstConsult = priceFirstConsultRef.current.value;
-    const coupleRateFirstConsult = coupleRateFirstConsultRef.current.value;
-    const priceFollowUpConsult = priceFollowUpConsultRef.current.value;
-    const coupleRateFollowUpConsult =
-      coupleRateFollowUpConsultRef.current.value;
-
-    const newPrices = [
-      {
-        _id: 1,
-        values: {
-          price: priceFirstConsult,
-          coupleRate: coupleRateFirstConsult,
-        },
-      },
-      {
-        _id: 2,
-        values: {
-          price: priceFollowUpConsult,
-          coupleRate: coupleRateFollowUpConsult,
-        },
-      },
-    ];
-
-    const isPricesValid =
-      priceFirstConsult > 0 &&
-      coupleRateFirstConsult > 0 &&
-      priceFollowUpConsult > 0 &&
-      coupleRateFollowUpConsult > 0;
-
-    if (isPricesValid) {
-      setFirstConsult(newPrices[0]);
-      setFollowUpConsult(newPrices[1]);
-      setMessageModal("UpdateTrue");
-    } else {
-      setMessageModal("UpdateFalse");
-    }
-  };
   
   return (
     <>
@@ -112,11 +65,9 @@ export default function ConsultationTarifs() {
             dataCardsConsultTarif={dataCardsConsultTarif}
             firstConsult={firstConsult}
             followUpConsult={followUpConsult}
-            priceFirstConsultRef={priceFirstConsultRef}
-            coupleRateFirstConsultRef={coupleRateFirstConsultRef}
-            priceFollowUpConsultRef={priceFollowUpConsultRef}
-            coupleRateFollowUpConsultRef={coupleRateFollowUpConsultRef}
-            changePrices={changePrices}
+            setFirstConsult={setFirstConsult}
+            setFollowUpConsult={setFollowUpConsult}
+            setMessageModal={setMessageModal}
           />
         )}
         {/* Stockage in file.js */}

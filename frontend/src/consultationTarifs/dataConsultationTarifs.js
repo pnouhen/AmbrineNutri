@@ -1,6 +1,6 @@
 export const dataCardsConsultTarif = [
   {
-    title: "Premier bilan Nutrinel avec analyse de composition corporelle:",
+    title: "Premier bilan nutritionnel avec analyse de composition corporelle:",
     duration: "une heure",
     description: `Le premier bilan me permettra de
           <strong>mieux vous connaître</strong> (mode de vie, habitudes
