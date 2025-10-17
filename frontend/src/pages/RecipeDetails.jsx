@@ -30,12 +30,11 @@ export default function RecipeDetails() {
   const [purchase, setPurchase] = useState(false);
 
   const [recipeDetails, setRecipeDetails] = useState(() => {
+    if (!userInfo) return null
     if (!purchases.includes(id)) {
-      if (userInfo?.panier.includes(id)) setInPanier(true);
+        if (userInfo?.panier.includes(id)) setInPanier(true);
       return JSON.parse(sessionStorage.getItem(id));
-    } else {
-      return null;
-    }
+    } 
   });
 
   const [checkSubmit, setCheckSubmit] = useState("");
