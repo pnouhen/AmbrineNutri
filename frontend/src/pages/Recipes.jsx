@@ -13,6 +13,7 @@ import { RecipeSlideShow } from "../recipes/RecipeSlideShow";
 import ModalMessage from "../Modals/MessageModal";
 import ModalRecipe from "../admin/ModalRecipe";
 import Loader from "../components/Loader";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 export default function Recipes() {
   const [infosAddRecipe, setInfosAddRecipe] = useState(() => {
@@ -35,6 +36,7 @@ export default function Recipes() {
   // For admin
   const [actionRecipes, setActionRecipe] = useState("");
   const [recipeDelete, setRecipeDelete] = useState("");
+  const [modalRecipeActive, setModalRecipeActive] = useState(true)
 
   // To display the modal recipe if user = admin
   const { userInfo } = useContext(AuthContext);
@@ -101,6 +103,9 @@ export default function Recipes() {
     recipePages.push(recipesFilter.slice(i, i + numberRecipes));
   }
 
+  // ModalEditor is active, stop Overflow
+   toggleOverflow(modalRecipeActive)
+
   // Delete recipes in admin
   const confirmDeleteRecipes = () => {
     setRecipes((prev) => prev.filter((recipe) => recipe._id !== recipeDelete));
@@ -118,6 +123,7 @@ export default function Recipes() {
           <main className="relative py-5 flex flex-col gap-5">
             <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
+            {/* TODO Pour son ouverture, ajouter toggleOverflow(isSelect) */}
             {userInfo?.role === "admin" && (
               <RecipeEditor
                 actionRecipe={actionRecipes}
@@ -150,7 +156,7 @@ export default function Recipes() {
             classNameValidation={modalMessage !== "UpdateTrue" && true}
             onClickValidate={() => confirmDeleteRecipes()}
           />
-          {userInfo?.role === "admin" && (
+          {userInfo?.role === "admin" && modalRecipeActive && (
             <ModalRecipe infoAddRecipes={infosAddRecipe} />
           )}
         </>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { toggleOverflow } from "../services/toggleOverflow";
 
 export default function LabelSelect({
   classNameLabelSelect,
@@ -9,15 +8,13 @@ export default function LabelSelect({
   data,
 }) {
   const [isSelect, setIsSelect] = useState(false);
-  const [focusedOption, setFocusedOption] = useState("")
+  const [focusedOption, setFocusedOption] = useState("");
 
   const mainButtonRef = useRef(null);
-const containerRef = useRef(null);
+  const containerRef = useRef(null);
 
   // Reset newOption et change overflow of body
   useEffect(() => {
-    toggleOverflow(isSelect);
-
     if (!isSelect && focusedOption === newOption) {
       mainButtonRef.current.focus();
     }
@@ -36,7 +33,7 @@ const containerRef = useRef(null);
   const onKeyDownButton = (e) => {
     if (e.key === "Tab" && isSelect) {
       setOption(data[0]);
-      setFocusedOption(data[0])
+      setFocusedOption(data[0]);
     }
     if (e.key === "Escape") setIsSelect(false);
   };
@@ -45,7 +42,7 @@ const containerRef = useRef(null);
     if (e.key === "Tab" && isSelect) {
       if (index < data.length - 1) {
         setOption(data[index + 1]);
-        setFocusedOption(data[index + 1])
+        setFocusedOption(data[index + 1]);
       } else {
         setIsSelect(false);
       }
@@ -54,9 +51,12 @@ const containerRef = useRef(null);
   };
 
   // Close the selector if clicked outside
-   useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setIsSelect(false);
       }
     };
@@ -78,8 +78,8 @@ const containerRef = useRef(null);
         onClick={() => setIsSelect(!isSelect)}
       >
         <button
-          ref={mainButtonRef} // Associe le ref ici
-          className="cursor-pointer"
+          ref={mainButtonRef}
+          className="cursor-pointer h-6"
           onKeyDown={onKeyDownButton}
         >
           {newOption}
@@ -91,10 +91,10 @@ const containerRef = useRef(null);
         ></i>
 
         <ul
-          className={`absolute top-11 left-0 w-full flex flex-col gap-2.5 ${
+          className={`absolute z-50 lg:top-11 md:top-10 top-9 left-0 w-full lg:max-h-44 max-h-20 flex-col gap-2.5 overflow-auto ${
             isSelect
-              ? "z-10 opacity-100 rounded-b-xl shadow-inputButton insideInput"
-              : "-z-10 opacity-0"
+              ? "z-10 flex shadow-inputButton insideInput"
+              : "-z-10 hidden"
           }`}
         >
           {data?.map((option, index) => (
