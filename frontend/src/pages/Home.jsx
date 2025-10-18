@@ -1,8 +1,9 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect } from "react";
 
 import { fetchDataGet } from "../services/fetchDataGet";
 
 import { dataCardsObjectif } from "../home/dataCardObjectif";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
@@ -37,42 +38,47 @@ export default function Home() {
       return [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [reviews]);
 
+  // ModalMessage is active, stop Overflow
+  toggleOverflow(checkSubmit !== "");
+
   return (
     <>
       <Header />
 
-      <Loader condition={reviews}/>
-      
+      <Loader condition={reviews} />
+
       {reviews && (
         <>
-        <main className="relative py-5 flex flex-col gap-8 overflow-hidden">
-        <BackgroundImg url="/assets/img/background/background-home.webp" />
+          <main className="relative py-5 flex flex-col gap-8 overflow-hidden">
+            <BackgroundImg url="/assets/img/background/background-home.webp" />
 
-        <section className="section pb-5 px-5 grid md:grid-cols-3 grid-cols-2 justify-center gap-8">
-          <h2 className="h2 col-start-1 md:col-end-4 col-end-3">
-            Ensemble, nous pouvons :
-          </h2>
+            <section className="section pb-5 px-5 grid md:grid-cols-3 grid-cols-2 justify-center gap-8">
+              <h2 className="h2 col-start-1 md:col-end-4 col-end-3">
+                Ensemble, nous pouvons :
+              </h2>
 
-          {/* Stockage in file.js */}
-          {dataCardsObjectif.map(({ id, logo, title, text }) => (
-            <CardObjectif key={id} logo={logo} title={title} text={text} />
-          ))}
-        </section>
+              {/* Stockage in file.js */}
+              {dataCardsObjectif.map(({ id, logo, title, text }) => (
+                <CardObjectif key={id} logo={logo} title={title} text={text} />
+              ))}
+            </section>
 
-        <Reviews reviews={sortedReviews} />
+            <Reviews reviews={sortedReviews} />
 
-        <SubmitReview setCheckSubmit={setCheckSubmit} setReviews={setReviews} />
-      </main>
+            <SubmitReview
+              setCheckSubmit={setCheckSubmit}
+              setReviews={setReviews}
+            />
+          </main>
 
-      <Footer />
+          <Footer />
 
-      <ModalMessage
-        action={checkSubmit}
-        onClickClose={() => setCheckSubmit("")}
-      />
+          <ModalMessage
+            action={checkSubmit}
+            onClickClose={() => setCheckSubmit("")}
+          />
         </>
       )}
-      
     </>
   );
 }

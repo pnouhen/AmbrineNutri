@@ -57,7 +57,7 @@ export default function InvoiceHistory({ token, invoices, setMessageModal }) {
   };
 
   return (
-    <div className="pb-6 border-panier flex flex-col gap-5">
+    <div className="pb-6 borderTopGray flex flex-col gap-5">
       <h3 className="h3">Historique des factures</h3>
       {generateContent()}
     </div>

@@ -17,7 +17,7 @@ export function BillingAddress({
   const [updateCoord, setUpdateCoord] = useState({});
 
   return (
-    <div className="pb-6 border-panier relative flex flex-col gap-5">
+    <div className="pb-6 borderTopGray relative flex flex-col gap-5">
       <h3 className="h3">Adresse de facturation</h3>
       <ExistingAddress
         addresses={addresses}

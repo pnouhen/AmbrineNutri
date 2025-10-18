@@ -12,7 +12,7 @@ export function PaymentForm({
   cryptogramRef,
 }) {
   return (
-    <div className="border-panier pb-5 flex flex-col gap-5">
+    <div className="borderTopGray pb-5 flex flex-col gap-5">
       <h3 className="h3">Payer en ligne</h3>
 
       <form

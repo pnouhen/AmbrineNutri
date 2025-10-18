@@ -1,7 +1,9 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { redirectAfterLogin } from "../services/redirectAfterLogin";
 import { AuthContext } from "../contexts/AuthContext";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
@@ -26,6 +28,9 @@ export default function AuthPage() {
       redirectAfterLogin(navigate, location);
     }
   }, [token]);
+
+  // ModalMessage is active, stop Overflow
+  toggleOverflow(checkSubmit !== "");
 
   return (
     <>

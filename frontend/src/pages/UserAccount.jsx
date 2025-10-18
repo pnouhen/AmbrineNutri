@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { fecthInvoicesRecipes } from "../services/fecthInvoicesRecipes";
 import { redirectionNoToken } from "../services/RedirectionNoToken";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 import Header from "../structures/Header";
 import Loader from "../components/Loader";
@@ -44,6 +45,9 @@ export default function UserAccount() {
 
   // Shows page if user
   if (userInfo.role !== "user") return <Error404 />;
+
+  // ModalMessage is active, stop Overflow
+  toggleOverflow(messageModal !== "");
 
   return (
     <>

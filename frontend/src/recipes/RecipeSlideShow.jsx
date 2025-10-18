@@ -30,7 +30,7 @@ export function RecipeSlideShow({
   
   const updateHeight = () => {
     if (sectionRef.current.offsetHeight > 200 && images.length > 0) {
-      console.log("change")
+
       setHeightContainer(sectionRef.current.offsetHeight);
     }
   };

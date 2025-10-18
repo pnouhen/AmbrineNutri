@@ -100,7 +100,7 @@ export default function UserRecipes() {
         {classifiedRecipes.map((categorie, index) => (
           <div
             key={categorie.categorie}
-            className={`border-panier flex flex-col gap-5 ${
+            className={`borderTopGray flex flex-col gap-5 ${
               index < classifiedRecipes.length - 1 && "pb-8"
             }`}
           >

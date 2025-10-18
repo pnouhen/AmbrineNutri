@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataGet } from "../services/fetchDataGet";
-import { fetchDataUserPut } from "../services/fetchDataUserPut";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 import { dataCardsConsultTarif } from "../consultationTarifs/dataConsultationTarifs";
 
@@ -46,6 +46,9 @@ export default function ConsultationTarifs() {
           console.error("Erreur de chargement", error);
         });
   }, []);
+
+  // ModalMessage is active, stop Overflow
+     toggleOverflow(messageModal !== "")
   
   return (
     <>

@@ -5,6 +5,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 import Header from "../structures/Header";
 import BackgroundImg from "../components/BackgroundImg";
@@ -30,11 +31,11 @@ export default function RecipeDetails() {
   const [purchase, setPurchase] = useState(false);
 
   const [recipeDetails, setRecipeDetails] = useState(() => {
-    if (!userInfo) return null
+    if (!userInfo) return null;
     if (!purchases.includes(id)) {
-        if (userInfo?.panier.includes(id)) setInPanier(true);
+      if (userInfo?.panier.includes(id)) setInPanier(true);
       return JSON.parse(sessionStorage.getItem(id));
-    } 
+    }
   });
 
   const [checkSubmit, setCheckSubmit] = useState("");
@@ -157,6 +158,9 @@ export default function RecipeDetails() {
     // Frees the temporary URL to avoid memory leaks
     URL.revokeObjectURL(url);
   };
+
+  // ModalMessage is active, stop Overflow
+  toggleOverflow(checkSubmit !== "");
 
   return (
     <>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -11,6 +10,7 @@ import { isValidPayment } from "../services/isValidPayment";
 import { fetchDataUserDelete } from "../services/fetchDataUserDelete";
 import { fetchDataGet } from "../services/fetchDataGet";
 import { fecthInvoicesRecipes } from "../services/fecthInvoicesRecipes";
+import { toggleOverflow } from "../services/toggleOverflow";
 
 import Error404 from "../pages/Error404";
 
@@ -182,6 +182,9 @@ export function CheckoutPage() {
       })
       .catch((error) => console.error("Erreur", error));
   };
+
+  // ModalMessage is active, stop Overflow
+  toggleOverflow(messageModal !== "");
 
   // Shows page after generate all elements
   const isDisplay = userInfo && recipesPanier && recipes && coordDefault;

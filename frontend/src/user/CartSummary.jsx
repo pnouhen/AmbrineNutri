@@ -7,7 +7,7 @@ export function CartSummary({ recipesPanier, isRecipes, deleteRecipe }) {
   return (
     <>
       <h2 className="h2 mb-5">Panier</h2>
-      <div className="border-panier pb-5">
+      <div className="borderTopGray pb-5">
         <div className="flex flex-col gap-5">
           <h3 className="h3"> Les recettes</h3>
 
