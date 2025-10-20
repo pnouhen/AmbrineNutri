@@ -172,7 +172,7 @@ export default function Header() {
           )}
 
           <ul
-            className={`max-lg:absolute left-0 right-0 top-16 max-lg:px-5 flex md:justify-end md:gap-1 gap-4 list-none ${
+            className={`max-lg:absolute z-50 left-0 right-0 top-16 max-lg:px-5 flex md:justify-end md:gap-1 gap-4 list-none ${
               menuBurger === false ? "max-lg:hidden" : "w-full flex flex-col"
             }`}
           >
