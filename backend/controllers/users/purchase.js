@@ -11,7 +11,7 @@ const sharp = require("sharp");
 
 exports.purchasesRecipes = async (req, res) => {
   try {
-    const  infoPurchasesRecipes = req.body;
+    const infoPurchasesRecipes = req.body;
     const userId = req.userId;
     const user = await User.findById(userId);
     if (!user)
@@ -84,7 +84,8 @@ exports.showRecipeSelectPurchase = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé" });
 
-    if (!user.purchases.includes(recipeId))
+    // For check that the user who purchased the recipe or the user is admin
+    if (!user.purchases.includes(recipeId) && user.role !== "admin")
       return res.status(400).json({ message: "Recette non acheté" });
 
     Recipes.findById(recipeId)
@@ -92,9 +93,9 @@ exports.showRecipeSelectPurchase = async (req, res) => {
         // Associate the URL to manage retrieving images from the server
         const recipeWithUrl = {
           ...recipeSelect._doc,
-          imageUrl: `${process.env.Protocol}://${req.get("host")}/assets/img/recipes/${
-            recipeSelect.img
-          }`,
+          imageUrl: `${process.env.Protocol}://${req.get(
+            "host"
+          )}/assets/img/recipes/${recipeSelect.img}`,
         };
 
         // Convert recipe image

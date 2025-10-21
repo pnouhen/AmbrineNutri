@@ -1,55 +1,36 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import imageCompression from "browser-image-compression";
 
 import LabelInput from "../components/LabelInput";
 import LabelSelect from "../components/LabelSelect";
+import { handleRecipeImage } from "../services/handleRecipeImage";
 
 export default function ModalRecipeGeneral({
   getFormHeight,
-  nameRecipeRef,
+  nameRecipe,
+  setNameRecipe,
   categories,
   categorieSelect,
   setCategorieSelect,
   duration,
   durationSelect,
   setDurationSelect,
-  vegetarien,
-  vegetarienSelect,
-  setVegetarienSelect,
+  vegetarian,
+  vegetarianSelect,
+  setVegetarianSelect,
   nameLabel,
   setNameLabel,
-  file,
   setFile,
   preview,
   setPreview,
 }) {
-  const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setNameLabel("Image chargé");
-
-      // Convert image in webp with the library : browser-image-compression
-      const webpBlob = await imageCompression(selectedFile, {
-        fileType: "image/webp",
-      });
-
-      // Change extension
-      const webpName = selectedFile.name.replace(/\.\w+$/, ".webp");
-
-      // Créer new object with new name
-      const webpFile = new File([webpBlob], webpName, { type: "image/webp" });
-
-      setPreview(URL.createObjectURL(webpFile));
-    }
-  };
+  const nameRecipeRef = useRef();
 
   return (
-    <form
+    <div
       className="py-5 w-full md:grid md:grid-cols-2 flex flex-wrap gap-5 overflow-auto"
       style={{ maxHeight: getFormHeight() }}
-      onSubmit={(e) => e.preventDefault()}
     >
       <div className="col-start-1 col-end-3 md:grid md:grid-cols-2 flex flex-wrap md:gap-5 gap-2">
         <LabelInput
@@ -59,6 +40,8 @@ export default function ModalRecipeGeneral({
           type="text"
           id="nameRecipe"
           ref={nameRecipeRef}
+          value={nameRecipe}
+          onChange={() => setNameRecipe(nameRecipeRef.current.value.trim())}
         />
 
         <LabelSelect
@@ -79,10 +62,10 @@ export default function ModalRecipeGeneral({
 
         <LabelSelect
           classNameLabelSelect="mx-auto lg:w-72 md:w-64 max-md:w-60"
-          data={vegetarien}
+          data={vegetarian}
           title="Végétarien :"
-          newOption={vegetarienSelect}
-          setOption={setVegetarienSelect}
+          newOption={vegetarianSelect}
+          setOption={setVegetarianSelect}
         />
       </div>
 
@@ -106,7 +89,14 @@ export default function ModalRecipeGeneral({
             type="file"
             accept="image/png, image/jpeg, image/jpg, image/webp"
             className="absolute z-10 top-1/2 left-1/2 -translate-1/2 w-52 md:h-[11.5rem] h-36 opacity-0 cursor-pointer"
-            onChange={handleFileChange}
+            onChange={(e) =>
+              handleRecipeImage({
+                input: e.target.files[0],
+                setFile,
+                setPreview,
+                setNameLabel,
+              })
+            }
           />
         </div>
       </div>
@@ -120,12 +110,12 @@ export default function ModalRecipeGeneral({
           {preview && (
             <img
               src={preview}
-              alt={`Photo de ${file.name}`}
+              alt={`Photo de ${nameRecipe}`}
               className="w-full h-full object-cover"
             />
           )}
         </div>
       </div>
-    </form>
+    </div>
   );
 }

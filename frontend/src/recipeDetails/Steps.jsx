@@ -19,7 +19,10 @@ export function Steps({
           cliquant ici :
         </p>
 
-        <NavLink to="/se-connecter" className="font-semibold underline">
+        <NavLink
+          to="/se-connecter"
+          className="font-semibold underline w-full text-center"
+        >
           Connexion / Inscription
         </NavLink>
       </>
@@ -38,7 +41,7 @@ export function Steps({
         </p>
 
         <button
-          className="font-semibold underline cursor-pointer"
+          className="font-semibold underline cursor-pointer w-full text-center"
           onClick={handleAddPanier}
         >
           Ajoutez au panier
@@ -54,7 +57,10 @@ export function Steps({
           Recette ajoutée à votre panier ! Cliquez ici pour le consulter :
         </p>
 
-        <NavLink to="/panier" className="font-semibold underline">
+        <NavLink
+          to="/panier"
+          className="font-semibold underline w-full text-center"
+        >
           Accéder au panier
         </NavLink>
       </>

@@ -19,6 +19,7 @@ import GenerateRecipePdf from "../recipeDetails/GenerateRecipePdf";
 import Button from "../components/Button";
 import { pdf } from "@react-pdf/renderer";
 import Loader from "../components/Loader";
+import Error404 from "./Error404";
 
 export default function RecipeDetails() {
   const { id } = useParams();
@@ -28,7 +29,10 @@ export default function RecipeDetails() {
     JSON.parse(sessionStorage.getItem("userInfo"))?.purchases || null;
 
   const [inPanier, setInPanier] = useState(false);
-  const [purchase, setPurchase] = useState(false);
+  const [purchase, setPurchase] = useState(() => {
+    if (userInfo?.role === "admin") return true;
+    return false;
+  });
 
   const [recipeDetails, setRecipeDetails] = useState(() => {
     if (!userInfo) return null;
@@ -43,61 +47,67 @@ export default function RecipeDetails() {
 
   // Recipe recovery
   useEffect(() => {
-    if (!token && !recipeDetails) {
-      // Recipe doesn't purchase
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`, id)
-        .then((recipe) => {
-          setPurchase(false);
-          setRecipeDetails(recipe);
-        })
-        .catch((error) => {
-          setRecipeDetails([]);
-          console.error("Erreur:", error);
-        });
-    }
+    // Admin add recipe
+    const recipesStorage = JSON.parse(sessionStorage.getItem(id));
+    if (recipesStorage) {
+      setRecipeDetails(recipesStorage);
+    } else {
+      if (!token && !recipeDetails) {
+        // Recipe doesn't purchase
+        fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`, id)
+          .then((recipe) => {
+            setPurchase(false);
+            setRecipeDetails(recipe);
+          })
+          .catch((error) => {
+            setRecipeDetails([]);
+            console.error("Erreur:", error);
+          });
+      }
 
-    // Optimize display if recipe is purchased
-    if (
-      token &&
-      !purchases.includes(id) &&
-      userInfo?.role === "user" &&
-      !recipeDetails
-    ) {
-      // Recipe doesn't purchase
-      fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`, id)
-        .then((recipe) => {
-          setPurchase(false);
-          setRecipeDetails(recipe);
-        })
-        .catch((error) => {
-          setRecipeDetails([]);
-          console.error("Erreur:", error);
-        });
-    }
+      // Optimize display if recipe is purchased
+      if (
+        token &&
+        !purchases.includes(id) &&
+        userInfo?.role === "user" &&
+        !recipeDetails
+      ) {
+        // Recipe doesn't purchase
+        fetchDataGet(`${import.meta.env.VITE_BASE_API}/api/recipes/${id}`, id)
+          .then((recipe) => {
+            setPurchase(false);
+            setRecipeDetails(recipe);
+          })
+          .catch((error) => {
+            setRecipeDetails([]);
+            console.error("Erreur:", error);
+          });
+      }
 
-    // Recipe purchases
-    const isValidUser = token && purchases.includes(id);
+      // Recipe purchases or admin
+      const isValidUser = token && purchases.includes(id);
 
-    if (isValidUser || (userInfo?.role === "admin" && !recipeDetails)) {
-      fetchDataUserGet(
-        `${
-          import.meta.env.VITE_BASE_API
-        }/api/users/me/showRecipeSelectPurchase/${id}`
-      )
-        .then((recipe) => {
-          setRecipeDetails(recipe);
-          setPurchase(true);
-        })
-        .catch((error) => {
-          setRecipeDetails([]);
-          console.error("Erreur:", error);
-        });
+      if (isValidUser || (userInfo?.role === "admin" && !recipesStorage)) {
+        fetchDataUserGet(
+          `${
+            import.meta.env.VITE_BASE_API
+          }/api/users/me/showRecipeSelectPurchase/${id}`
+        )
+          .then((recipe) => {
+            setRecipeDetails(recipe);
+            setPurchase(true);
+          })
+          .catch((error) => {
+            setRecipeDetails(null);
+            console.error("Erreur:", error);
+          });
+      }
     }
   }, [token]);
 
   // Checks if the recipe is in the basket as soon as the token or recipe changes
   useEffect(() => {
-    if (!userInfo || !recipeDetails) return; // attendre les 2
+    if (!userInfo || !recipeDetails) return;
     setInPanier(userInfo.panier.includes(recipeDetails?._id));
   }, [token, userInfo, recipeDetails]);
 
@@ -162,6 +172,9 @@ export default function RecipeDetails() {
   // ModalMessage is active, stop Overflow
   toggleOverflow(checkSubmit !== "");
 
+  // Id is false
+  if (recipeDetails && recipeDetails.length === 0) return <Error404 />;
+
   return (
     <>
       <Header />
@@ -217,11 +230,7 @@ export default function RecipeDetails() {
                 <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
                   <h3 className="h3">Les étapes :</h3>
 
-                  <div
-                    className={`text h-full flex flex-col ${
-                      purchase ? "items-start" : "items-center"
-                    } gap-2.5`}
-                  >
+                  <div className="text h-full flex flex-col gap-5">
                     <Steps
                       token={token}
                       inPanier={inPanier}

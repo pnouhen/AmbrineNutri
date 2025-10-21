@@ -16,7 +16,7 @@ const ingredientsSchema = new mongoose.Schema({
 const recipeSchema = new mongoose.Schema({
   title: { type: String, required: true },
   img: { type: String, required: true },
-  vegetarien: { type: String, required: true },
+  vegetarian: { type: String, required: true },
   categorie: { categorieSchema },
   duration: { type: String, required: true },
   ingredients: [ingredientsSchema],

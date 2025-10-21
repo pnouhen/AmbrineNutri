@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
-  vegetarienContainer: {
+  vegetarianContainer: {
     width: "100%",
     display: "flex",
     marginLeft: 115,
   },
 
-  vegetarien: {
+  vegetarian: {
     width: 85,
     borderTopLeftRadius: 6,
   },
@@ -155,8 +155,8 @@ export default function GenerateRecipePdf({ recipeDetails, indexPeople }) {
                 </Text>
 
                 {recipeDetails.vegetarian === "Oui" && (
-                  <View style={styles.vegetarienContainer}>
-                    <Text style={[styles.userBadgeInfo, styles.vegetarien]}>
+                  <View style={styles.vegetarianContainer}>
+                    <Text style={[styles.userBadgeInfo, styles.vegetarian]}>
                       Végétarien
                     </Text>
                   </View>
