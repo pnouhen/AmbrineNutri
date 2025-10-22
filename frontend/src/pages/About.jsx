@@ -18,7 +18,7 @@ export default function About() {
           className="object-top"
         />
 
-        <section className="lg:grid lg:grid-cols-[30%_60%] p-10 flex flex-col items-center justify-center max-lg:gap-8">
+        <section className="h-full lg:grid lg:grid-cols-[30%_60%] p-10 flex flex-col items-center justify-center max-lg:gap-8">
           <img
             src="/assets/img/AmbrineProfil.webp"
             alt="Photo de Ambrine"

@@ -51,7 +51,7 @@ export default function Footer() {
           <img
             src="/assets/logo/facebook.webp"
             alt="Lien vers facebook"
-            className="w-14"
+            className="w-14 h-14"
           />
         </a>
 
@@ -62,7 +62,7 @@ export default function Footer() {
           <img
             src="/assets/logo/instagram.webp"
             alt="Lien vers instagram"
-            className="w-14"
+            className="w-14 h-14"
           />
         </a>
       </article>
