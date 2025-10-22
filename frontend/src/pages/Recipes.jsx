@@ -124,7 +124,7 @@ export default function Recipes() {
     <>
       <Header />
 
-      <Loader condition={categoriesRecipe && recipes && heightSlideShowContainer} />
+      <Loader condition={categoriesRecipe && recipes && heightSlideShowContainer === null} />
 
       {categoriesRecipe && recipes && (
         <>
