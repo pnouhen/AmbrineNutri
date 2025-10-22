@@ -29,7 +29,7 @@ export function ConsultationTarifsCard({
         <h3 className="h3">Description :</h3>
 
         <p
-          className="text"
+          className="text h-full"
           dangerouslySetInnerHTML={{
             __html: description,
           }}

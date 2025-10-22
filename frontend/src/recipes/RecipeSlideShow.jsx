@@ -7,6 +7,8 @@ import { RecipePagination } from "./RecipePagination";
 import MessageNoData from "../components/MessageNoData";
 
 export function RecipeSlideShow({
+  heightSlideShowContainer,
+  setHeightSlideShowContainer,
   recipePages,
   numberRecipes,
   noRecipes,
@@ -29,8 +31,6 @@ export function RecipeSlideShow({
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const sectionRef = useRef();
-  const [heightContainer, setHeightContainer] = useState(0);
-
   const cardRef = useRef();
 
   // Manage the height of container
@@ -41,7 +41,7 @@ export function RecipeSlideShow({
 
     const updateHeight = () => {
       if (sectionRef.current.offsetHeight > 200 && images.length > 0) {
-        setHeightContainer(sectionRef.current.offsetHeight);
+        setHeightSlideShowContainer(sectionRef.current.offsetHeight);
       }
     };
 
@@ -69,7 +69,7 @@ export function RecipeSlideShow({
                   <div className="embla__slide shrink-0 w-full" key={index}>
                     <ul
                       className="md:grid lg:grid-cols-4 md:grid-cols-3 flex flex-wrap gap-10"
-                      style={{ minHeight: `${heightContainer}px` }}
+                      style={{ minHeight: `${heightSlideShowContainer}px` }}
                     >
                       {page.map(
                         ({

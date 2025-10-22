@@ -10,7 +10,7 @@ export function Steps({
 }) {
   if (!token) {
     return (
-      <>
+      <div className="text h-full flex flex-col gap-5">
         <p className="text">
           Étant donné le temps investi dans la création des recettes, je demande
           une contribution de 1€ par recette.
@@ -25,13 +25,13 @@ export function Steps({
         >
           Connexion / Inscription
         </NavLink>
-      </>
+      </div>
     );
   }
 
   if (token && inPanier === false && !purchase) {
     return (
-      <>
+      <div className="text h-full flex flex-col gap-5">
         <p className="text">
           Étant donné le temps investi dans la création des recettes, je demande
           une contribution de 1€ par recette.
@@ -46,13 +46,13 @@ export function Steps({
         >
           Ajoutez au panier
         </button>
-      </>
+      </div>
     );
   }
 
   if (token && inPanier && !purchase) {
     return (
-      <>
+      <div className="text h-full flex flex-col gap-5">
         <p className="text">
           Recette ajoutée à votre panier ! Cliquez ici pour le consulter :
         </p>
@@ -63,7 +63,7 @@ export function Steps({
         >
           Accéder au panier
         </NavLink>
-      </>
+      </div>
     );
   }
 

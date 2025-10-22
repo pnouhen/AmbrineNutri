@@ -227,19 +227,17 @@ export default function RecipeDetails() {
                   </div>
                 </article>
 
-                <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full flex flex-col gap-8">
+                <article className="pb-5 max-md:px-5 lg:w-[calc(100%_-_20rem)] md:w-[calc(100%_-_13rem)] w-full h-full flex flex-col gap-8">
                   <h3 className="h3">Les étapes :</h3>
 
-                  <div className="text h-full flex flex-col gap-5">
-                    <Steps
-                      token={token}
-                      inPanier={inPanier}
-                      purchase={purchase}
-                      handleAddPanier={handleAddPanier}
-                      recipeDetails={recipeDetails}
-                      userInfo={userInfo}
-                    />
-                  </div>
+                  <Steps
+                    token={token}
+                    inPanier={inPanier}
+                    purchase={purchase}
+                    handleAddPanier={handleAddPanier}
+                    recipeDetails={recipeDetails}
+                    userInfo={userInfo}
+                  />
                 </article>
               </div>
             </section>

@@ -31,6 +31,8 @@ export default function Recipes() {
     "Aucune recette n'est disponible."
   );
 
+  const [heightSlideShowContainer, setHeightSlideShowContainer] = useState(null);
+
   const [modalMessage, setModalMessage] = useState("");
 
   // For admin
@@ -122,12 +124,12 @@ export default function Recipes() {
     <>
       <Header />
 
-      <Loader condition={categoriesRecipe && recipes} />
+      <Loader condition={categoriesRecipe && recipes && heightSlideShowContainer} />
 
       {categoriesRecipe && recipes && (
         <>
           <main className="relative py-5 flex flex-col gap-5">
-            <BackgroundImg url="/assets/img/background/background-recipes.webp"/>
+            <BackgroundImg url="/assets/img/background/background-recipes.webp" />
 
             {userInfo?.role === "admin" && (
               <RecipeEditor
@@ -145,6 +147,8 @@ export default function Recipes() {
             />
 
             <RecipeSlideShow
+              heightSlideShowContainer={heightSlideShowContainer}
+              setHeightSlideShowContainer={setHeightSlideShowContainer}
               setRecipes={setRecipes}
               actionRecipes={actionRecipes}
               setRecipeDelete={setRecipeDelete}
