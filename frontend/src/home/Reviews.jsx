@@ -9,7 +9,13 @@ import ReviewsDots from "./ReviewsDots";
 
 export default function Reviews({ reviews }) {
   // For slide show width Embla Carousel React
-  const options = { slidesToScroll: "auto", loop: true };
+  const options = {
+    slidesToScroll: "auto",
+    loop: true,
+    breakpoints: {
+      "(min-width: 1024px)": { watchDrag: false },
+    },
+  };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   // Display function responsive and number reviews

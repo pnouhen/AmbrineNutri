@@ -7,6 +7,7 @@ import { ModalCoord } from "./ModalCoord";
 import { ExistingAddress } from "./ExistingAddress";
 
 export function BillingAddress({
+  userInfo,
   addresses,
   setAddresses,
   coordDefault,
@@ -36,6 +37,7 @@ export function BillingAddress({
       />
 
       <ModalCoord
+        userInfo={userInfo}
         addresses={addresses}
         setAddresses={setAddresses}
         isOpenModal={isOpenModal}

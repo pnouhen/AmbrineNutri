@@ -26,7 +26,7 @@ export default function UserAccount() {
 
     return userInfo.addresses;
   });
-  const coordDefault = null;
+  const [coordDefault, setCoordDefault] = useState(null);
 
   const [messageModal, setMessageModal] = useState("");
 
@@ -43,8 +43,21 @@ export default function UserAccount() {
     }
   }, []);
 
+  
+    // Display coordDefault
+    useEffect(() => {
+      if (addresses) {
+        const defaults = addresses.filter((address) => address.isDefault);
+        if (defaults.length === 0) {
+          setCoordDefault([]);
+        } else {
+          setCoordDefault(defaults[0]);
+        }
+      }
+    }, [addresses]);
+
   // Shows page if user
-  if (userInfo.role !== "user") return <Error404 />;
+  if (userInfo && userInfo.role !== "user") return <Error404 />;
 
   // ModalMessage is active, stop Overflow
   toggleOverflow(messageModal !== "");
@@ -68,9 +81,11 @@ export default function UserAccount() {
               />
 
               <BillingAddress
+                userInfo={userInfo}
                 addresses={addresses}
                 setAddresses={setAddresses}
                 coordDefault={coordDefault}
+                setCoordDefault={setCoordDefault}
                 setMessageModal={setMessageModal}
               />
             </div>

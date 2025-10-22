@@ -19,7 +19,13 @@ export function RecipeSlideShow({
   imgUpdated,
   setImgUpdated,
 }) {
-  const options = { slidesToScroll: 1, loop: false };
+  const options = {
+    slidesToScroll: 1,
+    loop: false,
+    breakpoints: {
+      "(min-width: 1024px)": { watchDrag: false },
+    },
+  };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const sectionRef = useRef();
@@ -49,8 +55,6 @@ export function RecipeSlideShow({
       images.forEach((img) => img.removeEventListener("load", updateHeight));
     };
   }, []);
-
-  console.log(heightContainer);
 
   return (
     <section className="section pb-5 px-5 flex flex-col gap-5">

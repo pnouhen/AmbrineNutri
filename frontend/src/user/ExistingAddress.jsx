@@ -28,6 +28,7 @@ export function ExistingAddress({
   };
 
   const updateCoordDefault = (coord) => {
+    if (coord._id !== coordDefault._id) {
       const updatedCoord = { ...coord, isDefault: true };
       const body = {
         id: coord._id,
@@ -39,16 +40,15 @@ export function ExistingAddress({
       )
         .then((newCoord) => {
           setCoordDefault(newCoord.address);
-          const newAddresses = addresses
-            .map((address) => {
-              if (address._id !== newCoord.address._id) {
-                return { ...address, isDefault: false };
-              } else {
-                return { ...address, isDefault: true };
-              }
-            });
+          const newAddresses = addresses.map((address) => {
+            if (address._id !== newCoord.address._id) {
+              return { ...address, isDefault: false };
+            } else {
+              return { ...address, isDefault: true };
+            }
+          });
 
-            // Update in sessionStorage
+          // Update in sessionStorage
           const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
           storedArray.addresses = newAddresses;
           sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
@@ -57,6 +57,7 @@ export function ExistingAddress({
           if (!coord.isDefault) setMessageModal("InvalidAddress");
           console.error("Erreur :", error);
         });
+    }
   };
 
   const deleteAddress = (deleteCoord) => {

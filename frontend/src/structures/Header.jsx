@@ -78,7 +78,7 @@ export default function Header() {
           </div>
 
           <ul
-            className={`absolute ${
+            className={`absolute z-50 ${
               userInfo?.role === "user"
                 ? "lg:-bottom-[11rem] md:-bottom-[7rem] -bottom-[9rem]"
                 : "lg:-bottom-[2.75rem] md:-bottom-[1.75rem] -bottom-[2.25rem]"

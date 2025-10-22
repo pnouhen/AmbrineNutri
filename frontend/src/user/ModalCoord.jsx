@@ -6,8 +6,10 @@ import ModalClose from "../Modals/ModalClose";
 import { fetchDataUserPost } from "../services/fetchDataUserPost";
 import { fetchDataUserPut } from "../services/fetchDataUserPut";
 import { isValidAddress } from "../../src/services/isValidAddress";
+import { fetchDataUserGet } from "../services/fetchDataUserGet";
 
 export function ModalCoord({
+  userInfo,
   addresses,
   setAddresses,
   isOpenModal,
@@ -83,8 +85,7 @@ export function ModalCoord({
 
         fetchDataUserPost(
           `${import.meta.env.VITE_BASE_API}/api/users/me/addresses`,
-          body,
-          "s"
+          body
         )
           .then(() => {
             // Uncheck previous default addresses
@@ -93,14 +94,22 @@ export function ModalCoord({
 
             // Add the new address at the beginning of the table
             setAddresses((prev) => [newCoord, ...prev]);
-
-            // Update sessionStorage
-            const storedArray = JSON.parse(sessionStorage.getItem("userInfo"));
-            storedArray.addresses.unshift(newCoord);
-            sessionStorage.setItem("userInfo", JSON.stringify(storedArray));
           })
           .catch((error) => {
             setMessageModal("InvalidAddress");
+            console.error("Erreur :", error);
+          });
+
+        // Update userInfo with fectch
+        fetchDataUserGet(`${import.meta.env.VITE_BASE_API}/api/users/me`, {
+          userId: userInfo._id,
+        })
+          .then((user) => {
+            let storedUserInfo = sessionStorage.getItem("userInfo");
+            storedUserInfo = user;
+            sessionStorage.setItem("userInfo", JSON.stringify(storedUserInfo));
+          })
+          .catch((error) => {
             console.error("Erreur :", error);
           });
       } else {

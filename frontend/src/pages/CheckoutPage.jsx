@@ -74,7 +74,7 @@ export function CheckoutPage() {
       panier.includes(recipe._id)
     );
     setRecipesPanier(searchRecipeInPanier);
-  }, [recipes, userInfo]);
+  }, [recipes]);
 
   // DeleteRecipe in front and back
   const deleteRecipe = (id) => {
@@ -209,6 +209,7 @@ export function CheckoutPage() {
               />
 
               <BillingAddress
+                userInfo={userInfo}
                 addresses={addresses}
                 setAddresses={setAddresses}
                 coordDefault={coordDefault}

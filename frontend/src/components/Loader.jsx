@@ -5,7 +5,7 @@ export default function Loader({ condition }) {
     const root = document.getElementById("root");
     if (!root) return;
 
-    // Appliquer ou retirer h-screen selon le loader
+    // Apply or remove h-screen depending on the loader
     if (!condition) {
       root.classList.add("h-screen");
       root.classList.remove("min-h-[100vh]");
@@ -15,15 +15,14 @@ export default function Loader({ condition }) {
     }
   }, [condition]);
 
-  // Affiche le loader seulement si condition est false
+  // Show the loader only if condition is false
   if (!condition) {
     return (
-      <div className="h-full flex py-5 justify-center bg-white bg-opacity-50 z-50">
+      <div className="h-full flex py-5 justify-center bg-white bg-opacity-50">
         <div className="w-8 h-8 border-4 rounded-full border-t-blue-500 border-r-blue-500 border-b-blue-500 border-l-gray-300 animate-spin"></div>
       </div>
     );
-  }  else {
-  return null;
-
+  } else {
+    return null;
   }
 }
