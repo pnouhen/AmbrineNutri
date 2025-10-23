@@ -119,12 +119,12 @@ export default function Recipes() {
     // Actualise Recipes in sessionStorage
     sessionStorage.setItem("recipes", JSON.stringify(newRecipes));
   };
-
+console.log(heightSlideShowContainer)
   return (
     <>
       <Header />
 
-      <Loader condition={categoriesRecipe && recipes && heightSlideShowContainer === null} />
+      <Loader condition={categoriesRecipe && recipes && heightSlideShowContainer} />
 
       {categoriesRecipe && recipes && (
         <>
