@@ -109,14 +109,14 @@ export default function ConnexionForm({ setCheckSubmit }) {
           <i
             className={`fa-solid fa-chevron-${
               isSelect ? "up" : "down"
-            } h3 absolute top-11 right-2.5 cursor-pointer`}
+            } h3 absolute lg:top-11 md:top-10 top-9 right-2.5 cursor-pointer`}
             onClick={() => setIsSelect(!isSelect)}
             tabIndex={0}
             onKeyDown={(e) => e.key === "Enter" && setIsSelect(!isSelect)}
           ></i>
 
           <ul
-            className={`absolute z-50 lg:top-[4.75rem] py-2.5 px-5 left-0 w-full lg:max-h-44 max-h-20 flex-col gap-2.5 overflow-auto ${
+            className={`absolute z-50 lg:top-[4.75rem] md:top-17 top-15 py-2.5 px-2.5 left-0 w-full lg:max-h-44 max-h-20 flex-col overflow-auto ${
               isSelect
                 ? "z-10 flex shadow-inputButton insideInput"
                 : "-z-10 hidden"

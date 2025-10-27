@@ -18,7 +18,7 @@ export default function Loader({ condition }) {
   // Show the loader only if condition is false
   if (!condition) {
     return (
-      <div className="h-full flex py-5 justify-center bg-white bg-opacity-50">
+      <div className="h-full flex py-5 justify-center items-center bg-white bg-opacity-50">
         <div className="w-8 h-8 border-4 rounded-full border-t-blue-500 border-r-blue-500 border-b-blue-500 border-l-gray-300 animate-spin"></div>
       </div>
     );

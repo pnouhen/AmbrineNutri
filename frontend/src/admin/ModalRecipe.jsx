@@ -7,6 +7,7 @@ import ModalRecipeIngredients from "./ModalRecipeIngredients";
 import ModalRecipeAddDetails from "./ModalRecipeAddDetails";
 import { fetchDataUserGet } from "../services/fetchDataUserGet";
 import { handleRecipeImage } from "../services/handleRecipeImage";
+import Loader from "../components/Loader";
 
 export default function ModalRecipe({
   updateRecipeId,
@@ -20,6 +21,7 @@ export default function ModalRecipe({
   setImgUpdated,
   setModalMessage,
 }) {
+  const [displayContainer, setDisplayContainer] = useState(false);
   const [displayPart, setDisplayPart] = useState("general");
 
   // The general part
@@ -108,6 +110,7 @@ export default function ModalRecipe({
         setUstensils(updateRecipe.ustensils);
         setSteps(updateRecipe.steps);
 
+        setDisplayContainer(true);
         // Display image
         const storedBase64 = sessionStorage.getItem(updateRecipe.imageUrl);
         handleRecipeImage({
@@ -243,86 +246,94 @@ export default function ModalRecipe({
       >
         <ModalClose onClick={closeModal} />
 
-        <ul className="py-5 w-full flex flex-wrap justify-between gap-5 border-b-2 border-gray-400">
-          {dataButton.map((button, index) => (
-            <li key={index} className="mx-auto">
-              <Button
-                className={`recipeButton lg:w-52 w-32 ${
-                  displayPart === button.action && "recipeButtonActive"
-                } ${button.incomplete && "text-red-600"}`}
-                text={button.text}
-                onClick={() => setDisplayPart(button.action)}
+        {displayContainer ? (
+          <>
+            <ul className="py-5 w-full flex flex-wrap justify-between gap-5 border-b-2 border-gray-400">
+              {dataButton.map((button, index) => (
+                <li key={index} className="mx-auto">
+                  <Button
+                    className={`recipeButton lg:w-52 w-32 ${
+                      displayPart === button.action && "recipeButtonActive"
+                    } ${button.incomplete && "text-red-600"}`}
+                    text={button.text}
+                    onClick={() => setDisplayPart(button.action)}
+                  />
+                </li>
+              ))}
+            </ul>
+
+            {displayPart === "general" && (
+              <ModalRecipeGeneral
+                getFormHeight={getFormHeight}
+                nameRecipe={nameRecipe}
+                setNameRecipe={setNameRecipe}
+                categories={categories}
+                categorieSelect={categorieSelect}
+                setCategorieSelect={setCategorieSelect}
+                duration={duration}
+                durationSelect={durationSelect}
+                setDurationSelect={setDurationSelect}
+                vegetarian={vegetarian}
+                vegetarianSelect={vegetarianSelect}
+                setVegetarianSelect={setVegetarianSelect}
+                nameLabel={nameLabelImg}
+                setNameLabel={setNameLabelImg}
+                file={file}
+                setFile={setFile}
+                preview={preview}
+                setPreview={setPreview}
               />
-            </li>
-          ))}
-        </ul>
+            )}
 
-        {displayPart === "general" && (
-          <ModalRecipeGeneral
-            getFormHeight={getFormHeight}
-            nameRecipe={nameRecipe}
-            setNameRecipe={setNameRecipe}
-            categories={categories}
-            categorieSelect={categorieSelect}
-            setCategorieSelect={setCategorieSelect}
-            duration={duration}
-            durationSelect={durationSelect}
-            setDurationSelect={setDurationSelect}
-            vegetarian={vegetarian}
-            vegetarianSelect={vegetarianSelect}
-            setVegetarianSelect={setVegetarianSelect}
-            nameLabel={nameLabelImg}
-            setNameLabel={setNameLabelImg}
-            file={file}
-            setFile={setFile}
-            preview={preview}
-            setPreview={setPreview}
-          />
-        )}
+            {displayPart === "ingredients" && (
+              <ModalRecipeIngredients
+                dosage={dosage}
+                ingredients={ingredients}
+                setIngredients={setIngredients}
+                getFormHeight={getFormHeight}
+              />
+            )}
 
-        {displayPart === "ingredients" && (
-          <ModalRecipeIngredients
-            dosage={dosage}
-            ingredients={ingredients}
-            setIngredients={setIngredients}
-            getFormHeight={getFormHeight}
-          />
-        )}
+            {displayPart === "ustensils" && (
+              <ModalRecipeAddDetails
+                classNameContainer="md:grid md:grid-cols-2"
+                classNameDivLabel="md:border-r-2  max-md:border-b-2"
+                label="Nom de l'ustensil :"
+                getFormHeight={getFormHeight}
+                htmlFor="nameUstensil"
+                id="nameUstensil"
+                details={ustensils}
+                setDetails={setUstensils}
+                title="Les ustensils :"
+              />
+            )}
 
-        {displayPart === "ustensils" && (
-          <ModalRecipeAddDetails
-            classNameContainer="md:grid md:grid-cols-2"
-            classNameDivLabel="md:border-r-2  max-md:border-b-2"
-            label="Nom de l'ustensil :"
-            getFormHeight={getFormHeight}
-            htmlFor="nameUstensil"
-            id="nameUstensil"
-            details={ustensils}
-            setDetails={setUstensils}
-            title="Les ustensils :"
-          />
+            {displayPart === "steps" && (
+              <ModalRecipeAddDetails
+                classNameDivLabel="border-b-2"
+                label="Ajouter l'étape :"
+                getFormHeight={getFormHeight}
+                htmlFor="nameStep"
+                id="nameStep"
+                details={steps}
+                setDetails={setSteps}
+                title="Les étapes :"
+                steps={true}
+              />
+            )}
+            <div className="pt-5 w-full flex justify-center border-t-2 border-gray-400">
+              <Button
+                text="Enregister"
+                className={`px-5 w-48 ${isCompleteAllParts && "buttonSubmit"}`}
+                onClick={() => submitRecipe()}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="h-full flex justify-center items-center">
+            <Loader condition={displayContainer} />
+          </div>
         )}
-
-        {displayPart === "steps" && (
-          <ModalRecipeAddDetails
-            classNameDivLabel="border-b-2"
-            label="Ajouter l'étape :"
-            getFormHeight={getFormHeight}
-            htmlFor="nameStep"
-            id="nameStep"
-            details={steps}
-            setDetails={setSteps}
-            title="Les étapes :"
-            steps={true}
-          />
-        )}
-        <div className="pt-5 w-full flex justify-center border-t-2 border-gray-400">
-          <Button
-            text="Enregister"
-            className={`px-5 w-48 ${isCompleteAllParts && "buttonSubmit"}`}
-            onClick={() => submitRecipe()}
-          />
-        </div>
       </div>
     </div>
   );
