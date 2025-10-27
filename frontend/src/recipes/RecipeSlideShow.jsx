@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { NavLink } from "react-router-dom";
 
@@ -30,6 +30,11 @@ export function RecipeSlideShow({
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
+  // Reset index click filter
+  useEffect(()=> {
+    if(emblaApi) emblaApi.scrollTo(0)
+  }, [recipePages])
+
   const sectionRef = useRef();
   const cardRef = useRef();
 
@@ -60,16 +65,15 @@ export function RecipeSlideShow({
     <section className="section pb-5 px-5 flex flex-col gap-5">
       <h2 className="h2">Les recettes</h2>
 
-      <div className="flex flex-col justify-between gap-5">
+      <div className="flex flex-col justify-between gap-5" ref={sectionRef} style={{ minHeight: `${heightSlideShowContainer}px` }}>
         {recipePages.length > 0 ? (
           <>
             <div className="overflow-hidden" ref={emblaRef}>
-              <div className="embla_section flex gap-5" ref={sectionRef}>
+              <div className="embla_section flex gap-5">
                 {recipePages.map((page, index) => (
                   <div className="embla__slide shrink-0 w-full" key={index}>
                     <ul
                       className="md:grid lg:grid-cols-4 md:grid-cols-3 flex flex-wrap gap-10"
-                      style={{ minHeight: `${heightSlideShowContainer}px` }}
                     >
                       {page.map(
                         ({
