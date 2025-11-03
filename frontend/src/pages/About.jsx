@@ -12,13 +12,13 @@ export default function About() {
     <ScrollToTop targetRef={sectionRef}/>
     
       <Header />
-      <main className="relative h-full flex flex-1 items-center" ref={sectionRef}>
+      <main className="relative flex flex-1 items-center" ref={sectionRef}>
         <BackgroundImg
           url="/assets/img/background/background-about.webp"
           className="object-top"
         />
 
-        <section className="h-full lg:grid lg:grid-cols-[30%_60%] p-10 flex flex-col items-center justify-center max-lg:gap-8">
+        <section className="lg:grid lg:grid-cols-[30%_60%] p-10 flex flex-col items-center justify-center max-lg:gap-8">
           <img
             src="/assets/img/AmbrineProfil.webp"
             alt="Photo de Ambrine"
