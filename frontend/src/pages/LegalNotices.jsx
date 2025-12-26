@@ -13,7 +13,10 @@ export default function LegalNotices() {
 
       <ScrollToTop targetRef={sectionRef} />
 
-      <main className="p-5 flex flex-col justify-center items-center bg-gray" ref={sectionRef}>
+      <main
+        className="p-5 flex flex-col justify-center items-center bg-gray"
+        ref={sectionRef}
+      >
         <div className="p-5 lg:w-7/12 md:w-10/12 w-full section flex flex-col justify-center items-center gap-5 rounded-2xl">
           <h2 className="h2">Mentions Légales</h2>
 
@@ -61,17 +64,17 @@ export default function LegalNotices() {
             </div>
 
             <div>
-              <h4 className="h4 mb-2.5">Render</h4>
+              <h4 className="h4 my-2.5">Railway</h4>
 
               <ul className="flex flex-col gap-2">
-                <li className="text">Render, Inc.</li>
+                <li className="text">Railway Technologies, Inc.</li>
 
                 <li className="text">
-                  660 4th Street #502, San Francisco, CA 94107, États-Unis
+                  475 9th Street #203, San Francisco, CA 94103, États-Unis
                 </li>
 
                 <li className="text">
-                  Site : <a href="https://render.com">https://render.com</a>
+                  Site : <a href="https://railway.com">https://railway.com</a>
                 </li>
               </ul>
             </div>
